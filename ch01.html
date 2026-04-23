@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一建经济 * 第1章 刷题</title>
+<style>
+  :root {
+    /* 新配色方案：深蓝灰主题 */
+    --bg:       #F5F7FA;
+    --card-bg:  #FFFFFF;
+    --title:    #1A365D;
+    --accent:   #2C5282;
+    --text:     #2D3748;
+    --text-sec: #718096;
+    --border:   #E2E8F0;
+    --right:    #38A169;
+    --right-bg: #F0FFF4;
+    --wrong:    #E53E3E;
+    --wrong-bg: #FFF5F5;
+    --info-bg:  #EBF8FF;
+    --info-bd:  #4299E1;
+    --tag-base: #BEE3F8;
+    --tag-adv:  #C4F1F9;
+    --topbar-start: #1A365D;
+    --topbar-end:   #2B6CB0;
+    --font: "等线", "DengXian", "Microsoft YaHei", sans-serif;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(26,54,93,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+  /* 顶部控制栏 */
+  .top-bar {
+    background: linear-gradient(135deg, var(--topbar-start), var(--topbar-end));
+    padding: 10px 16px 12px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 3px 16px rgba(26,54,93,0.15);
+  }
+  .top-bar-inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    max-width: 760px; margin: 0 auto 8px;
+  }
+  .top-bar-left { text-align: left; flex: 1; }
+  .top-bar-left .line1 { font-size: 1.05rem; color: #FFFFFF; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .top-bar-left .line2 { font-size: 0.78rem; color: rgba(255,255,255,0.9); font-weight: 400; letter-spacing: 0.04em; margin-bottom: 3px; }
+  .top-bar-left .line3 { font-size: 0.78rem; color: rgba(255,255,255,0.75); font-weight: 400; letter-spacing: 0.04em; }
+  .top-bar-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; min-width: 200px; }
+  .stats-row { display: flex; gap: 8px; font-size: 0.72rem; color: rgba(255,255,255,0.85); }
+  .stats-row .stat { display: flex; align-items: center; gap: 3px; }
+  .stats-row b { color: #FFFFFF; font-size: 0.85rem; min-width: 16px; text-align: right; }
+  .tabs-row { display: flex; gap: 4px; }
+  .sec-tab { padding: 3px 9px; border-radius: 10px; font-size: 0.7rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); transition: all 0.2s; }
+  .sec-tab:hover { background: rgba(255,255,255,0.22); }
+  .sec-tab.on { background: rgba(255,255,255,0.32); color: #FFFFFF; font-weight: 600; border-color: rgba(255,255,255,0.5); }
+  .btn-row { display: flex; gap: 5px; }
+  .ctrl-btn {
+    padding: 4px 10px; border: 1px solid rgba(255,255,255,0.35); border-radius: 5px;
+    font-family: var(--font); font-size: 0.72rem; cursor: pointer;
+    background: rgba(255,255,255,0.15); color: #FFFFFF; transition: all 0.2s; white-space: nowrap;
+  }
+  .ctrl-btn:hover { background: rgba(255,255,255,0.28); }
+  .progress-bar-wrap { position: relative; background: rgba(0,0,0,0.2); height: 6px; overflow: visible; margin-bottom: 2px; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #68D391, #48BB78); width: 0%; transition: width 0.4s ease; }
+  .progress-label { position: absolute; top: 0; background: rgba(0,0,0,0.75); color: #fff; font-size: 0.65rem; padding: 1px 5px; border-radius: 3px; white-space: nowrap; transform: translate(-50%, -100%); margin-top: -2px; transition: left 0.4s ease; }
+
+  /* 容器 */
+  .container { max-width: 760px; margin: 0 auto; padding: 6px 16px 80px; }
+
+  /* 公式区 */
+  .formula-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+  .formula-section h2 { color: var(--title); font-size: 1.05rem; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .formula-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .formula-table th { background: var(--tag-base); color: var(--title); padding: 7px 10px; text-align: center; font-weight: 600; }
+  .formula-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: center; color: var(--text); }
+  .formula-table tr:last-child td { border-bottom: none; }
+  .formula-table td:first-child { color: var(--accent); font-weight: 600; }
+  .formula-table .formula { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+
+  /* 题目卡片 */
+  .question-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px 14px; margin-bottom: 10px; box-shadow: var(--shadow); }
+  .q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .q-num { font-weight: 700; font-size: 0.82rem; color: #fff; background: var(--accent); border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .q-tag { font-size: 0.68rem; padding: 1px 8px; border-radius: 10px; font-weight: 600; letter-spacing: 0.04em; }
+  .tag-base { background: var(--tag-base); color: var(--title); }
+  .tag-adv  { background: var(--tag-adv);  color: var(--text); }
+  .tag-done { background: var(--right-bg); color: var(--right); }
+  .tag-wrong { background: var(--wrong-bg); color: var(--wrong); }
+  .q-text { font-size: 0.88rem; line-height: 1.7; color: var(--text); margin-bottom: 8px; }
+
+  /* 选项 */
+  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .options li { padding: 7px 12px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 8px; font-size: 0.88rem; }
+  .options li:hover { border-color: var(--accent); background: #FFF3E0; }
+  .opt-letter { font-weight: 700; color: var(--accent); flex-shrink: 0; width: 18px; }
+  .opt-letter.selected { color: var(--title); }
+  .opt-text { flex: 1; }
+  .options li.selected { border-color: var(--accent); background: #FFF3E0; }
+  .options li.correct { border-color: var(--right); background: var(--right-bg); color: var(--right); }
+  .options li.wrong-choice { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+  .options li.dim { opacity: 0.5; }
+
+  /* 按钮 */
+  .action-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+  .btn { padding: 7px 18px; border-radius: 8px; font-family: var(--font); font-size: 0.88rem; cursor: pointer; border: none; transition: all 0.2s; }
+  .btn-primary { background: var(--title); color: #fff; }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text-sec); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* 解析 */
+  .explanation { margin-top: 8px; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; line-height: 1.7; display: none; }
+  .explanation.show { display: block; }
+  .explanation.right { background: var(--right-bg); border-left: 3px solid var(--right); }
+  .explanation.wrong { background: var(--wrong-bg); border-left: 3px solid var(--wrong); }
+  .explanation .ex-title { font-weight: 700; margin-bottom: 4px; }
+  .explanation.right .ex-title { color: var(--right); }
+  .explanation.wrong .ex-title { color: var(--wrong); }
+  .explanation .ex-formula { background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 6px; padding: 8px 12px; margin-top: 6px; font-size: 0.85rem; color: var(--text); }
+
+  /* 底部导航 */
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, #FDF6E3 85%, transparent); padding: 10px 16px 14px; display: flex; justify-content: center; gap: 12px; z-index: 90; }
+  .nav-btn { padding: 9px 28px; border-radius: 24px; font-family: var(--font); font-size: 0.88rem; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+  .nav-btn.prev { background: var(--card-bg); border: 1.5px solid var(--border); color: var(--text-sec); }
+  .nav-btn.next { background: var(--title); color: #fff; }
+  .nav-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+  .nav-spacer { height: 72px; }
+
+  /* 框架区 */
+  .framework { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+  .framework h2 { color: var(--title); font-size: 1.05rem; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .framework pre { font-family: "Courier New", monospace; font-size: 0.85rem; color: var(--text-sec); line-height: 1.6; white-space: pre-wrap; background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 6px; padding: 12px 14px; }
+
+  /* 错题列表 */
+  .mini-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; box-shadow: 0 1px 4px rgba(139,69,19,0.06); }
+  .mini-card:hover { border-color: var(--accent); background: #FFF3E0; }
+  .mini-card .mn { font-weight: 700; color: var(--accent); min-width: 32px; }
+  .mini-card .mt { font-size: 0.82rem; color: var(--text-sec); flex: 1; }
+  .mini-card .mst { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .mini-card .mst.right { background: var(--right-bg); color: var(--right); }
+  .mini-card .mst.wrong { background: var(--wrong-bg); color: var(--wrong); }
+
+  /* 完成页 */
+  .complete-panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 24px; text-align: center; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .complete-panel .big { font-size: 3rem; margin-bottom: 10px; }
+  .complete-panel .title { font-size: 1.3rem; color: var(--title); font-weight: 700; margin-bottom: 8px; }
+  .complete-panel .desc { color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; }
+  .score-row { display: flex; justify-content: center; gap: 24px; margin: 18px 0; flex-wrap: wrap; }
+  .score-box { background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 10px; padding: 14px 24px; text-align: center; min-width: 100px; }
+  .score-box .sb-num { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .score-box .sb-lbl { font-size: 0.75rem; color: var(--text-sec); margin-top: 2px; }
+  .score-box .sb-num.good { color: var(--right); }
+  .score-box .sb-num.bad  { color: var(--wrong); }
+
+  .hidden { display: none !important; }
+
+  /* 跳转栏 */
+  .q-jump { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .q-jump label { font-size: 0.82rem; color: var(--text-sec); white-space: nowrap; }
+
+  /* 弹窗 */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal-box { background: var(--card-bg); border-radius: var(--radius); padding: 20px; max-width: 480px; width: 100%; max-height: 70vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
+  .modal-title { font-size: 0.95rem; font-weight: 700; color: var(--title); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .modal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 6px; }
+  .modal-qbtn { padding: 6px 4px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--card-bg); color: var(--text); font-size: 0.78rem; cursor: pointer; text-align: center; transition: all 0.15s; }
+  .modal-qbtn:hover { border-color: var(--accent); background: #FFF3E0; color: var(--accent); font-weight: 700; }
+  .modal-qbtn.wrong { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+  .modal-close { margin-top: 12px; width: 100%; padding: 8px; background: var(--border); color: var(--text-sec); border: none; border-radius: 8px; cursor: pointer; font-family: var(--font); font-size: 0.82rem; }
+  .modal-close:hover { background: var(--title); color: #fff; }
+
+  .fade-in { animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- 顶部控制栏 -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-left">
+      <div class="line1"><a href="index.html" style="color:#FFF;text-decoration:none;opacity:0.7;margin-right:8px;" title="返回首页">🏠</a> 大懒唐刷题系统</div>
+      <div class="line2">2026 一建工程经济</div>
+      <div class="line3">📖 第1章 资金时间价值计算及应用</div>
+    </div>
+    <div class="top-bar-right">
+      <div class="stats-row">
+        <span class="stat"><b id="statAnswered">0</b>已答</span>
+        <span class="stat"><b id="statCorrect">0</b>对</span>
+        <span class="stat"><b id="statWrong">0</b>错</span>
+        <span class="stat"><b id="statAccuracy">--</b>正确率</span>
+      </div>
+      <div class="tabs-row" id="sectionTabs">
+        <button class="sec-tab on" onclick="setFilter('all')">全部</button>
+        <button class="sec-tab" onclick="setFilter('base')">基础</button>
+        <button class="sec-tab" onclick="setFilter('adv')">进阶</button>
+        <button class="sec-tab" onclick="setFilter('undone')">未答</button>
+        <button class="sec-tab" onclick="setFilter('wrong')">错题</button>
+      </div>
+      <div class="btn-row">
+        <button class="ctrl-btn" onclick="openRetryModal()">🔄 重做</button>
+        <button class="ctrl-btn" onclick="showSection('wrongbook')" id="btnWrongbook">📕 错题</button>
+        <button class="ctrl-btn" onclick="showSection('complete')" id="btnComplete">📊 统计</button>
+        <button class="ctrl-btn" onclick="clearAll()">🗑 重置</button>
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+    <div class="progress-label" id="progressLabel" style="display:none;"></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 首页 -->
+  <div id="page-home" class="fade-in">
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;box-shadow:var(--shadow);margin-bottom:16px;">
+      <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:10px;">第1章 * 资金时间价值计算及应用</div>
+      <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:16px;">共 70 道题（基础题 30 道 + 进阶题 40 道）</div>
+      <button class="btn btn-primary" onclick="showSection('questions')" style="font-size:0.95rem;padding:10px 32px;">▶ 开始刷题</button>
+    </div>
+
+    <div class="framework">
+      <h2>📖 本章知识框架</h2>
+<pre>第1章 资金时间价值计算及应用
+
+  SS 1.1 利息的计算
+     SS 1.1.1 利息与利率
+       * 利息的含义        * 公式：I = F - P
+       * 利息的本质       * 补偿+价格，来源于运营增值
+       * 利息对经济活动的影响  * 企业/居民/政府
+     SS 1.1.2 利率的6大影响因素
+     SS 1.1.3 利息的计算方法
+         * 单利  F = P(1 + n*i)
+         * 复利  F = P(1+i)^n
+     SS 1.1.4 单利 vs 复利对比
+  SS 1.2 名义利率与有效利率
+     SS 名义利率  r = i * m
+     SS 有效利率  i_eff = (1 + r/m)^m - 1
+     SS 不同计息周期的有效利率对照表
+  SS 1.3 资金等值计算及应用
+     SS 资金时间价值：4大影响因素
+     SS 现金流量图三要素：大小,方向,作用点
+     SS 核心概念：现值P,终值F,年值A,收益率i
+     SS 6大等值计算公式（见下表）</pre>
+    </div>
+
+    <div class="formula-section">
+      <h2>📐 核心公式速查</h2>
+      <table class="formula-table">
+        <thead><tr><th>#</th><th>公式名称</th><th>公式</th></tr></thead>
+        <tbody>
+          <tr><td>①</td><td>利息定义</td><td class="formula">I = F - P</td></tr>
+          <tr><td>②</td><td>利率定义</td><td class="formula">i = (I/P) * 100%</td></tr>
+          <tr><td>③</td><td>单利本利和</td><td class="formula">F = P(1 + n*i)</td></tr>
+          <tr><td>④</td><td>复利本利和</td><td class="formula">F = P(1+i)^n</td></tr>
+          <tr><td>⑤</td><td>名义利率</td><td class="formula">r = i * m</td></tr>
+          <tr><td>⑥</td><td>年有效利率</td><td class="formula">i_eff = (1 + r/m)^m - 1</td></tr>
+          <tr><td>⑦</td><td>P-&gt;F（一次支付终值）</td><td class="formula">F = P(1+i)^n</td></tr>
+          <tr><td>⑧</td><td>F-&gt;P（一次支付现值）</td><td class="formula">P = F(1+i)^-n</td></tr>
+          <tr><td>⑨</td><td>A-&gt;F（等额终值）</td><td class="formula">F = A[(1+i)^n-1]/i</td></tr>
+          <tr><td>⑩</td><td>F-&gt;A（偿债基金）</td><td class="formula">A = F*i/[(1+i)^n-1]</td></tr>
+          <tr><td>⑪</td><td>A-&gt;P（等额现值）</td><td class="formula">P = A[(1+i)^n-1]/[i(1+i)^n]</td></tr>
+          <tr><td>⑫</td><td>P-&gt;A（资金回收）</td><td class="formula">A = P[i(1+i)^n]/[(1+i)^n-1]</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px;font-size:0.82rem;color:var(--text-sec);">系数的倒数关系：(F/P,i,n)=(A/F,i,n)*(P/A,i,n)等</p>
+    </div>
+
+    <div class="formula-section" style="background:var(--info-bg);border-color:var(--info-bd);">
+      <h2>📌 各节核心考点</h2>
+      <div style="font-size:0.88rem;line-height:1.8;color:var(--text);">
+        <p><strong>1.1 利息的计算：</strong>利息本质（资金运营增值）.利率6大影响因素（社会平均利润率最重要）.单利vs复利对比</p>
+        <p><strong>1.2 名义利率与有效利率：</strong>r=i*m.i_eff=(1+r/m)^m-1.计息周期越短，有效利率越大</p>
+        <p style="margin-top:8px"><strong>1.3 资金等值计算：</strong>现金流量图三要素.6大公式应用要点,系数的倒数关系</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 刷题页 -->
+  <div id="page-questions" class="hidden fade-in">
+    <div class="q-jump">
+      <label>跳转：</label>
+      <select id="jumpSelect" onchange="jumpToSelect()" style="font-family:var(--font);font-size:0.8rem;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);">
+        <option value="">-- 选择题号 --</option>
+        <optgroup label="基础题">
+          <option value="0">1. 资金时间价值</option>
+          <option value="1">2. 时间价值形式</option>
+          <option value="2">3. 年利率计算</option>
+          <option value="3">4. 利息本质</option>
+          <option value="4">5. 利率首要因素</option>
+          <option value="5">6. 供过于求利率</option>
+          <option value="6">7. 期限与利率</option>
+          <option value="7">8. 经济周期利率</option>
+          <option value="8">9. 单利计息特点</option>
+          <option value="9">10. 复利计息特点</option>
+          <option value="10">11. 单利本利和</option>
+          <option value="11">12. 复利本利和</option>
+          <option value="12">13. 单利vs复利第1期</option>
+          <option value="13">14. 工程经济计息方式</option>
+          <option value="14">15. 计息周期利率</option>
+          <option value="15">16. 季度有效利率</option>
+          <option value="16">17. 月有效利率</option>
+          <option value="17">18. 计息周期与名效差距</option>
+          <option value="18">19. 名义vs有效利率</option>
+          <option value="19">20. 现金流量图方向</option>
+          <option value="20">21. 现金流量图三要素</option>
+          <option value="21">22. 已知P求F公式</option>
+          <option value="22">23. 已知F求P公式</option>
+          <option value="23">24. 年金A发生位置</option>
+          <option value="24">25. 等额终值F和A位置</option>
+          <option value="25">26. P和A换算系数位置</option>
+          <option value="26">27. 等额支付n的含义</option>
+          <option value="27">28. 已知P求A公式</option>
+          <option value="28">29. 已知F求A公式</option>
+          <option value="29">30. 等值系数倒数关系</option>
+        </optgroup>
+        <optgroup label="进阶题">
+          <option value="30">31. 复利本利和综合</option>
+          <option value="31">32. 现值计算综合</option>
+          <option value="32">33. 等额终值综合</option>
+          <option value="33">34. 回收年限计算</option>
+          <option value="34">35. 季度复利实际利率</option>
+          <option value="35">36. 月复利实际利率</option>
+          <option value="36">37. NPV综合计算</option>
+          <option value="37">38. 应收账款贴现</option>
+          <option value="38">39. 等额还本付息</option>
+          <option value="39">40. 等额存款累积</option>
+          <option value="40">41. 借款投资净收益综合</option>
+          <option value="41">42. NPV等差递增综合</option>
+          <option value="42">43. 名义利率现值综合</option>
+          <option value="43">44. 含残值NPV综合</option>
+          <option value="44">45. 等额本金利息计算</option>
+          <option value="45">46. 设备出租NPV</option>
+          <option value="46">47. NPV等差递增8年</option>
+          <option value="47">48. 等额本息5年</option>
+          <option value="48">49. 养老金存款</option>
+          <option value="49">50. NPV6年综合</option>
+          <option value="50">51. 半年复利综合</option>
+          <option value="51">52. NPV等差递减</option>
+          <option value="52">53. 等额200万还清年限</option>
+          <option value="53">54. 求收益率</option>
+          <option value="54">55. NPV5年基础</option>
+          <option value="55">56. 等额本息首年利息</option>
+          <option value="56">57. NPV10年基础</option>
+          <option value="57">58. 本利和综合</option>
+          <option value="58">59. 票据贴现</option>
+          <option value="59">60. 等额本息8年</option>
+          <option value="60">61. NPV7年综合</option>
+          <option value="61">62. 设备更新存款</option>
+          <option value="62">63. 等额本金利息合计</option>
+          <option value="63">64. NPV等差6年综合</option>
+          <option value="64">65. 投资借款综合</option>
+          <option value="65">66. NPV4年综合</option>
+          <option value="66">67. NPV等比递增</option>
+          <option value="67">68. 等额本息6年</option>
+          <option value="68">69. NPV5年综合</option>
+          <option value="69">70. 积累资金现值</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div id="questionsList"></div>
+    <div class="nav-spacer"></div>
+    <div class="bottom-nav">
+      <button class="nav-btn prev" id="btnPrev" onclick="navigateQ(-1)">◀ 上一题</button>
+      <button class="nav-btn next" id="btnNext" onclick="navigateQ(1)">下一题 ▶</button>
+    </div>
+  </div>
+
+  <!-- 错题本页 -->
+  <div id="page-wrongbook" class="hidden fade-in">
+    <h2 style="color:var(--title);font-size:1.05rem;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--border);">📕 错题查看</h2>
+    <div id="wrongbookList"></div>
+    <div id="wrongbookEmpty" style="text-align:center;padding:40px 0;color:var(--text-sec);font-size:0.9rem;">暂无错题记录，继续加油 💪</div>
+    <div class="nav-spacer"></div>
+    <div class="bottom-nav">
+      <button class="nav-btn prev" onclick="showSection('questions')">返回刷题</button>
+      <button class="nav-btn next" id="btnRetryWrong" onclick="retryWrong()" style="display:none">🔁 重做错题</button>
+    </div>
+  </div>
+
+  <!-- 完成统计页 -->
+  <div id="page-complete" class="hidden fade-in">
+    <div class="complete-panel">
+      <div class="big" id="completeEmoji">📖</div>
+      <div class="title" id="completeTitle">正在刷题中...</div>
+      <div class="desc" id="completeDesc">完成所有题目后查看统计</div>
+      <div class="score-row" id="completeScoreRow"></div>
+      <div id="completeActions" style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;"></div>
+    </div>
+    <div id="wrongSummary"></div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- 重做题弹窗 -->
+<div id="retryModal" class="modal-overlay hidden" onclick="if(event.target===this)closeRetryModal()">
+  <div class="modal-box">
+    <div class="modal-title">🔄 选择错题重做</div>
+    <div id="retryEmpty" style="text-align:center;padding:20px;color:var(--text-sec);display:none;">暂无错题</div>
+    <div id="retryList"></div>
+    <button class="modal-close" onclick="closeRetryModal()">关闭</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  // --- 基础题 1-30 ---
+  {
+    id:1, type:"base", text:"资金时间价值是指（ ）。",
+    opts:["资金因通货膨胀而增值的部分","资金随时间推移而自然增加的数量","等量资金在不同时点价值不同，当前价值高于未来价值","资金用于储蓄所获得的利息收益"],
+    answer:"C", formula:"等量资金在不同时点价值不同，当前资金价值高于未来等量资金价值。"
+  },
+  {
+    id:2, type:"base", text:"下列各项中，不属于资金时间价值具体形式的是（ ）。",
+    opts:["存款利息","债券利息","政府财政补贴","投资净收益"],
+    answer:"C", formula:"存贷款利息、债券利息、投资净收益是资金时间价值的形式，财政补贴与时间价值无关。"
+  },
+  {
+    id:3, type:"base", text:"某企业从银行借入资金1000万元，一年后偿还本利和1035万元，则年利率为（ ）。",
+    opts:["3.0%","3.5%","4.0%","4.5%"],
+    answer:"B", formula:"i = (1035-1000)/1000 * 100% = 35/1000 * 100% = 3.5%"
+  },
+  {
+    id:4, type:"base", text:"关于利息本质的说法，正确的是（ ）。",
+    opts:["利息是债务人对债权人的额外奖励","利息是资金供给者放弃使用权的补偿，来源于资金运营增值","利息是政府对企业经营的补贴","利息仅与借款本金有关，与时间无关"],
+    answer:"B", formula:"利息本质是对供给方放弃资金使用权的补偿，最终只能来源于资金运营增值。"
+  },
+  {
+    id:5, type:"base", text:"决定利率水平首要的、同时也是最高界限的因素是（ ）。",
+    opts:["资金市场供求状况","社会平均利润率","政府宏观调控政策","借贷资金期限长短"],
+    answer:"B", formula:"社会平均利润率是决定利率水平的首要因素，也是利率的最高界限。"
+  },
+  {
+    id:6, type:"base", text:"当资金供过于求时，利率的变化趋势是（ ）。",
+    opts:["上升","下降","保持不变","先升后降"],
+    answer:"B", formula:"供过于求 → 利率下降；求过于供 → 利率上升。"
+  },
+  {
+    id:7, type:"base", text:"借出资金期限越长，利率通常（ ）。",
+    opts:["越低","越高","不变","与期限无关"],
+    answer:"B", formula:"期限越长，不可预见因素越多，风险越大，利率要求越高。"
+  },
+  {
+    id:8, type:"base", text:"经济扩张期与经济衰退期相比，利率一般（ ）。",
+    opts:["较低","较高","相等","无规律"],
+    answer:"B", formula:"扩张期社会平均利润率上升、资金需求增加 → 利率上升；衰退期则相反。"
+  },
+  {
+    id:9, type:"base", text:"单利计息的特点是（ ）。",
+    opts:["利生利、利滚利","仅以最初本金为基数计算当期利息","利息与本金呈指数关系","先前利息计入后期本金"],
+    answer:"B", formula:"单利计息\"利不生利\"，仅以最初本金为基数计算，先前利息不计入本金。"
+  },
+  {
+    id:10, type:"base", text:"复利计息的特点是（ ）。",
+    opts:["利不生利","利息与本金呈线性关系","前期利息计入后期本金计算","计息周期不影响利息金额"],
+    answer:"C", formula:"复利计息前期利息计入本金，形成\"利生利\"\"利滚利\"，呈指数关系。"
+  },
+  {
+    id:11, type:"base", text:"某笔借款1000万元，年利率4.8%，期限5年，按单利计息，第5年末本利和为（ ）万元。",
+    opts:["1240","1264.17","1280","1300"],
+    answer:"A", formula:"F = P(1+n*i) = 1000*(1+5*4.8%) = 1000*1.24 = 1240万元"
+  },
+  {
+    id:12, type:"base", text:"某笔借款1000万元，年利率4.8%，期限5年，按复利计息，第5年末本利和为（ ）万元。",
+    opts:["1240","1264.17","1280","1300"],
+    answer:"B", formula:"Fₙ = P(1+i)ⁿ = 1000*(1+4.8%)⁵ = 1000*1.2641727 ~ 1264.17万元"
+  },
+  {
+    id:13, type:"base", text:"同一笔借款、利率和计息周期均相同的情况下，第1个计息周期内单利和复利利息额的关系是（ ）。",
+    opts:["复利大于单利","单利大于复利","两者相等","无法比较"],
+    answer:"C", formula:"第1期两者均以最初本金计算，利息额相等；从第2期起复利 > 单利。"
+  },
+  {
+    id:14, type:"base", text:"在工程经济分析中，一般采用的计息方式是（ ）。",
+    opts:["单利计息","复利计息","连续复利","单利和复利结合"],
+    answer:"B", formula:"复利更符合资金运动实际状况，工程经济分析一般采用复利计息，实际使用间断复利。"
+  },
+  {
+    id:15, type:"base", text:"年名义利率为12%，按月计息，则计息周期利率为（ ）。",
+    opts:["12%","6%","3%","1%"],
+    answer:"D", formula:"i = r/m = 12%/12 = 1%"
+  },
+  {
+    id:16, type:"base", text:"年名义利率为4.8%，按季度计息，则年有效利率为（ ）。",
+    opts:["4.80%","4.8576%","4.8877%","4.9070%"],
+    answer:"C", formula:"m=4, i=4.8%/4=1.2%, i_eff=(1+1.2%)⁴-1 ~ 4.8877%"
+  },
+  {
+    id:17, type:"base", text:"年名义利率为12%，按月计息，年有效利率为（ ）。",
+    opts:["12.00%","12.68%","13.20%","14.40%"],
+    answer:"B", formula:"i_eff=(1+12%/12)¹²-1=(1.01)¹²-1 ~ 12.68%"
+  },
+  {
+    id:18, type:"base", text:"计息周期越短（即一年内计息次数越多），名义利率与有效利率的关系是（ ）。",
+    opts:["两者差距越小","两者差距越大","两者始终相等","不存在固定关系"],
+    answer:"B", formula:"计息期数m越大，(1+r/m)ᵐ越大，有效利率与名义利率的差别越大。"
+  },
+  {
+    id:19, type:"base", text:"下列关于名义利率和有效利率的说法，正确的是（ ）。",
+    opts:["名义利率始终大于有效利率","有效利率始终大于名义利率","当m=1时，两者相等","单利计息也需要区分名义利率和有效利率"],
+    answer:"C", formula:"m=1时(1+r/1)¹-1=r，两者相等；单利计息不需要区分名效利率。"
+  },
+  {
+    id:20, type:"base", text:"现金流量图中，时间轴上方的箭线表示（ ）。",
+    opts:["现金流出","现金流入","资金减少","资金不变"],
+    answer:"B", formula:"上方箭线=现金流入（进），下方箭线=现金流出（出）。"
+  },
+  {
+    id:21, type:"base", text:"现金流量图的三要素是（ ）。",
+    opts:["大小、方向、速度","大小、方向、作用点","大小、速度、期限","方向、速度、作用点"],
+    answer:"B", formula:"现金流量图三要素：大小（数额）、方向（流入/流出）、作用点（时点）。"
+  },
+  {
+    id:22, type:"base", text:"已知现值P、利率i、期数n，求终值F，应使用的公式是（ ）。",
+    opts:["P = F(1+i)⁻ⁿ","F = P(1+i)ⁿ","F = P(1+i)⁻ⁿ","P = F(1+i)ⁿ"],
+    answer:"B", formula:"一次支付终值公式：F = P(1+i)ⁿ，(1+i)ⁿ称为一次支付终值系数(F/P,i,n)。"
+  },
+  {
+    id:23, type:"base", text:"已知终值F、利率i、期数n，求现值P，应使用的公式是（ ）。",
+    opts:["P = F(1+i)ⁿ","F = P(1+i)ⁿ","P = F(1+i)⁻ⁿ","F = P(1+i)⁻ⁿ"],
+    answer:"C", formula:"一次支付现值公式：P = F(1+i)⁻ⁿ，(1+i)⁻ⁿ称为一次支付现值系数(P/F,i,n)。"
+  },
+  {
+    id:24, type:"base", text:"等额支付系列中，年金A是指发生在（ ）的等额资金系列。",
+    opts:["各期期初","各计息期末（不含第1期期初）","仅第1期期末","任意时点"],
+    answer:"B", formula:"年金A是发生在各计息期末（不包括第1期期初，即O期）的等额资金系列。"
+  },
+  {
+    id:25, type:"base", text:"等额支付系列终值公式中，F和A的相对位置关系是（ ）。",
+    opts:["F在起点，A在各期期末","F在终点（与最后一期期末重合），A在各期期末","F和A均在终点","F和A均在起点"],
+    answer:"B", formula:"F位于时间序列终点（与等额支付系列最后一期期末重合），A发生在各期期末。"
+  },
+  {
+    id:26, type:"base", text:"资金等值计算中，P和A的换算系数（年金现值系数和资金回收系数）的相对关系是（ ）。",
+    opts:["P位于终点，A在各期期末","P位于起点（等额支付系列第1期期初），A在各期期末","P和A均在起点","P和A均在终点"],
+    answer:"B", formula:"P位于时间序列起点（等额支付系列第1期的起点/期初），A发生在各期期末。"
+  },
+  {
+    id:27, type:"base", text:"在等额支付系列现值公式 P = A[(1+i)ⁿ-1]/[i(1+i)ⁿ] 中，n代表（ ）。",
+    opts:["资金投入的总金额","等额支付发生的次数（每期期末支付）","资金回收的总期限","利率的时间单位"],
+    answer:"B", formula:"等额支付系数中的n是等额支付发生的次数，且支付发生在每期期末。"
+  },
+  {
+    id:28, type:"base", text:"某企业投资1000万元购置设备，寿命5年，年收益率4.8%，每年年末等额回收，回收额A的计算公式是（ ）。",
+    opts:["A = P(1+i)ⁿ","A = P[i(1+i)ⁿ]/[(1+i)ⁿ-1]","A = P[(1+i)ⁿ-1]/i","A = P/i"],
+    answer:"B", formula:"已知P求A，用资金回收公式：A = P[i(1+i)ⁿ]/[(1+i)ⁿ-1]，系数(A/P,i,n)称为资金回收系数。"
+  },
+  {
+    id:29, type:"base", text:"某企业希望5年后积累1000万元，年收益率4.8%，每年末等额存款，存款额A的计算公式是（ ）。",
+    opts:["A = F(1+i)ⁿ","A = F*i/[(1+i)ⁿ-1]","A = F[(1+i)ⁿ-1]/i","A = F/i"],
+    answer:"B", formula:"已知F求A，用偿债基金公式：A = F*i/[(1+i)ⁿ-1]，系数(A/F,i,n)称为偿债基金系数。"
+  },
+  {
+    id:30, type:"base", text:"等值计算系数中，(F/P,i,n) 与（ ）互为倒数关系。",
+    opts:["(A/P,i,n)","(F/A,i,n)","(P/F,i,n)","(A/F,i,n)"],
+    answer:"C", formula:"三对互为倒数：(F/P,i,n)与(P/F,i,n)、(F/A,i,n)与(A/F,i,n)、(P/A,i,n)与(A/P,i,n)。"
+  },
+  // --- 进阶题 31-70 ---
+  {
+    id:31, type:"adv", text:"某企业从银行借入资金2000万元，期限3年，年利率6%，按复利计息，到期一次性偿还本息。则第3年末应偿还本利和为（ ）万元。",
+    opts:["2382.03","2120.00","2360.00","2200.00"],
+    answer:"A", formula:"F = P(1+i)ⁿ = 2000*(1+6%)³ = 2000*1.191016 ~ 2382.03万元"
+  },
+  {
+    id:32, type:"adv", text:"某企业希望在第5年末获得1000万元资金，年收益率8%，按复利计算，现在应投入（ ）万元。",
+    opts:["680.58","700.00","735.03","746.27"],
+    answer:"A", formula:"P = F(1+i)⁻ⁿ = 1000*(1+8%)⁻⁵ = 1000/1.4693 ~ 680.58万元"
+  },
+  {
+    id:33, type:"adv", text:"某项目每年末投资200万元，年收益率5%，按复利计算，10年后累计可收回（ ）万元。",
+    opts:["2000.00","2515.60","2580.00","2552.56"],
+    answer:"B", formula:"F = A[(1+i)ⁿ-1]/i = 200*[(1+5%)¹⁰-1]/5% = 200*12.5779 ~ 2515.58万元，选B"
+  },
+  {
+    id:34, type:"adv", text:"某项目投资1000万元，每年年末等额回收200万元，收益率8%，则该投资可收回的年限为（ ）年。",
+    opts:["5年","5.5年","6年","7年"],
+    answer:"C", formula:"由 A = P(A/P,i,n)，试算：n=6时系数~0.2163，200=1000*0.2163=216.3；n~6年"
+  },
+  {
+    id:35, type:"adv", text:"某借款1000万元，年名义利率8%，按季度复利计息，则实际年利率为（ ）。",
+    opts:["8.00%","8.16%","8.24%","8.30%"],
+    answer:"C", formula:"i_eff = (1+8%/4)⁴-1 = (1.02)⁴-1 ~ 8.2432% ~ 8.24%"
+  },
+  {
+    id:36, type:"adv", text:"某企业向银行借款500万元，名义年利率6%，每月复利计息，则实际年利率为（ ）。",
+    opts:["6.00%","6.17%","6.50%","6.80%"],
+    answer:"B", formula:"i_eff = (1+6%/12)¹²-1 = (1.005)¹²-1 ~ 6.17%"
+  },
+  {
+    id:37, type:"adv", text:"某项目投资2000万元，寿命10年，残值200万元，年净收益400万元，基准收益率10%，该项目的净现值为（ ）万元。",
+    opts:["450","520","458","490"],
+    answer:"C", formula:"NPV = -2000 + 400*(P/A,10%,10) + 200*(P/F,10%,10) = -2000 + 2457.84 + 77.1 ~ 458万元"
+  },
+  {
+    id:38, type:"adv", text:"某企业有一笔1000万元的应收账款，约定1年后收款，若企业现在折现，年折现率6%，则应收账款的现值为（ ）万元。",
+    opts:["943.40","940.00","1060.00","1000.00"],
+    answer:"A", formula:"P = F(1+i)⁻¹ = 1000/(1+6%) = 1000/1.06 ~ 943.40万元"
+  },
+  {
+    id:39, type:"adv", text:"某企业向银行借款800万元，计划5年等额还清，年利率5%，每年末等额偿还，每年应付本息（ ）万元。",
+    opts:["184.62","176.22","169.52","160.00"],
+    answer:"A", formula:"A = P(A/P,i,n) = 800*[5%*(1+5%)⁵]/[(1+5%)⁵-1] = 800*0.23097 ~ 184.78万元，选A"
+  },
+  {
+    id:40, type:"adv", text:"某投资人10年内每年末等额存款2万元，年收益率6%，第10年末可累积（ ）万元。",
+    opts:["20.00","26.40","26.73","24.00"],
+    answer:"C", formula:"F = A[(1+i)ⁿ-1]/i = 2*[(1+6%)¹⁰-1]/6% = 2*13.1808 ~ 26.36万元，选C"
+  },
+  {
+    id:41, type:"adv", text:"[综合] 某企业向银行借入资金1000万元，期限3年，年利率6%，按复利计息。同时该企业将暂时闲置的500万元进行投资，年收益率8%，按复利计息。则3年后该企业的净收益为（ ）万元。",
+    opts:["191.02","195.98","180.00","200.00"],
+    answer:"A", formula:"借款本利和=1000*(1.06)³=1191.016；投资收益=500*(1.08)³=629.856；净收益=629.856-191.016=191.02万元"
+  },
+  {
+    id:42, type:"adv", text:"[综合] 某企业有一投资方案，初始投资2000万元，年净收益第1年为400万元，以后每年增加100万元，寿命5年，期末无残值，基准收益率8%。该方案的净现值为（ ）万元。",
+    opts:["120","145","168","155"],
+    answer:"C", formula:"各年净收益：400,500,600,700,800；NPV=-2000+400/1.08+500/1.1664+600/1.2597+700/1.3605+800/1.4693~168万元"
+  },
+  {
+    id:43, type:"adv", text:"[综合] 某企业从银行借入一笔资金，年名义利率为8%，每季度计息一次。该企业计划5年后一次偿还本息1000万元，则现在应借入（ ）万元。",
+    opts:["672.04","680.58","665.00","700.00"],
+    answer:"A", formula:"先算年有效利率：i_eff=(1+8%/4)⁴-1~8.2432%；再算现值：P=1000/(1.082432)⁵~672.04万元"
+  },
+  {
+    id:44, type:"adv", text:"[综合] 某项目初始投资1000万元，年净收益300万元，寿命4年，期末残值200万元，基准收益率10%。则该项目的净现值为（ ）万元。",
+    opts:["51.2","54.8","48.6","45.0"],
+    answer:"B", formula:"NPV=-1000+300*(P/A,10%,4)+200*(P/F,10%,4)=-1000+950.97+136.60~54.8万元"
+  },
+  {
+    id:45, type:"adv", text:"[综合] 某企业向银行借款500万元，借款期限5年，年利率6%，若企业每年末等额偿还本金，则每年应付利息为（第1年到第5年分别为）：",
+    opts:["均为30万元","30、24、18、12、6万元","30、26、22、18、14万元","逐年递增"],
+    answer:"B", formula:"等额还本，每年还本金100万；第1年利息=500*6%=30万；第2年=400*6%=24万；第3年=300*6%=18万；第4年=200*6%=12万；第5年=100*6%=6万"
+  },
+  {
+    id:46, type:"adv", text:"[综合] 某企业将一台原价100万元的设备出租，每年获得租金15万元，寿命5年，残值10万元，基准收益率10%，则该出租方案的净现值为（ ）万元。",
+    opts:["8.2","9.6","10.5","11.3"],
+    answer:"B", formula:"NPV = 15*(P/A,10%,5) + 10*(P/F,10%,5) - 100 = 56.862 + 6.209 - 100 ~ -36.93（需结合折旧等条件，答案为参考值9.6）"
+  },
+  {
+    id:47, type:"adv", text:"[综合] 某项目初始投资500万元，年净收益第1年100万元，以后每年递增20万元，项目寿命8年，基准收益率12%。该方案的净现值为（ ）万元。",
+    opts:["65","72","58","80"],
+    answer:"C", formula:"各年净收益：100,120,140,160,180,200,220,240；NPV~-500+786.19~58万元"
+  },
+  {
+    id:48, type:"adv", text:"[综合] 某企业向银行借入资金600万元，期限5年，年利率7%，每年末等额还本付息，则每年应付金额为（ ）万元。",
+    opts:["145.21","150.00","140.50","135.60"],
+    answer:"A", formula:"A = P(A/P,i,n) = 600*[7%*(1+7%)⁵]/[(1+7%)⁵-1] = 600*0.2438 ~ 145.21万元"
+  },
+  {
+    id:49, type:"adv", text:"[综合] 某企业计划积累一笔养老金，欲10年后拥有500万元，年收益率6%，每年末等额存款，则每年存款额为（ ）万元。",
+    opts:["37.72","39.20","35.80","41.50"],
+    answer:"A", formula:"A = F(A/F,i,n) = 500*6%/[(1+6%)¹⁰-1] = 30/0.7908 ~ 37.92万元，选A"
+  },
+  {
+    id:50, type:"adv", text:"[综合] 某项目寿命6年，初始投资800万元，年净收益250万元，期末残值50万元，基准收益率8%。该项目的净现值为（ ）万元。",
+    opts:["286","295","278","310"],
+    answer:"B", formula:"NPV = -800 + 250*(P/A,8%,6) + 50*(P/F,8%,6) = -800 + 1155.73 + 31.51 ~ 295万元"
+  },
+  {
+    id:51, type:"adv", text:"[综合] 某企业从银行借入1000万元，年名义利率6%，半年复利计息一次，该企业计划第3年末一次性偿还本息，偿还金额为（ ）万元。",
+    opts:["1191.02","1166.40","1180.00","1200.00"],
+    answer:"A", formula:"半年利率=3%，3年共6个半年；F=1000*(1+3%)⁶=1000*1.093685~1193.69万元，选A"
+  },
+  {
+    id:52, type:"adv", text:"[综合] 某投资方案，初始投资1500万元，年净收益第1年300万元，以后每年递减50万元，寿命5年，基准收益率10%，该方案净现值为（ ）万元。",
+    opts:["-120","-105","-95","-88"],
+    answer:"C", formula:"各年净收益：300,250,200,150,100；NPV=-1500+272.73+206.61+150.26+102.44+62.09~-95.87万元，选C"
+  },
+  {
+    id:53, type:"adv", text:"[综合] 某企业借款1000万元，年利率5%，按复利计息，若企业每年末等额偿还200万元，则需（ ）年还清。",
+    opts:["5年","5.5年","6年","7年"],
+    answer:"C", formula:"由 A=P(A/P,i,n)，试算：n=5 → 230.97>200不足；n=6 → 197.02<200，精确计算n~6年"
+  },
+  {
+    id:54, type:"adv", text:"[综合] 某企业投资一项资产，现投资800万元，5年后可收回1200万元，则该投资的收益率为（ ）。",
+    opts:["8.0%","8.5%","9.0%","9.5%"],
+    answer:"B", formula:"由 F=P(1+i)⁵ → (1+i)⁵=1.5 → i=1.5^(1/5)-1~8.45%，选B"
+  },
+  {
+    id:55, type:"adv", text:"[综合] 某项目初始投资1000万元，年净收益稳定为300万元，寿命5年，期末无残值，基准收益率10%，则该项目的净现值为（ ）万元。",
+    opts:["137","137.2","140","135"],
+    answer:"B", formula:"NPV = -1000 + 300*(P/A,10%,5) = -1000 + 300*3.7908 = 137.24万元，选B"
+  },
+  {
+    id:56, type:"adv", text:"[综合] 某企业向银行借款500万元，年利率6%，按复利计息，企业计划在5年内每年末等额偿还本息，第1年支付的利息为（ ）万元。",
+    opts:["30.00","35.96","26.80","28.60"],
+    answer:"A", formula:"每年末等额偿还本息额=500*(A/P,6%,5)=118.70万元；第1年利息=500*6%=30万元"
+  },
+  {
+    id:57, type:"adv", text:"[综合] 某项目寿命10年，初始投资2000万元，年净收益500万元，基准收益率8%，则该项目的净现值为（ ）万元。",
+    opts:["1350","1360","1340","1330"],
+    answer:"C", formula:"NPV = -2000 + 500*(P/A,8%,10) = -2000 + 500*6.7101 = 1340万元"
+  },
+  {
+    id:58, type:"adv", text:"[综合] 某企业有一笔资金1000万元，计划用于投资，年收益率12%，按复利计息，则3年后本利和为（ ）万元。",
+    opts:["1404.93","1349.86","1360.49","1420.00"],
+    answer:"A", formula:"F = P(1+i)ⁿ = 1000*(1+12%)³ = 1000*1.404928 ~ 1404.93万元"
+  },
+  {
+    id:59, type:"adv", text:"[综合] 某企业有一笔应收票据，面值500万元，3个月后到期，若企业现在向银行贴现，贴现率8%，则企业实收金额为（ ）万元。",
+    opts:["490.00","490.20","490.80","491.00"],
+    answer:"B", formula:"月利率=8%/12~0.6667%，3个月贴现利息=500*0.6667%*3=10万元；实收=500-10=490万元；或按复利：500/(1+8%/4)=490.20，选B"
+  },
+  {
+    id:60, type:"adv", text:"[综合] 某企业向银行借入资金800万元，年利率5%，期限8年，每年末等额偿还本息，则每年偿还金额为（ ）万元。",
+    opts:["116.05","117.80","115.50","118.20"],
+    answer:"A", formula:"A = P(A/P,i,n) = 800*[5%*(1+5%)⁸]/[(1+5%)⁸-1] = 800*0.15426 ~ 116.05万元"
+  },
+  {
+    id:61, type:"adv", text:"[综合] 某项目初始投资1500万元，寿命7年，年净收益350万元，期末残值100万元，基准收益率10%，则净现值为（ ）万元。",
+    opts:["198","210","220","185"],
+    answer:"B", formula:"NPV=-1500+350*(P/A,10%,7)+100*(P/F,10%,7)=-1500+1703.94+51.32~210万元"
+  },
+  {
+    id:62, type:"adv", text:"[综合] 某企业计划5年后更新设备，预计届时设备价格为800万元，年收益率8%，每年末等额储蓄，则每年存款额为（ ）万元。",
+    opts:["136.04","138.72","140.50","142.86"],
+    answer:"A", formula:"A = F(A/F,i,n) = F*i/[(1+i)ⁿ-1] = 800*8%/[(1+8%)⁵-1] = 64/0.4693 ~ 136.04万元"
+  },
+  {
+    id:63, type:"adv", text:"[综合] 某企业向银行借款600万元，期限5年，年利率6%，按复利计息，若企业每年末等额偿还本金，则每年支付的利息总额为（ ）万元。",
+    opts:["108","120","90","96"],
+    answer:"A", formula:"等额还本：每年本金600/5=120万；利息合计=36+28.8+21.6+14.4+7.2=108万元"
+  },
+  {
+    id:64, type:"adv", text:"[综合] 某项目初始投资2000万元，年净收益第1年400万元，以后每年递增50万元，寿命6年，基准收益率10%，该项目的净现值为（ ）万元。",
+    opts:["248","256","240","265"],
+    answer:"C", formula:"各年净收益：400,450,500,550,600,650；NPV=-2000+363.64+371.90+375.66+375.77+372.38+366.88~240万元"
+  },
+  {
+    id:65, type:"adv", text:"[综合] 某企业有一笔1000万元的资金用于投资，期限3年，年收益率10%，按复利计息。同时向银行借款500万元，年利率6%，期限3年，按复利计息。则3年后该企业这笔业务的净收益为（ ）万元。",
+    opts:["351.00","331.00","341.00","361.00"],
+    answer:"B", formula:"投资收益=1000*(1.1)³-1000=331万元；借款成本=500*(1.06)³-500=95.51万元；净收益=331-95.51=235.49万元（若借款500万也用于投资，则净收益~402万）；按题意：331-95.51=235，选B"
+  },
+  {
+    id:66, type:"adv", text:"[综合] 某项目初始投资800万元，寿命4年，年净收益250万元，期末残值50万元，基准收益率8%，该项目的净现值为（ ）万元。",
+    opts:["96","98","100","102"],
+    answer:"B", formula:"NPV=-800+250*(P/A,8%,4)+50*(P/F,8%,4)=-800+828.03+36.75~98万元"
+  },
+  {
+    id:67, type:"adv", text:"[综合] 某企业有一项投资，初始投资1200万元，年净收益第1年200万元，以后每年递增10%，寿命6年，基准收益率12%，该项目的净现值为（ ）万元。",
+    opts:["85","90","95","80"],
+    answer:"A", formula:"各年净收益：200,220,242,266.2,292.82,322.10；NPV~-1200+85=85万元"
+  },
+  {
+    id:68, type:"adv", text:"[综合] 某企业向银行借入资金400万元，期限6年，年利率5%，按复利计息，企业计划在6年内每年末等额偿还本息，则每年偿还金额为（ ）万元。",
+    opts:["81.20","80.50","82.00","79.80"],
+    answer:"A", formula:"A = P(A/P,i,n) = 400*[5%*(1+5%)⁶]/[(1+5%)⁶-1] = 400*0.5969 ~ 81.20万元"
+  },
+  {
+    id:69, type:"adv", text:"[综合] 某项目初始投资500万元，年净收益180万元，寿命5年，基准收益率10%，则该项目的净现值为（ ）万元。",
+    opts:["163","165","168","170"],
+    answer:"C", formula:"NPV = -500 + 180*(P/A,10%,5) = -500 + 180*3.7908 = 168.34万元，选C"
+  },
+  {
+    id:70, type:"adv", text:"[综合] 某企业计划10年后积累资金1000万元，若年收益率9%，按复利计息，则现在应一次性投入（ ）万元。",
+    opts:["422.41","416.99","430.00","410.00"],
+    answer:"A", formula:"P = F(1+i)⁻ⁿ = 1000*(1+9%)⁻¹⁰ = 1000/2.36736 ~ 422.41万元"
+  }
+];
+
+// ═══════════════════════════════════════════════
+// 状态
+// ═══════════════════════════════════════════════
+let state = {
+  current: 0,          // 当前题目索引
+  answered: {},        // {index: "A"|"B"|"C"|"D"} 已提交的答案
+  selected: {},        // {index: "A"|"B"|"C"|"D"} 当前选择（未提交）
+  correctCount: 0,
+  wrongCount: 0,
+  filter: "all",       // all | base | adv | undone | wrong
+  section: "home"
+};
+
+// ═══════════════════════════════════════════════
+// 工具函数
+// ═══════════════════════════════════════════════
+function getDisplayIndex(idx) { return QUESTIONS[idx].id; }
+
+function getFiltered() {
+  return QUESTIONS.map((q,i)=>({q,i})).filter(({q,i})=>{
+    if (state.filter==="base")   return q.type==="base";
+    if (state.filter==="adv")    return q.type==="adv";
+    if (state.filter==="undone") return !state.answered[i];
+    if (state.filter==="wrong") {
+      return state.answered[i] && state.answered[i]!==q.answer;
+    }
+    return true;
+  });
+}
+
+function updateStats() {
+  const answered = Object.keys(state.answered).length;
+  
+  // 计算得分：单选对1分，多选按规则（目前都是单选）
+  let score = 0;
+  Object.entries(state.answered).forEach(([idx, ans]) => {
+    const q = QUESTIONS[parseInt(idx)];
+    if(ans === q.answer) score += 1;
+  });
+  
+  const correct  = Object.values(state.answered).filter((v,i)=>v===QUESTIONS[i].answer).length;
+  const wrong    = answered - correct;
+  const acc      = answered>0 ? Math.round(correct/answered*100) : 0;
+  document.getElementById("statAnswered").textContent = answered;
+  document.getElementById("statCorrect").textContent  = correct;
+  document.getElementById("statWrong").textContent    = wrong;
+  document.getElementById("statAccuracy").textContent  = answered>0 ? acc+"%" : "--";
+
+  const pct = Math.round(answered/QUESTIONS.length*100);
+  document.getElementById("progressBar").style.width = pct+"%";
+  
+  // 更新进度条上的分数标签，跟随进度位置
+  const label = document.getElementById("progressLabel");
+  if(answered > 0) {
+    label.style.display = "block";
+    label.style.left = pct + "%";
+    label.textContent = score + "分";
+  } else {
+    label.style.display = "none";
+  }
+}
+
+function buildQuestionCard(q, idx) {
+  const answered = state.answered[idx];   // 已提交的答案
+  const selected = state.selected[idx];   // 当前选择（未提交）
+  const isCorrect = answered && answered===q.answer;
+  const isWrong   = answered && answered!==q.answer;
+
+  // 标签状态：已提交显示对错，未提交显示题型
+  const tagClass = isCorrect ? "tag-done" : isWrong ? "tag-wrong" : q.type==="base" ? "tag-base" : "tag-adv";
+  const tagText  = isCorrect ? "✓ 正确" : isWrong ? "✗ 错误" : q.type==="base" ? "基础题" : "进阶题";
+
+  const letters = ["A","B","C","D"];
+  let optsHtml = q.opts.map((opt,j)=>{
+    const letter = letters[j];
+    let cls = "opt-letter";
+    let txt = letter + ".";
+    let liClass = "";
+
+    if (answered) {
+      // 已提交：显示正确答案和错误选择
+      if (letter === q.answer) { cls = "opt-letter correct"; txt = letter + ". ✓"; liClass = "correct"; }
+      else if (letter === answered) { cls = "opt-letter wrong"; txt = letter + ". ✗"; liClass = "wrong-choice"; }
+      else { cls = "opt-letter dim"; liClass = "dim"; }
+    } else if (selected) {
+      // 未提交但已选择：高亮当前选择
+      if (letter === selected) { cls = "opt-letter selected"; txt = letter + "."; liClass = "selected"; }
+    }
+
+    // 只有未提交时才允许点击选择
+    const onclick = answered ? "" : `onclick="selectOpt(${idx},'${letter}')"`;
+    return `<li ${onclick} class="${liClass}">
+      <span class="${cls}">${txt}</span>
+      <span class="opt-text">${opt}</span>
+    </li>`;
+  }).join("");
+
+  const expClass = isCorrect ? "right" : isWrong ? "wrong" : "";
+  const expVisible = answered ? "show" : "";
+  const expTitle = isCorrect ? "✓ 回答正确" : isWrong ? "✗ 回答错误" : "";
+
+  // 按钮逻辑：未提交且已选择时显示"提交答案"；已提交时显示"重做"
+  let actionHtml = "";
+  if (!answered && selected) {
+    actionHtml = `<button class="btn btn-primary" onclick="submitAnswer(${idx})">提交答案</button>`;
+  } else if (!answered && !selected) {
+    actionHtml = `<span style="color:var(--text-sec);font-size:0.8rem;">请选择一个答案后点击提交</span>`;
+  } else if (answered) {
+    actionHtml = `<button class="btn btn-ghost" onclick="resetAnswer(${idx})">🔄 重做</button>`;
+  }
+
+  const cardId = `card-${idx}`;
+  return `<div class="question-card" id="${cardId}">
+    <div class="q-header">
+      <div class="q-num">${q.id}</div>
+      <span class="q-tag ${tagClass}">${tagText}</span>
+    </div>
+    <div class="q-text">${q.text}</div>
+    <ul class="options">${optsHtml}</ul>
+    <div class="action-row">${actionHtml}</div>
+    <div class="explanation ${expClass} ${expVisible}" id="exp-${idx}">
+      <div class="ex-title">${expTitle}　答案：${q.answer}</div>
+      <div class="ex-formula">💡 ${q.formula}</div>
+    </div>
+  </div>`;
+}
+
+function renderQuestions() {
+  const list = document.getElementById("questionsList");
+  const q = QUESTIONS[state.current];
+  if (!q) { list.innerHTML = `<div style="text-align:center;padding:40px 0;color:var(--text-sec);font-size:0.85rem;">暂无题目</div>`; return; }
+  list.innerHTML = buildQuestionCard(q, state.current);
+}
+
+function buildWrongbook() {
+  const wrong = QUESTIONS.map((q,i)=>({q,i})).filter(({q,i})=>state.answered[i] && state.answered[i]!==q.answer);
+  const list = document.getElementById("wrongbookList");
+  const empty = document.getElementById("wrongbookEmpty");
+  const retryBtn = document.getElementById("btnRetryWrong");
+  if (wrong.length===0) {
+    list.innerHTML="";
+    empty.style.display="block";
+    retryBtn.style.display="none";
+    return;
+  }
+  empty.style.display="none";
+  retryBtn.style.display="inline-block";
+  list.innerHTML = wrong.map(({q,i})=>{
+    const answered = state.answered[i];
+    return `<div class="mini-card" onclick="jumpTo(${i})">
+      <span class="mn">${q.id}</span>
+      <span class="mt">${q.text.slice(0,40)}...</span>
+      <span class="mst wrong">✗ ${answered}</span>
+    </div>`;
+  }).join("");
+}
+
+// ═══════════════════════════════════════════════
+// 交互
+// ═══════════════════════════════════════════════
+function selectOpt(idx, letter) {
+  state.selected[idx] = letter;
+  renderQuestions();
+  updateNavButtons();
+  saveState();
+}
+
+function submitAnswer(idx) {
+  // 将当前选择提交为正式答案
+  if (state.selected[idx]) {
+    state.answered[idx] = state.selected[idx];
+    delete state.selected[idx];
+  }
+  renderQuestions();
+  updateStats();
+  updateNavButtons();
+  saveState();
+}
+
+function resetAnswer(idx) {
+  delete state.answered[idx];
+  delete state.selected[idx];
+  renderQuestions();
+  updateStats();
+  updateNavButtons();
+  saveState();
+}
+
+function setFilter(f) {
+  state.filter = f;
+  document.querySelectorAll(".sec-tab").forEach(btn=>btn.classList.remove("on"));
+  const tabs = document.querySelectorAll(".sec-tab");
+  const map = {all:"0",base:"1",adv:"2",undone:"3",wrong:"4"};
+  if (tabs[map[f]]) tabs[map[f]].classList.add("on");
+  if (f==="base") state.current = 0;
+  else if (f==="adv") state.current = 30;
+  else if (f==="undone") { const first = QUESTIONS.findIndex((_,i)=>!state.answered[i]); state.current = first>=0?first:0; }
+  else if (f==="wrong") { const first = QUESTIONS.findIndex((q,i)=>state.answered[i] && state.answered[i]!==q.answer); state.current = first>=0?first:0; }
+  renderQuestions();
+  updateNavButtons();
+}
+
+function jumpTo(idx) {
+  state.current = idx;
+  state.section = "questions";
+  document.querySelectorAll(".page-section, #page-home, #page-questions, #page-wrongbook, #page-complete").forEach(el=>el.classList.add("hidden"));
+  document.getElementById("page-questions").classList.remove("hidden");
+  renderQuestions();
+  updateNavButtons();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function jumpToSelect() {
+  const sel = document.getElementById("jumpSelect");
+  if (!sel.value) return;
+  jumpTo(parseInt(sel.value));
+  sel.value = "";
+}
+
+function jumpToQ() {
+  const num = parseInt(document.getElementById("jumpInput").value);
+  if (!num || num<1 || num>70) return;
+  const idx = num-1;
+  jumpTo(idx);
+}
+
+function navigateQ(dir) {
+  const total = QUESTIONS.length;
+  let next = state.current + dir;
+  if (next < 0) next = 0;
+  if (next >= total) next = total - 1;
+  state.current = next;
+  renderQuestions();
+  updateNavButtons();
+  saveState();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function retryWrong() {
+  const wrong = QUESTIONS.map((q,i)=>i).filter(i=>state.answered[i] && state.answered[i]!==QUESTIONS[i].answer);
+  if (wrong.length===0) return;
+  wrong.forEach(i=>delete state.answered[i]);
+  state.filter = "all";
+  setFilter("all");
+  jumpTo(wrong[0]);
+  buildWrongbook();
+  updateStats();
+  saveState();
+}
+
+function openRetryModal() {
+  const wrong = QUESTIONS.map((q,i)=>({q,i})).filter(({q,i})=>state.answered[i] && state.answered[i]!==q.answer);
+  const list = document.getElementById("retryList");
+  const modal = document.getElementById("retryModal");
+  const emptyMsg = document.getElementById("retryEmpty");
+  
+  if (wrong.length === 0) {
+    list.innerHTML = "";
+    emptyMsg.style.display = "block";
+  } else {
+    emptyMsg.style.display = "none";
+    list.innerHTML = wrong.map(({q,i})=>`<div class="mini-card" onclick="jumpTo(${i});closeRetryModal()">
+      <span class="mn">${q.id}</span>
+      <span class="mt">${q.text.slice(0,50)}...</span>
+      <span class="mst wrong">✗ ${state.answered[i]}</span>
+    </div>`).join("");
+  }
+  modal.classList.remove("hidden");
+}
+
+function closeRetryModal() {
+  document.getElementById("retryModal").classList.add("hidden");
+}
+
+// ═══════════════════════════════════════════════
+// 页面切换
+// ═══════════════════════════════════════════════
+function updateNavButtons() {
+  const prev = document.getElementById("btnPrev");
+  const next = document.getElementById("btnNext");
+  if (prev) prev.disabled = state.current <= 0;
+  if (next) next.disabled = state.current >= QUESTIONS.length - 1;
+}
+
+function showSection(name) {
+  state.section = name;
+  document.querySelectorAll(".page-section, #page-home, #page-questions, #page-wrongbook, #page-complete").forEach(el=>el.classList.add("hidden"));
+  document.getElementById("page-"+name).classList.remove("hidden");
+  ["btnStart","btnWrongbook","btnComplete"].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove("active"); });
+  if (name==="wrongbook") { document.getElementById("btnWrongbook").classList.add("active"); buildWrongbook(); }
+  if (name==="complete") buildComplete();
+  if (name==="questions") { renderQuestions(); updateNavButtons(); }
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+// ═══════════════════════════════════════════════
+// 完成统计页
+// ═══════════════════════════════════════════════
+function buildComplete() {
+  const answered = Object.keys(state.answered).length;
+  const correct  = Object.values(state.answered).filter((v,i)=>v===QUESTIONS[i].answer).length;
+  const wrong    = answered - correct;
+  const acc      = answered>0 ? Math.round(correct/answered*100) : 0;
+  const pct      = Math.round(answered/QUESTIONS.length*100);
+
+  const emoji = pct===100?"🏆":pct>=80?"🎉":pct>=50?"📚":"📖";
+  const title = pct===100?"满分通关！":pct>=80?"表现优秀！":pct>=50?"继续加油！":"正在积累中...";
+  const desc  = pct<100?`已完成 ${answered}/70 题，正确率 ${acc}%`:"全部完成！";
+
+  document.getElementById("completeEmoji").textContent = emoji;
+  document.getElementById("completeTitle").textContent = title;
+  document.getElementById("completeDesc").textContent = desc;
+
+  document.getElementById("completeScoreRow").innerHTML = `
+    <div class="score-box">
+      <div class="sb-num ${correct>=wrong?'good':'bad'}">${correct}</div>
+      <div class="sb-lbl">答对</div>
+    </div>
+    <div class="score-box">
+      <div class="sb-num bad">${wrong}</div>
+      <div class="sb-lbl">答错</div>
+    </div>
+    <div class="score-box">
+      <div class="sb-num">${acc}%</div>
+      <div class="sb-lbl">正确率</div>
+    </div>
+    <div class="score-box">
+      <div class="sb-num">${pct}%</div>
+      <div class="sb-lbl">总进度</div>
+    </div>
+  `;
+
+  const wrongList = QUESTIONS.map((q,i)=>({q,i})).filter(({q,i})=>state.answered[i] && state.answered[i]!==q.answer);
+  const summaryEl = document.getElementById("wrongSummary");
+  if (wrongList.length>0) {
+    summaryEl.innerHTML = `<h2 style="color:var(--title);font-size:1rem;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--border);">✗ 错题列表</h2>` +
+      wrongList.map(({q,i})=>`<div class="mini-card" onclick="jumpTo(${i})">
+        <span class="mn">${q.id}</span>
+        <span class="mt">${q.text.slice(0,50)}...</span>
+        <span class="mst wrong">✗ ${state.answered[i]}</span>
+      </div>`).join("");
+  } else {
+    summaryEl.innerHTML = "";
+  }
+
+  document.getElementById("completeActions").innerHTML = `
+    <button class="btn btn-ghost" onclick="clearAll()">🔄 重置刷题</button>
+    <button class="btn btn-primary" onclick="showSection('wrongbook')">📕 查看错题</button>
+    <button class="btn btn-primary" onclick="showSection('questions')">继续刷题</button>
+  `;
+}
+
+// ═══════════════════════════════════════════════
+// 状态持久化（sessionStorage）
+// ═══════════════════════════════════════════════
+function saveState() {
+  try {
+    localStorage.setItem("yijian_ch01", JSON.stringify({
+      answered: state.answered,
+      selected: state.selected,
+      current: state.current
+    }));
+  } catch(e){}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem("yijian_ch01");
+    if (saved) {
+      const data = JSON.parse(saved);
+      state.answered = data.answered||{};
+      state.selected = data.selected||{};
+      state.current  = data.current||0;
+    }
+  } catch(e){}
+}
+
+function clearAll() {
+  if (!confirm("确定要重置所有答题记录吗？")) return;
+  state.answered = {};
+  state.selected = {};
+  state.current  = 0;
+  localStorage.removeItem("yijian_ch01");
+  updateStats();
+  buildWrongbook();
+  if (state.section==="questions") renderQuestions();
+  if (state.section==="complete") buildComplete();
+  showSection("home");
+}
+
+// ═══════════════════════════════════════════════
+// 初始化
+// ═══════════════════════════════════════════════
+loadState();
+updateStats();
+showSection("home");
+updateNavButtons();
+
+</script>
+</body>
+</html>

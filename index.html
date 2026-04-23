@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一建经济刷题系统</title>
+<style>
+  :root {
+    --bg: #F5F7FA;
+    --card-bg: #FFFFFF;
+    --title: #1A365D;
+    --accent: #2C5282;
+    --text: #2D3748;
+    --text-sec: #718096;
+    --border: #E2E8F0;
+    --right: #38A169;
+    --wrong: #E53E3E;
+    --disabled: #CBD5E0;
+    --font: "等线", "DengXian", "Microsoft YaHei", sans-serif;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(26,54,93,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.7; min-height: 100vh; padding: 20px; }
+
+  .header {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 30px;
+  }
+  .header h1 {
+    font-size: 2rem;
+    color: var(--title);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 1rem;
+    color: var(--text-sec);
+    font-weight: 400;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chapter-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .chapter-card:hover:not(.disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(26,54,93,0.15);
+  }
+  .chapter-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #F7FAFC;
+  }
+
+  .chapter-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .chapter-num {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: #EBF8FF;
+    padding: 4px 10px;
+    border-radius: 6px;
+    min-width: 50px;
+    text-align: center;
+  }
+  .chapter-card.disabled .chapter-num {
+    background: #EDF2F7;
+    color: var(--disabled);
+  }
+  .chapter-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .chapter-card.disabled .chapter-title {
+    color: var(--disabled);
+  }
+
+  .chapter-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+  }
+  .status-available {
+    color: var(--right);
+    font-weight: 500;
+  }
+  .status-locked {
+    color: var(--disabled);
+  }
+  .status-coming {
+    font-size: 0.75rem;
+    color: var(--text-sec);
+    background: #EDF2F7;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .progress-info {
+    font-size: 0.8rem;
+    color: var(--text-sec);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-sec);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>一建经济刷题系统</h1>
+  <div class="subtitle">2026 一级建造师 · 建设工程经济</div>
+</div>
+
+<div class="container">
+  <div class="chapter-list">
+
+    <!-- 第1章 - 可用 -->
+    <a href="ch01.html" class="chapter-card">
+      <div class="chapter-info">
+        <div class="chapter-num">第1章</div>
+        <div class="chapter-title">资金时间价值计算及应用</div>
+      </div>
+      <div class="chapter-status">
+        <span class="progress-info">70题</span>
+        <span class="status-available">✅ 开始</span>
+      </div>
+    </a>
+
+    <!-- 第2章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第2章</div>
+        <div class="chapter-title">技术方案经济效果评价</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第3章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第3章</div>
+        <div class="chapter-title">技术方案不确定性分析</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第4章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第4章</div>
+        <div class="chapter-title">技术方案现金流量表的编制</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第5章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第5章</div>
+        <div class="chapter-title">设备更新分析</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第6章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第6章</div>
+        <div class="chapter-title">价值工程在工程建设中的应用</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第7章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第7章</div>
+        <div class="chapter-title">新技术、新工艺和新材料应用方案的技术经济分析</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第8章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第8章</div>
+        <div class="chapter-title">财务会计基础</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第9章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第9章</div>
+        <div class="chapter-title">成本与费用</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第10章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第10章</div>
+        <div class="chapter-title">收入</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第11章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第11章</div>
+        <div class="chapter-title">利润</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第12章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第12章</div>
+        <div class="chapter-title">财务分析</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第13章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第13章</div>
+        <div class="chapter-title">筹资管理</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第14章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第14章</div>
+        <div class="chapter-title">营运资金管理</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第15章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第15章</div>
+        <div class="chapter-title">建设工程项目总投资</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第16章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第16章</div>
+        <div class="chapter-title">建设工程定额</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第17章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第17章</div>
+        <div class="chapter-title">建设工程项目设计概算</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第18章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第18章</div>
+        <div class="chapter-title">建设工程项目施工图预算</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第19章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第19章</div>
+        <div class="chapter-title">工程量清单计价</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+    <!-- 第20章 - 未解锁 -->
+    <div class="chapter-card disabled">
+      <div class="chapter-info">
+        <div class="chapter-num">第20章</div>
+        <div class="chapter-title">工程计价数字化与智能化</div>
+      </div>
+      <div class="chapter-status">
+        <span class="status-coming">敬请期待</span>
+        <span class="status-locked">🔒</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <p>📚 共20章 · 第1章已上线 · 持续更新中</p>
+</div>
+
+</body>
+</html>
