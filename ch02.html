@@ -1,0 +1,695 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一建经济 * 第2章 刷题</title>
+<style>
+  :root {
+    --bg:       #F5F7FA;
+    --card-bg:  #FFFFFF;
+    --title:    #1A365D;
+    --accent:   #2C5282;
+    --text:     #2D3748;
+    --text-sec: #718096;
+    --border:   #E2E8F0;
+    --right:    #38A169;
+    --right-bg: #F0FFF4;
+    --wrong:    #E53E3E;
+    --wrong-bg: #FFF5F5;
+    --info-bg:  #EBF8FF;
+    --info-bd:  #4299E1;
+    --tag-base: #BEE3F8;
+    --tag-adv:  #C4F1F9;
+    --topbar-start: #1A365D;
+    --topbar-end:   #2B6CB0;
+    --font: "等线", "DengXian", "Microsoft YaHei", sans-serif;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(26,54,93,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+  .top-bar { background: linear-gradient(135deg, var(--topbar-start), var(--topbar-end)); padding: 10px 16px 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 16px rgba(26,54,93,0.15); }
+  .top-bar-center { display: flex; flex-direction: column; align-items: center; max-width: 760px; margin: 0 auto; gap: 5px; }
+  .tb-title { text-align: center; margin-bottom: 2px; }
+  .tb-title .line1 { font-size: 1.05rem; color: #FFFFFF; font-weight: 700; letter-spacing: 0.06em; }
+  .tb-title .line2 { font-size: 0.78rem; color: rgba(255,255,255,0.9); font-weight: 400; letter-spacing: 0.04em; }
+  .tb-title .line3 { font-size: 0.78rem; color: rgba(255,255,255,0.75); font-weight: 400; letter-spacing: 0.04em; }
+  .tb-stats { display: flex; gap: 8px; font-size: 0.72rem; color: rgba(255,255,255,0.9); }
+  .tb-stats .stat { display: flex; align-items: center; gap: 3px; }
+  .tb-stats b { color: #FFFFFF; font-size: 0.85rem; min-width: 16px; text-align: center; }
+  .tb-tabs { display: flex; gap: 4px; }
+  .sec-tab { padding: 3px 9px; border-radius: 10px; font-size: 0.7rem; border: none; cursor: pointer; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); font-family: var(--font); transition: all 0.2s; }
+  .sec-tab:hover { background: rgba(255,255,255,0.22); }
+  .sec-tab.on { background: rgba(255,255,255,0.32); color: #FFFFFF; font-weight: 600; }
+  .tb-btns { display: flex; gap: 5px; }
+  .ctrl-btn { padding: 4px 10px; border: 1px solid rgba(255,255,255,0.35); border-radius: 6px; font-family: var(--font); font-size: 0.72rem; cursor: pointer; background: rgba(255,255,255,0.15); color: #FFFFFF; transition: all 0.2s; }
+  .ctrl-btn:hover { background: rgba(255,255,255,0.28); }
+  .progress-bar-wrap { position: relative; background: rgba(0,0,0,0.2); border-radius: 4px; height: 8px; width: 100%; overflow: visible; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #68D391, #48BB78); width: 0%; transition: width 0.4s ease; border-radius: 4px; }
+  .progress-label { position: absolute; top: -1px; left: 0; background: rgba(0,0,0,0.6); color: #fff; font-size: 0.65rem; padding: 1px 4px; border-radius: 3px; transform: translateX(-50%); pointer-events: none; white-space: nowrap; }
+  .container { max-width: 760px; margin: 0 auto; padding: 6px 16px 80px; }
+  .formula-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+  .formula-section h2 { color: var(--title); font-size: 1.05rem; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .formula-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .formula-table th { background: var(--tag-base); color: var(--title); padding: 7px 10px; text-align: center; font-weight: 600; }
+  .formula-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: center; color: var(--text); }
+  .formula-table tr:last-child td { border-bottom: none; }
+  .formula-table td:first-child { color: var(--accent); font-weight: 600; }
+  .formula-table .formula { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+  .question-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px 14px; margin-bottom: 10px; box-shadow: var(--shadow); }
+  .q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .q-num { font-weight: 700; font-size: 0.82rem; color: #fff; background: var(--accent); border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .q-tag { font-size: 0.68rem; padding: 1px 8px; border-radius: 10px; font-weight: 600; letter-spacing: 0.04em; }
+  .tag-base { background: var(--tag-base); color: var(--title); }
+  .tag-adv  { background: var(--tag-adv);  color: var(--text); }
+  .tag-done { background: var(--right-bg); color: var(--right); }
+  .tag-wrong { background: var(--wrong-bg); color: var(--wrong); }
+  .tag-multi { background: #FEFCBF; color: #975A16; }
+  .q-text { font-size: 0.88rem; line-height: 1.7; color: var(--text); margin-bottom: 8px; }
+  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .options li { padding: 7px 12px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 8px; font-size: 0.88rem; }
+  .options li:hover { border-color: var(--accent); background: #FFF3E0; }
+  .opt-letter { font-weight: 700; color: var(--accent); flex-shrink: 0; width: 18px; }
+  .opt-letter.selected { color: var(--title); }
+  .opt-text { flex: 1; }
+  .options li.selected { border-color: var(--accent); background: #FFF3E0; }
+  .options li.correct { border-color: var(--right); background: var(--right-bg); color: var(--right); }
+  .options li.wrong-choice { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+  .options li.dim { opacity: 0.5; }
+  .multi-cb { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 4px; cursor: pointer; flex-shrink: 0; margin-right: 6px; transition: all 0.15s; vertical-align: middle; }
+  .multi-cb:checked { background: var(--accent); border-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; background-size: 14px; }
+  .multi-cb:hover { border-color: var(--accent); }
+  ul.options li { cursor: pointer; }
+  table.md-table { border-collapse: collapse; margin: 6px 0; font-size: 0.85rem; width: auto; }
+  table.md-table td { border: 1px solid var(--border); padding: 4px 10px; text-align: center; white-space: nowrap; }
+  table.md-table tr:first-child td { background: var(--bg); font-weight: 600; }
+  .action-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+  .btn { padding: 7px 18px; border-radius: 8px; font-family: var(--font); font-size: 0.88rem; cursor: pointer; border: none; transition: all 0.2s; }
+  .btn-primary { background: var(--title); color: #fff; }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text-sec); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .explanation { margin-top: 8px; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; line-height: 1.7; display: none; }
+  .explanation.show { display: block; }
+  .explanation.right { background: var(--right-bg); border-left: 3px solid var(--right); }
+  .explanation.wrong { background: var(--wrong-bg); border-left: 3px solid var(--wrong); }
+  .explanation .ex-title { font-weight: 700; margin-bottom: 4px; }
+  .explanation.right .ex-title { color: var(--right); }
+  .explanation.wrong .ex-title { color: var(--wrong); }
+  .explanation .ex-formula { background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 6px; padding: 8px 12px; margin-top: 6px; font-size: 0.85rem; color: var(--text); }
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, #FDF6E3 85%, transparent); padding: 10px 16px 14px; display: flex; justify-content: center; gap: 12px; z-index: 90; }
+  .nav-btn { padding: 9px 28px; border-radius: 24px; font-family: var(--font); font-size: 0.88rem; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+  .nav-btn.prev { background: var(--card-bg); border: 1.5px solid var(--border); color: var(--text-sec); }
+  .nav-btn.next { background: var(--title); color: #fff; }
+  .nav-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+  .nav-spacer { height: 72px; }
+  .framework { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+  .framework h2 { color: var(--title); font-size: 1.05rem; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .framework pre { font-family: "Courier New", monospace; font-size: 0.85rem; color: var(--text-sec); line-height: 1.6; white-space: pre-wrap; background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 6px; padding: 12px 14px; }
+  .mini-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; box-shadow: 0 1px 4px rgba(139,69,19,0.06); }
+  .mini-card:hover { border-color: var(--accent); background: #FFF3E0; }
+  .mini-card .mn { font-weight: 700; color: var(--accent); min-width: 32px; }
+  .mini-card .mt { font-size: 0.82rem; color: var(--text-sec); flex: 1; }
+  .mini-card .mst { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .mini-card .mst.right { background: var(--right-bg); color: var(--right); }
+  .mini-card .mst.wrong { background: var(--wrong-bg); color: var(--wrong); }
+  .complete-panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 24px; text-align: center; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .complete-panel .big { font-size: 3rem; margin-bottom: 10px; }
+  .complete-panel .title { font-size: 1.3rem; color: var(--title); font-weight: 700; margin-bottom: 8px; }
+  .complete-panel .desc { color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; }
+  .score-row { display: flex; justify-content: center; gap: 24px; margin: 18px 0; flex-wrap: wrap; }
+  .score-box { background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 10px; padding: 14px 24px; text-align: center; min-width: 100px; }
+  .score-box .sb-num { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .score-box .sb-lbl { font-size: 0.75rem; color: var(--text-sec); margin-top: 2px; }
+  .score-box .sb-num.good { color: var(--right); }
+  .score-box .sb-num.bad  { color: var(--wrong); }
+  .hidden { display: none !important; }
+  .q-jump { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .q-jump label { font-size: 0.82rem; color: var(--text-sec); white-space: nowrap; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal-box { background: var(--card-bg); border-radius: var(--radius); padding: 20px; max-width: 480px; width: 100%; max-height: 70vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
+  .modal-title { font-size: 0.95rem; font-weight: 700; color: var(--title); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .modal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 6px; }
+  .modal-qbtn { padding: 6px 4px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--card-bg); color: var(--text); font-size: 0.78rem; cursor: pointer; text-align: center; transition: all 0.15s; }
+  .modal-qbtn:hover { border-color: var(--accent); background: #FFF3E0; color: var(--accent); font-weight: 700; }
+  .modal-qbtn.wrong { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+  .modal-close { margin-top: 12px; width: 100%; padding: 8px; background: var(--border); color: var(--text-sec); border: none; border-radius: 8px; cursor: pointer; font-family: var(--font); font-size: 0.82rem; }
+  .modal-close:hover { background: var(--title); color: #fff; }
+  .fade-in { animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .ex-formula .frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 4px; font-size: 0.8em; line-height: 1.2; }
+  .ex-formula .frac .num { border-bottom: 1px solid var(--text-sec); padding: 0 4px 2px; }
+  .ex-formula .frac .den { padding: 2px 4px 0; }
+  .ex-formula .div-sign { color: var(--accent); font-weight: 600; margin: 0 3px; }
+  .ex-formula .coeff { color: var(--accent); font-weight: 600; }
+  .ex-formula .param { color: var(--text-sec); }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-bar-center">
+    <div class="tb-title">
+      <div class="line1"><a href="index.html" style="color:#FFF;text-decoration:none;opacity:0.7;margin-right:8px;" title="返回首页">🏠</a> 大懒唐刷题系统</div>
+      <div class="line2">2026 一建工程经济</div>
+      <div class="line3">📖 第2章 经济效果评价</div>
+    </div>
+    <div class="tb-stats">
+      <span class="stat"><b id="statAnswered">0</b>已答</span>
+      <span class="stat"><b id="statCorrect">0</b>对</span>
+      <span class="stat"><b id="statWrong">0</b>错</span>
+      <span class="stat"><b id="statAccuracy">--</b>正确率</span>
+    </div>
+    <div class="tb-tabs" id="sectionTabs">
+      <button class="sec-tab on" onclick="setFilter('all')">全部</button>
+      <button class="sec-tab" onclick="setFilter('single')">单选</button>
+      <button class="sec-tab" onclick="setFilter('multi')">多选</button>
+      <button class="sec-tab" onclick="setFilter('undone')">未答</button>
+      <button class="sec-tab" onclick="setFilter('wrong')">错题</button>
+    </div>
+    <div class="tb-btns">
+      <button class="ctrl-btn" onclick="openRetryModal()">🔄 重做</button>
+      <button class="ctrl-btn" onclick="showSection('wrongbook')" id="btnWrongbook">📕 错题</button>
+      <button class="ctrl-btn" onclick="showSection('complete')" id="btnComplete">📊 统计</button>
+      <button class="ctrl-btn" onclick="clearAll()">🗑 重置</button>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+    <div class="progress-label" id="progressLabel" style="display:none;"></div>
+  </div>
+</div>
+<div class="container">
+  <div id="page-home" class="fade-in">
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;box-shadow:var(--shadow);margin-bottom:16px;">
+      <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:10px;">第2章 * 经济效果评价</div>
+      <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:16px;">共 70 道题（单选 49 道 + 多选 21 道）</div>
+      <button class="btn btn-primary" onclick="showSection('questions')" style="font-size:0.95rem;padding:10px 32px;">▶ 开始刷题</button>
+    </div>
+    <div class="framework">
+      <h2>📖 本章知识框架</h2>
+<pre>第2章 经济效果评价
+
+  2.1 经济效果评价的内容
+     * 评价的基本内容
+       - 盈利能力分析（最重要）
+       - 偿债能力分析
+       - 财务生存能力分析
+     * 经营性项目 vs 非经营性项目
+     * 财务生存能力的两个基本条件
+  2.2 经济效果评价指标体系
+     * 静态评价指标（不考虑时间价值）
+       - 投资收益率（ROI）
+       - 总投资收益率（ROI）
+       - 资本金净利润率（ROE）
+       - 静态投资回收期（Pt）
+     * 动态评价指标（考虑时间价值）
+       - 财务净现值（FNPV）
+       - 财务内部收益率（FIRR）
+       - 动态投资回收期（Pt'）
+     * 偿债能力指标
+       - 利息备付率（ICR）
+       - 偿债备付率（DSCR）
+       - 资产负债率
+       - 流动比率 / 速动比率
+  2.3 多方案比选
+     * 独立方案 —— 绝对效果检验
+     * 互斥方案 —— 相对效果检验 + 绝对效果检验
+     * 增量投资收益率法
+     * 增量投资回收期法
+     * 净现值法 / 净年值法
+     * 最小公倍数法 / 研究期法</pre>
+    </div>
+    <div class="formula-section">
+      <h2>📐 核心公式速查</h2>
+      <table class="formula-table">
+        <thead><tr><th>#</th><th>公式名称</th><th>公式</th></tr></thead>
+        <tbody>
+          <tr><td>①</td><td>总投资收益率</td><td class="formula">ROI = EBIT / TI × 100%</td></tr>
+          <tr><td>②</td><td>资本金净利润率</td><td class="formula">ROE = NP / EC × 100%</td></tr>
+          <tr><td>③</td><td>静态投资回收期</td><td class="formula">Pt = 累计净现金流量首次为正的年份-1 + |上年累计|/当年净流量</td></tr>
+          <tr><td>④</td><td>判别准则</td><td class="formula">Pt ≤ Pc（基准投资回收期）→ 可行</td></tr>
+          <tr><td>⑤</td><td>财务净现值</td><td class="formula">FNPV = Σ(CI-CO)t(1+ic)⁻ᵗ</td></tr>
+          <tr><td>⑥</td><td>FNPV判别准则</td><td class="formula">FNPV ≥ 0 → 可行</td></tr>
+          <tr><td>⑦</td><td>财务内部收益率</td><td class="formula">Σ(CI-CO)t(1+FIRR)⁻ᵗ = 0</td></tr>
+          <tr><td>⑧</td><td>FIRR判别准则</td><td class="formula">FIRR ≥ ic → 可行</td></tr>
+          <tr><td>⑨</td><td>利息备付率</td><td class="formula">ICR = EBIT / PI</td></tr>
+          <tr><td>⑩</td><td>偿债备付率</td><td class="formula">DSCR = (EBITDA - Tax) / PD</td></tr>
+          <tr><td>⑪</td><td>增量投资收益率</td><td class="formula">R(2-1) = (C1-C2) / (I2-I1) × 100%</td></tr>
+          <tr><td>⑫</td><td>增量投资回收期</td><td class="formula">Pt(2-1) = (I2-I1) / (C1-C2)</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px;font-size:0.82rem;color:var(--text-sec);">EBIT=息税前利润; TI=总投资; EC=资本金; NP=净利润; PI=应付利息; EBITDA=息税折旧摊销前利润; PD=应还本付息额</p>
+    </div>
+    <div class="formula-section" style="background:var(--info-bg);border-color:var(--info-bd);">
+      <h2>📌 各节核心考点</h2>
+      <div style="font-size:0.88rem;line-height:1.8;color:var(--text);">
+        <p><strong>2.1 评价内容：</strong>经营性项目分析盈利能力+偿债能力+财务生存能力。非经营性项目主要分析财务生存能力。财务生存的两个基本条件：有足够经营净现金流量、累计盈余资金不出现负值</p>
+        <p><strong>2.2 评价指标体系：</strong>静态指标与动态指标的区别.FNPV与FIRR的计算与判别准则.Pt计算方法（插值法）.偿债能力各指标的基准值要求</p>
+        <p style="margin-top:8px"><strong>2.3 多方案比选：</strong>独立方案vs互斥方案的检验方法.增量分析法的步骤.寿命期不同方案的比选方法（最小公倍数法、研究期法）</p>
+      </div>
+    </div>
+  </div>
+  <div id="page-questions" class="hidden fade-in">
+    <div class="q-jump">
+      <label>跳转：</label>
+      <select id="jumpSelect" onchange="jumpToSelect()" style="font-family:var(--font);font-size:0.8rem;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);">
+        <option value="">-- 选择题号 --</option>
+      </select>
+    </div>
+    <div id="questionsList"></div>
+    <div class="nav-spacer"></div>
+    <div class="bottom-nav">
+      <button class="nav-btn prev" id="btnPrev" onclick="navigateQ(-1)">◀ 上一题</button>
+      <button class="nav-btn next" id="btnNext" onclick="navigateQ(1)">下一题 ▶</button>
+    </div>
+  </div>
+  <div id="page-wrongbook" class="hidden fade-in">
+    <h2 style="color:var(--title);font-size:1.05rem;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--border);">📕 错题查看</h2>
+    <div id="wrongbookList"></div>
+    <div id="wrongbookEmpty" style="text-align:center;padding:40px 0;color:var(--text-sec);font-size:0.9rem;">暂无错题记录，继续加油 💪</div>
+    <div class="nav-spacer"></div>
+    <div class="bottom-nav">
+      <button class="nav-btn prev" onclick="showSection('questions')">返回刷题</button>
+      <button class="nav-btn next" id="btnRetryWrong" onclick="retryWrong()" style="display:none">🔁 重做错题</button>
+    </div>
+  </div>
+  <div id="page-complete" class="hidden fade-in">
+    <div class="complete-panel">
+      <div class="big" id="completeEmoji">📖</div>
+      <div class="title" id="completeTitle">正在刷题中...</div>
+      <div class="desc" id="completeDesc">完成所有题目后查看统计</div>
+      <div class="score-row" id="completeScoreRow"></div>
+    </div>
+    <div id="wrongSummary"></div>
+    <div id="completeActions" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;"></div>
+    <div class="nav-spacer"></div>
+    <div class="bottom-nav">
+      <button class="nav-btn prev" onclick="showSection('questions')">返回刷题</button>
+    </div>
+  </div>
+</div>
+<div id="retryModal" class="modal-overlay hidden" onclick="if(event.target===this)closeRetryModal()">
+  <div class="modal-box">
+    <div class="modal-title">🔄 选择错题重做</div>
+    <div id="retryEmpty" style="text-align:center;padding:20px;color:var(--text-sec);display:none;">暂无错题</div>
+    <div id="retryList"></div>
+    <button class="modal-close" onclick="closeRetryModal()">关闭</button>
+  </div>
+</div>
+<script>
+var QUESTIONS = [
+{id:1,type:"base",qtype:"single",text:"关于技术方案经济效果评价的说法，正确的是（ ）。",opts:["经济分析是从技术方案投资者角度进行的评价","财务评价主要分析技术方案对国家经济的影响","经营性方案主要分析盈利能力、偿债能力和财务生存能力","非经营性方案主要考察财务生存能力以外的其他能力"],answer:"C",formula:"A错误，财务评价是从投资者角度进行的，经济分析是从国家整体角度进行的。B错误，财务评价分析对企业的影响，经济分析分析对国家经济的影响。C正确，经营性方案需要全面分析盈利能力、偿债能力和财务生存能力。D错误，非经营性方案主要考察财务生存能力。\n\n【考点】经营性技术方案主要分析方案的盈利能力、偿债能力和财务生存能力；非经营性技术方案主要分析方案的财务生存能力。(教材第2页)"},
+{id:2,type:"base",qtype:"single",text:"按照经济效果评价结果的肯定程度分类，经济效果评价方法可分为（ ）。",opts:["定量分析和定性分析","确定性评价和不确定性评价","静态分析和动态分析","融资前分析和融资后分析"],answer:"B",formula:"A错误，定量分析和定性分析是按评价方法的性质分类。B正确，按评价结果的肯定程度分类，分为确定性评价和不确定性评价。C错误，静态分析和动态分析是按是否考虑时间因素分类。D错误，融资前分析和融资后分析是按是否考虑融资分类。\n\n【考点】按评价方法的性质分类：定量分析和定性分析；按评价方法是否考虑时间因素分类：静态分析和动态分析；按评价是否考虑融资分类：融资前分析和融资后分析；按技术方案评价的时间分类：事前评价、事中评价、事后评价。(教材第3页)"},
+{id:3,type:"base",qtype:"single",text:"某技术方案建设期为2年，运营期为8年，达产期为2年。则该方案的计算期是（ ）年。",opts:["8","10","12","14"],answer:"B",formula:"计算期 = 建设期 + 运营期\n建设期 = 2年\n运营期 = 8年\n计算期 = 2 + 8 = 10年\n注：达产期是运营期的一部分，不能重复计算。\n\n【考点】技术方案的计算期是指在经济效果评价中为进行动态分析所设定的期限，包括建设期和运营期。运营期分为投产期和达产期两个阶段。(教材第4页)"},
+{id:4,type:"base",qtype:"single",text:"关于技术方案财务生存能力分析的说法，错误的是（ ）。",opts:["财务生存能力分析也称为资金平衡分析","财务生存能力分析通过考察各年投资、融资和经营活动现金流入流出进行分析","财务生存的必要条件是各年累计盈余资金不出现负值","财务生存能力分析只适用于非经营性方案"],answer:"D",formula:"A、B、C说法均正确。D错误，财务生存能力分析既适用于经营性方案，也适用于非经营性方案。对于经营性方案，除了盈利能力、偿债能力外，还需要进行财务生存能力分析；对于非经营性方案，主要进行财务生存能力分析。\n\n【考点】财务生存能力分析也称资金平衡分析，通过考察技术方案计算期内各年的投资、融资和经营活动所产生的各项现金流入和流出，计算净现金流量和累计盈余资金，分析技术方案是否有足够的净现金流量维持正常运营，以实现财务可持续性。财务生存的必要条件是各年累计盈余资金不出现负值。(教材第2页)"},
+{id:5,type:"base",qtype:"multi",text:"下列技术方案经济效果评价指标中，属于盈利能力分析动态指标的有（ ）。",opts:["财务内部收益率","财务净现值","总投资收益率","资本金净利润率","利息备付率"],answer:"AB",formula:"A正确，财务内部收益率是盈利能力动态指标。B正确，财务净现值是盈利能力动态指标。C错误，总投资收益率是盈利能力静态指标。D错误，资本金净利润率是盈利能力静态指标。E错误，利息备付率是偿债能力指标。\n\n【考点】盈利能力分析的动态指标包括：财务内部收益率、财务净现值。静态指标包括：总投资收益率、资本金净利润率、静态投资回收期。偿债能力指标包括：利息备付率、偿债备付率、资产负债率。(教材第4页)"},
+{id:6,type:"base",qtype:"multi",text:"关于技术方案经济效果评价方法分类的说法，正确的有（ ）。",opts:["按是否考虑融资分类，可分为融资前分析和融资后分析","按评价结果的肯定程度分类，可分为确定性评价和不确定性评价","按评价方法是否考虑时间因素分类，可分为定量分析和定性分析","融资前分析应以动态分析为主，静态分析为辅","融资后分析只进行盈利能力分析"],answer:"ABD",formula:"A正确，按是否考虑融资分类，分为融资前分析和融资后分析。B正确，按评价结果的肯定程度分类，分为确定性评价和不确定性评价。C错误，按是否考虑时间因素分类，分为静态分析和动态分析；定量分析和定性分析是按评价方法的性质分类。D正确，融资前分析应以动态分析为主，静态分析为辅。E错误，融资后分析包括盈利能力分析、偿债能力分析和财务生存能力分析。\n\n【考点】经济效果评价方法分类：按评价方法的性质分为定量分析和定性分析；按评价方法是否考虑时间因素分为静态分析和动态分析；按评价是否考虑融资分为融资前分析和融资后分析；按技术方案评价的时间分为事前评价、事中评价和事后评价。(教材第3页)"},
+{id:7,type:"base",qtype:"single",text:"某技术方案各年的净现金流量如下表所示（单位：万元），则该方案的静态投资回收期为（ ）年。\n\n| 年份 | 0 | 1 | 2 | 3 | 4 | 5 | 6 |\n|------|---|---|---|---|---|---|---|\n| 净现金流量 | -1000 | -500 | 400 | 450 | 430 | 1000 | 600 |",opts:["3.78","4.26","4.56","5.11"],answer:"B",formula:"计算公式：Pt = T - 1 + |第(T-1)年累计净现金流量| / 第T年净现金流量\n\n计算累计净现金流量：\n第0年：-800\n第1年：-800 + (-600) = -1400\n第2年：-1400 + 300 = -1100\n第3年：-1100 + 450 = -650\n第4年：-650 + 400 = -250\n第5年：-250 + 950 = 700 > 0\n\nT = 5年\nPt = 5 - 1 + |-250| / 950\nPt = 4 + 250/950\nPt = 4 + 0.2632\nPt = 4.26年\n\n【考点】静态投资回收期是在不考虑资金时间价值的条件下，以技术方案的净收益回收其总投资（包括建设投资和流动资金）所需要的时间。当累计净现金流量等于零时所对应的时间即为静态投资回收期。(教材第5页)"},
+{id:8,type:"base",qtype:"single",text:"某技术方案建设投资为5000万元，流动资金为800万元，投产期年净收益为600万元，达产后年净收益为1200万元。则该方案的静态投资回收期是（ ）年。",opts:["4.17","4.83","5.17","6.33"],answer:"B",formula:"Pt = (建设投资 + 流动资金) / 年净收益\n总投资 = 5000 + 800 = 5800万元\n年净收益 = 1200万元（按达产后正常年份计算）\n\nPt = 5800 / 1200\nPt = 4.833...年 ≈ 4.83年\n\n【考点】静态投资回收期Pt = 总投资 / 年净收益（当年净收益相同时）。总投资包括建设投资和流动资金。(教材第5页)"},
+{id:9,type:"base",qtype:"single",text:"关于静态投资回收期特点的说法，正确的是（ ）。",opts:["静态投资回收期考虑了资金的时间价值","静态投资回收期可以作为技术方案选择的主要指标","静态投资回收期只考虑投资回收之前的效果，不能反映投资回收之后的情况","静态投资回收期越长，说明方案风险越小"],answer:"C",formula:"A错误，静态投资回收期不考虑资金时间价值，动态投资回收期才考虑。B错误，静态投资回收期只能作为辅助指标，不能作为主要指标。C正确，这是静态投资回收期的主要缺陷之一，只考虑回收期之前的情况。D错误，静态投资回收期越短，说明回收越快，抗风险能力越强。\n\n【考点】静态投资回收期的优点：计算简便，容易理解，可以反映方案的经济性和风险大小。缺点：没有考虑资金时间价值；只考虑投资回收之前的效果，不能反映投资回收之后的情况，即无法准确衡量方案在整个计算期内的经济效果；只能作为辅助评价指标或与其他指标结合使用。(教材第6页)"},
+{id:10,type:"base",qtype:"single",text:"某技术方案静态投资回收期为5.5年，行业基准投资回收期为6年。关于该技术方案的说法，正确的是（ ）。",opts:["该技术方案在经济上不可行","该技术方案静态投资回收期短于基准值，可以考虑接受","该技术方案静态投资回收期长于基准值，应予拒绝","无法判断该技术方案的可行性"],answer:"B",formula:"判别准则：Pt ≤ Pc时，方案可以考虑接受；Pt > Pc时，方案不可行。\n本题中：Pt = 5.5年，Pc = 6年\n因为5.5年 < 6年，即Pt < Pc\n所以该技术方案可以考虑接受。\n\n【考点】静态投资回收期的判别准则：若Pt ≤ Pc（基准投资回收期），则技术方案可以考虑接受；若Pt > Pc，则技术方案不可行。(教材第6页)"},
+{id:11,type:"base",qtype:"multi",text:"下列关于静态投资回收期的说法，正确的有（ ）。",opts:["静态投资回收期越短，说明技术方案抗风险能力越强","静态投资回收期可以单独用于技术方案比选","静态投资回收期不考虑资金的时间价值","当技术方案年净收益不同时，可用累计净现金流量法计算","静态投资回收期能够全面反映技术方案在整个计算期内的经济效果"],answer:"ACD",formula:"A正确，静态投资回收期越短，回收越快，抗风险能力越强。B错误，静态投资回收期只能作为辅助指标，不能单独用于比选。C正确，静态投资回收期不考虑资金时间价值。D正确，当年净收益不同时，用累计净现金流量法计算。E错误，静态投资回收期只考虑回收之前的效果，不能全面反映整个计算期的经济效果。\n\n【考点】静态投资回收期是在不考虑资金时间价值的条件下，以技术方案的净收益回收其总投资所需要的时间。Pt越短，表明技术方案投资回收越快，抗风险能力越强。静态投资回收期只能作为辅助评价指标，不能单独用于方案比选。(教材第5-6页)"},
+{id:12,type:"base",qtype:"single",text:"某技术方案第0年投资2000万元，第1年投资1500万元，第2年开始每年净收益800万元。若静态投资回收期为4.5年，则该技术方案（ ）。",opts:["能反映投资回收后的收益情况","适用Pt≤Pc的判别准则判断可行性","静态投资回收期考虑了资金时间价值","Pt值越小，说明方案盈利能力越差"],answer:"B",formula:"A错误，静态投资回收期不能反映投资回收后的收益情况。\nB正确，Pt≤Pc是静态投资回收期的基本判别准则。\nC错误，静态投资回收期不考虑资金时间价值，动态投资回收期才考虑。\nD错误，Pt值越小，说明回收越快，盈利能力越好。\n\n【考点】静态投资回收期的判别准则：若Pt ≤ Pc，则方案可以考虑接受；若Pt > Pc，则方案不可行。静态投资回收期不能反映投资回收后的情况，当年净收益相同时可用Pt = 总投资/年净收益计算。(教材第5-6页)"},
+{id:13,type:"base",qtype:"single",text:"关于动态投资回收期的说法，正确的是（ ）。",opts:["动态投资回收期与静态投资回收期的主要区别是是否考虑了资金时间价值","动态投资回收期的判别准则是Pt' ≤ Pc","动态投资回收期一般比静态投资回收期短","动态投资回收期不考虑基准收益率的影响"],answer:"A",formula:"A正确，动态投资回收期考虑资金时间价值，静态投资回收期不考虑，这是两者的本质区别。B错误，动态投资回收期的判别准则是Pt' ≤ n（项目寿命期），而非Pt' ≤ Pc。C错误，由于考虑资金时间价值（折现），动态投资回收期一般比静态投资回收期长。D错误，动态投资回收期计算需要使用基准收益率进行折现。\n\n【考点】动态投资回收期是在考虑资金时间价值的条件下，以技术方案的净收益回收其总投资所需要的时间。判别准则是Pt' ≤ n（项目寿命期）。动态投资回收期一般比静态投资回收期长。(教材第6页)"},
+{id:14,type:"base",qtype:"single",text:"某技术方案寿命期为10年，动态投资回收期为7.5年。则该技术方案（ ）。",opts:["该方案的静态投资回收期一定为7.5年","该技术方案在经济上不可行","该技术方案可以考虑接受","动态投资回收期等于静态投资回收期"],answer:"C",formula:"判别准则：Pt' ≤ n时，方案可以考虑接受。\n本题中：Pt' = 7.5年，n = 10年\n因为7.5年 < 10年，即Pt' < n\n所以该技术方案可以考虑接受。\n\n【考点】动态投资回收期的判别准则：若Pt' ≤ n（项目寿命期），则技术方案在经济上可以考虑接受；若Pt' > n，则方案不可行。动态投资回收期一般比静态投资回收期长。(教材第6页)"},
+{id:15,type:"base",qtype:"single",text:"下列技术方案经济效果评价指标中，属于偿债能力分析指标的是（ ）。",opts:["总投资收益率","静态投资回收期","利息备付率","财务净现值"],answer:"C",formula:"A错误，总投资收益率是盈利能力静态指标。B错误，静态投资回收期是盈利能力指标。C正确，利息备付率是偿债能力指标。D错误，财务净现值是盈利能力动态指标。\n\n【考点】偿债能力指标包括：利息备付率、偿债备付率、资产负债率、流动比率、速动比率。盈利能力指标包括：总投资收益率、资本金净利润率、静态投资回收期、财务内部收益率、财务净现值等。(教材第4页)"},
+{id:16,type:"base",qtype:"single",text:"下列经济效果评价指标中，属于动态分析指标的是（ ）。",opts:["资本金净利润率","总投资收益率","资产负债率","财务内部收益率"],answer:"D",formula:"A错误，资本金净利润率是盈利能力静态指标。B错误，总投资收益率是盈利能力静态指标。C错误，资产负债率是偿债能力指标。D正确，财务内部收益率是盈利能力动态指标，考虑资金时间价值。\n\n【考点】盈利能力分析的动态指标包括：财务内部收益率、财务净现值。静态指标包括：总投资收益率、资本金净利润率、静态投资回收期。资产负债率属于偿债能力指标。(教材第4页)"},
+{id:17,type:"base",qtype:"multi",text:"下列技术方案经济效果评价指标中，属于盈利能力分析静态指标的有（ ）。",opts:["总投资收益率","资本金净利润率","静态投资回收期","财务净现值","利息备付率"],answer:"ABC",formula:"A正确，总投资收益率是盈利能力静态指标。B正确，资本金净利润率是盈利能力静态指标。C正确，静态投资回收期是盈利能力静态指标。D错误，财务净现值是盈利能力动态指标。E错误，利息备付率是偿债能力指标。\n\n【考点】盈利能力分析的静态指标包括：总投资收益率、资本金净利润率、静态投资回收期。动态指标包括：财务内部收益率、财务净现值。利息备付率属于偿债能力指标。(教材第4页)"},
+{id:18,type:"base",qtype:"multi",text:"下列技术方案经济效果评价指标中，属于偿债能力分析指标的有（ ）。",opts:["利息备付率","偿债备付率","资产负债率","总投资收益率","财务内部收益率"],answer:"ABC",formula:"A正确，利息备付率是偿债能力指标。B正确，偿债备付率是偿债能力指标。C正确，资产负债率是偿债能力指标。D错误，总投资收益率是盈利能力静态指标。E错误，财务内部收益率是盈利能力动态指标。\n\n【考点】偿债能力指标包括：利息备付率、偿债备付率、资产负债率、流动比率、速动比率。总投资收益率和财务内部收益率属于盈利能力指标。(教材第4页)"},
+{id:19,type:"base",qtype:"single",text:"某技术方案总投资为5000万元，在运营期内年平均息税前利润（EBIT）为450万元。关于该方案总投资收益率（ROI）的说法，正确的是（ ）。",opts:["ROI=450/5000×100%=9%，反映的是投资者实际获得的净利润水平","ROI=450/5000×100%=9%，反映的是方案全部投资的获利能力","若行业基准收益率为8%，则该方案ROI低于基准，方案可行","EBIT是扣除利息和所得税后的净利润，应直接代入ROI公式"],answer:"B",formula:"总投资收益率ROI=EBIT/TI×100%=450/5000×100%=9%。\n\nA错误：EBIT是息税前利润，不是净利润，净利润=EBIT-利息-所得税。\nC错误：ROI=9%<8%，小于基准收益率，方案不可行（而非可行）。\nD错误：EBIT是息税前利润，不扣除利息和所得税；净利润才是扣除利息和所得税后的金额。\n\n【考点】总投资收益率（ROI）= EBIT/TI×100%，EBIT为息税前利润，不扣除利息和所得税。判别准则：ROI≥行业基准收益率时方案可行。ROI反映的是方案总投资的获利能力。(教材第4页)"},
+{id:20,type:"base",qtype:"single",text:"某技术方案总投资为8000万元，其中建设投资为6000万元，建设期利息为500万元，流动资金为1500万元。运营期正常年份的息税前利润（EBIT）为864万元。则该方案的总投资收益率（ROI）为（ ）。",opts:["10.8%","11.5%","12.8%","14.4%"],answer:"A",formula:"第一步：确认总投资TI\nTI = 建设投资 + 建设期利息 + 流动资金\nTI = 6000 + 500 + 1500 = 8000万元\n\n第二步：代入ROI公式\nROI = EBIT / TI × 100%\nROI = 864 / 8000 × 100%\nROI = 0.108 × 100%\nROI = 10.8%\n\n【考点】总投资收益率（ROI）= EBIT/TI×100%，其中TI为总投资，包括建设投资、建设期利息和流动资金。(教材第4页)"},
+{id:21,type:"base",qtype:"single",text:"某技术方案总投资10000万元，其中资本金为6000万元。运营期正常年份的总收入为5000万元，总成本费用为3500万元（其中含利息支出200万元），所得税税率为25%。则该方案资本金净利润率（ROE）为（ ）。",opts:["11.25%","15.00%","18.75%","26.25%"],answer:"C",formula:"第一步：计算息税前利润EBIT\nEBIT = 总收入 - 不含利息的总成本\nEBIT = 5000 - (3500 - 200) = 1700万元\n\n第二步：计算利润总额\n利润总额 = EBIT - 利息 = 1700 - 200 = 1500万元\n\n第三步：计算净利润\n所得税 = 利润总额 × 所得税率 = 1500 × 25% = 375万元\n净利润 = 利润总额 - 所得税 = 1500 - 375 = 1125万元\n\n第四步：计算ROE\nROE = NP / EC × 100% = 1125 / 6000 × 100% = 18.75%\n\n【考点】资本金净利润率（ROE）= NP/EC×100%，其中NP为净利润，EC为资本金。净利润=利润总额-所得税，利润总额=总收入-总成本费用（含利息）。(教材第4页)"},
+{id:22,type:"base",qtype:"single",text:"某技术方案总投资收益率（ROI）为11%，资本金净利润率（ROE）为18%。若行业基准收益率ic=10%，则（ ）。",opts:["ROI< ic，方案不可行；ROE> ic，方案对资本金投资者有吸引力","ROI> ic，方案可行；ROE< ic，方案对资本金投资者无吸引力","ROI> ic，方案可行；ROE反映资本金投资者自有资金的收益水平","两个指标均与ic无关，无需比较"],answer:"C",formula:"ROI判别准则：ROI≥基准收益率时方案可行。\n本题中：ROI=11% > ic=10%，方案财务上可行。\n\nROE反映的是资本金（自有资金）投资者的收益水平，与ROI的区别在于：\n- ROI的分母是总投资（TI），反映全部投资的获利能力\n- ROE的分母是资本金（EC），反映自有资金的收益水平\n\n【考点】总投资收益率（ROI）= EBIT/TI，用于融资后静态盈利能力分析，判别准则：ROI≥行业基准收益率时方案可行。资本金净利润率（ROE）= NP/EC，反映投资者自有资金的收益水平，与ROI的区别在于分母不同（总投资vs资本金）。(教材第4页)"},
+{id:23,type:"base",qtype:"multi",text:"关于总投资收益率（ROI）与资本金净利润率（ROE）的说法，正确的有（ ）。",opts:["ROI=EBIT/TI×100%，ROE=NP/EC×100%，两者的分子不同，分母也不同","ROI和ROE均是静态分析指标，不考虑资金时间价值","ROI反映了方案占用的全部投资的获利能力，ROE反映了资本金投资者的收益水平","在总投资相同的情况下，资本金占比越低，ROE越高","ROE≥行业基准收益率是方案可行的充分条件"],answer:"ABCD",formula:"A正确：ROI的分子是EBIT（息税前利润），分母是TI（总投资）；ROE的分子是NP（净利润），分母是EC（资本金）。\nB正确：两者均属于静态指标，不考虑资金时间价值。\nC正确：ROI反映全部投资的获利能力，ROE反映资本金投资者自有资金的收益水平。\nD正确：在总投资TI不变的情况下，资本金EC越小（即负债率越高），ROE=NP/EC越大，体现财务杠杆效应。\nE错误：ROI≥行业基准收益率才是融资后静态分析的判别准则；ROE是辅助指标，ROE≥基准收益率不是充分条件。\n\n【考点】ROI=EBIT/TI×100%，ROE=NP/EC×100%，均为融资后静态盈利能力指标。ROI反映全部投资的获利能力，ROE反映资本金投资者的收益水平。(教材第4页)"},
+{id:24,type:"base",qtype:"multi",text:"某技术方案总投资10000万元，资本金为4000万元。达产年息税前利润（EBIT）为1500万元，利息支出200万元，所得税率25%。关于该方案的说法，正确的有（ ）。",opts:["总投资收益率ROI=15%，大于行业基准时方案可行","资本金净利润率ROE=24.375%，反映了自有资金的投资回报","若建设投资中包含500万元建设期利息，则ROI分母应包含该利息","ROI和ROE均属于盈利能力分析的动态指标","净利润=EBIT-利息-所得税=1500-200-325=975万元"],answer:"ABCE",formula:"计算各指标：\n①利润总额 = EBIT - 利息 = 1500 - 200 = 1300万元\n②净利润 = 利润总额 × (1-25%) = 1300 × 0.75 = 975万元\n③ROI = EBIT/TI × 100% = 1500/10000 × 100% = 15%\n④ROE = NP/EC × 100% = 975/4000 × 100% = 24.375%\n\nA正确：ROI=15%，大于行业基准收益率时方案可行。\nB正确：ROE=24.375%，反映资本金投资者自有资金4000万元的收益回报。\nC正确：总投资TI包含建设期利息，ROI=EBIT/TI，分母应包含建设期利息。\nD错误：ROI和ROE均属于静态指标，不考虑资金时间价值。\nE正确：净利润=1500-200-325=975万元，计算无误。\n\n【考点】ROI=EBIT/TI×100%，ROE=NP/EC×100%。净利润=利润总额-所得税，利润总额=EBIT-利息。(教材第4页)"},
+{id:25,type:"base",qtype:"single",text:"关于财务净现值（FNPV）的说法，正确的是（ ）。",opts:["FNPV是绝对效果指标，反映方案超出设定收益率的超额净收益","FNPV考虑了资金的时间价值，但不考虑方案整个计算期内的现金流量分布","FNPV越大方案越好，因此多方案比选时应直接选择FNPV最大的方案","FNPV为0意味着方案亏损"],answer:"A",formula:"A正确：FNPV是绝对指标，反映方案所取得超过既定收益率的超额净收益部分的现值大小。\nB错误：FNPV不仅考虑资金时间价值，而且全面考虑了方案在整个计算期内现金流量的时间分布状况。\nC错误：FNPV越大方案越好需有前提条件——对于独立方案FNPV≥0即可接受；对于互斥方案比选，应选择FNPV最大且≥0的方案，而非直接比较FNPV大小。\nD错误：FNPV=0说明方案投资正好满足财务基准收益率要求的盈利水平，财务上仍可行。\n\n【考点】财务净现值（FNPV）= Σ(CI-CO)_t×(1+ic)^(-t)，是绝对效果指标，反映方案在计算期内超额收益的现值。判别准则：FNPV≥0时方案可行。(教材第8页)"},
+{id:26,type:"base",qtype:"single",text:"某技术方案财务基准收益率ic=10%，经计算FNPV=150万元。则该方案（ ）。",opts:["财务上不可行","财务上可行，超额收益为150万元","内部收益率为10%","无法判断是否可行"],answer:"B",formula:"判别准则：FNPV≥0 → 方案财务可行；FNPV<0 → 方案财务不可行。\n本题中：FNPV=150万元>0\n因此方案财务上可行，且超额收益的现值为150万元。\n\n【考点】FNPV的判别准则：FNPV≥0时方案财务可行；FNPV<0时方案财务不可行。FNPV>0表示超额收益大于零。(教材第8页)"},
+{id:27,type:"base",qtype:"single",text:"某方案各年净现金流量如下：第0年-3000万元，第1年800万元，第2年1000万元，第3年1200万元，第4年600万元，基准收益率ic=10%。\n已知(P/F,10%,1)=0.9091，(P/F,10%,2)=0.8264，(P/F,10%,3)=0.7513，(P/F,10%,4)=0.6830，则FNPV为",opts:["-134.96万元","600万元","134.96万元","-544.76万元"],answer:"A",formula:"FNPV = -3000 + 800×(P/F,10%,1) + 1000×(P/F,10%,2)\n     + 1200×(P/F,10%,3) + 600×(P/F,10%,4)\n= -3000 + 800×0.9091 + 1000×0.8264\n     + 1200×0.7513 + 600×0.6830\n= -3000 + 727.28 + 826.40 + 901.56 + 409.80\n= -3000 + 2865.04\n= -134.96万元\n\nFNPV<0，方案不可行。\n\n【考点】FNPV = Σ(CI-CO)_t × (1+ic)^(-t)，将各年净现金流量折现到计算期期初后求和。(教材第8页)"},
+{id:28,type:"base",qtype:"single",text:"关于财务基准收益率（ic）对财务净现值（FNPV）影响的说法，正确的是（ ）。",opts:["ic越高，FNPV越大","ic越低，FNPV越小","FNPV随ic的升高而减小","ic对FNPV没有影响"],answer:"C",formula:"FNPV = Σ(CI-CO)_t × (1+ic)^(-t)\n\n随着折现率ic的升高：(1+ic)^(-t) 减小 → 各年净现金流量现值减小 → FNPV减小。\n因此，FNPV随ic的升高而减小（FNPV是ic的递减函数）。\n\n【考点】FNPV是折现率ic的递减函数，随着折现率的升高，FNPV减小。FNPV函数曲线与横轴（i轴）的交点即为FIRR。(教材第8页)"},
+{id:29,type:"base",qtype:"single",text:"关于财务净现值（FNPV）优缺点的说法，错误的是（ ）。",opts:["FNPV考虑了资金的时间价值，并全面考虑了方案在整个计算期内的现金流量分布","FNPV经济意义明确直观，能够直接以货币额表示方案的盈利水平","FNPV可以直接反映方案单位投资的收益水平和投资回收速度","FNPV必须先确定符合经济现实的折现率，而该折现率的设定往往比较困难"],answer:"C",formula:"A正确：FNPV确实考虑了资金时间价值，并全面考虑了计算期内现金流量的时间分布状况。\nB正确：FNPV以货币额表示方案的盈利水平，经济意义明确。\nC错误（选此项）：这是FNPV的缺点——FNPV不能直接反映方案单位投资的收益水平（即NPV/投资），也不能反映投资回收速度。这两项需要借助净现值率（NPVR）或投资回收期等指标。\nD正确：FNPV必须先确定符合经济现实的折现率（财务基准收益率），而该设定往往比较困难。\n\n【考点】FNPV的优点：考虑资金时间价值；全面考虑计算期内现金流量分布；经济意义明确。FNPV的缺点：必须先确定折现率；不能直接反映方案单位投资的收益水平和投资回收速度。(教材第8页)"},
+{id:30,type:"base",qtype:"single",text:"某技术方案财务基准收益率ic=10%，FNPV=0。则该方案（ ）。",opts:["方案亏损","方案盈利，但盈利正好达到基准收益率要求的水平","内部收益率小于10%","该方案不值得投资"],answer:"B",formula:"FNPV的判别准则：\n- FNPV > 0：方案超额收益大于零，财务上可行\n- FNPV = 0：方案投资正好满足财务基准收益率要求的盈利水平，财务上仍可行\n- FNPV < 0：方案达不到事先设定的财务收益水平，财务上不可行\n\nFNPV=0时，说明方案的收益率恰好等于设定的折现率ic，此时FIRR = ic。\n\n【考点】FNPV=0表示方案投资正好满足财务基准收益率要求的盈利水平，财务上仍可行。FNPV=0时，内部收益率FIRR恰好等于ic。(教材第8页)"},
+{id:31,type:"base",qtype:"multi",text:"下列关于财务净现值（FNPV）的说法，正确的有（ ）。",opts:["FNPV是反映方案在计算期内盈利能力的动态绝对指标","FNPV越大方案越好，因此独立方案比选时应选择FNPV最大的","FNPV的大小受所设定的折现率ic的影响","FNPV考虑了资金时间价值，但不反映投资回收速度","FNPV可以直接比较不同投资规模方案的经济效果"],answer:"ACD",formula:"A正确：FNPV是盈利能力动态指标，且是绝对指标（以货币额表示）。\nB错误：独立方案只需满足FNPV≥0即可接受，不要求FNPV最大。\nC正确：FNPV = Σ(CI-CO)_t×(1+ic)^(-t)，ic越高FNPV越小，两者负相关。\nD正确：FNPV是价值型指标，不能直接反映投资回收速度（需用投资回收期）。\nE错误：FNPV是绝对指标，不能直接比较不同投资规模的方案——规模大的项目FNPV可能更大但效率不一定高。\n\n【考点】FNPV是绝对指标，反映方案超额收益现值；判别准则：FNPV≥0可行；FNPV受ic影响；缺点是不能直接反映单位投资收益率和回收速度。(教材第8页)"},
+{id:32,type:"base",qtype:"multi",text:"关于财务净现值（FNPV）与财务基准收益率（ic）关系的说法，正确的有（ ）。",opts:["ic越高，对FNPV的影响越小","FNPV是ic的递减函数","FNPV随ic的升高而减小，随ic的降低而增大","当FNPV=0时，对应的折现率即为财务内部收益率FIRR","ic确定后，不同方案的FNPV可以直接比较"],answer:"BCD",formula:"A错误：ic越高，FNPV越小，两者负相关关系是确定的。\nB正确：FNPV是ic的递减函数，随着ic升高FNPV减小。\nC正确：FNPV随ic的升高而减小，随ic的降低而增大。\nD正确：当FNPV=0时，此时的折现率即为FIRR。\nE错误：FNPV是绝对指标，不能直接比较不同投资规模的方案。\n\n【考点】FNPV = Σ(CI-CO)_t×(1+ic)^(-t)，是ic的递减函数；FNPV=0时对应的折现率为FIRR。(教材第8页)"},
+{id:33,type:"base",qtype:"multi",text:"某企业有A、B两个独立投资方案，财务基准收益率ic=10%，经计算A方案FNPV=300万元，B方案FNPV=200万元。下列说法正确的有（ ）。",opts:["两个方案的FNPV均大于0，因此A和B方案均可行","由于A方案的FNPV大于B方案，因此应优先选择A方案","若两方案互斥，应选择A方案（FNPV最大）","独立方案只需满足FNPV≥0即可接受，与FNPV大小无关","FNPV越大越好，所以应将全部资金投入A方案"],answer:"ACD",formula:"判别分析：\n①A方案FNPV=300>0 → 财务上可行\n②B方案FNPV=200>0 → 财务上可行\n③A>B，但独立方案不比选大小\n\nA正确：独立方案A和B均满足FNPV>0，财务上均可行。\nB错误：独立方案不需要比较FNPV大小来选方案，只需各自满足FNPV≥0即可。\nC正确：若A、B为互斥关系（只能选一个），应选择FNPV最大且≥0的方案，即A方案。\nD正确：独立方案的实质是在做与不做之间选择，只要FNPV≥0就可行，与FNPV的绝对值大小无关。\nE错误：独立方案中若资金足够，两个方案可以同时选择。\n\n【考点】独立方案：只需满足FNPV≥0即可接受，不需要进行方案间的大小比较。互斥方案：应选择FNPV最大且≥0的方案。(教材第8页)"},
+{id:34,type:"base",qtype:"single",text:"关于财务内部收益率（FIRR）的说法，正确的是（ ）。",opts:["FIRR是使方案各年净现金流量现值累计等于建设投资时的折现率","FIRR的大小取决于方案内部的现金流量和计算期，不受外部参数影响","FIRR是方案所能获得的最低贷款利率","FIRR越大，方案的风险越小"],answer:"B",formula:"A错误：FIRR是使FNPV=0即各年净现金流量现值累计等于零时的折现率，不是等于建设投资。\nB正确：FIRR的确定只取决于方案内部的现金流量和计算期，不受外部参数（如ic）影响，这是FIRR相对于FNPV的重要优点。\nC错误：FIRR是方案所能承受的最高贷款利率，而非最低贷款利率。\nD错误：FIRR越大说明方案盈利能力越强，但不直接反映风险大小。\n\n【考点】财务内部收益率（FIRR）是使方案在计算期内各年净现金流量的现值累计等于零时的折现率，其大小完全取决于方案内部的现金流量和计算期，不受外部参数影响。(教材第8-9页)"},
+{id:35,type:"base",qtype:"single",text:"某技术方案财务内部收益率FIRR=15%，财务基准收益率ic=12%。则该技术方案（ ）。",opts:["财务上不可行","财务上可行，FIRR高于ic表明方案盈利能力达到预期","FNPV一定大于0","FNPV一定等于0"],answer:"B",formula:"判别准则：FIRR ≥ ic → 方案可行；FIRR < ic → 方案不可行。\n\n本题中：FIRR=15% > ic=12%\n→ 方案在经济上可以接受，盈利能力达到或超过预期收益率要求。\n\n【考点】FIRR的判别准则：若FIRR≥ic，则方案在经济上可以接受；若FIRR<ic，则方案在经济上应予拒绝。(教材第9页)"},
+{id:36,type:"adv",qtype:"single",text:"某技术方案净现金流量如下表所示。采用线性插值法计算财务内部收益率FIRR，已知当i=11%时FNPV≈+48万元，当i=12%时FNPV≈-50万元。则采用线性插值法估算的FIRR为（ ）。\n\n| 年份 | 0 | 1 | 2 | 3 | 4 |\n|------|------|------|------|------|------|\n| 净现金流量(万元) | -3000 | 800 | 900 | 1000 | 1200 |",opts:["11.49%","11.51%","11.96%","12.49%"],answer:"A",formula:"线性插值法公式：\nFIRR ≈ i₁ + [FNPV₁ / (FNPV₁ + |FNPV₂|)] × (i₂ - i₁)\n\n已知条件：\n- i₁ = 11%，FNPV₁ = +48万元（>0）\n- i₂ = 12%，FNPV₂ = -50万元（<0）\n- i₂ - i₁ = 12% - 11% = 1%\n\n代入公式：\nFIRR ≈ 11% + [48 / (48 + 50)] × 1%\n     = 11% + (48 / 98) × 1%\n     = 11% + 0.4898 × 1%\n     = 11.49%\n\n【考点】线性插值公式：FIRR ≈ i₁ + FNPV₁ / (FNPV₁ + |FNPV₂|) × (i₂ - i₁)，其中i₁对应FNPV₁>0，i₂对应FNPV₂<0。i₁与i₂间的差值一般不应超过2%。(教材第9页)"},
+{id:37,type:"adv",qtype:"single",text:"某常规现金流量方案当折现率为10%时，FNPV₁ = 500万元；当折现率为12%时，FNPV₂ = -300万元。采用线性插值法估算该方案的财务内部收益率（FIRR）约为（  ）。",opts:["10.63%","11.00%","11.25%","12.00%"],answer:"C",formula:"FIRR ≈ i₁ + FNPV₁/(FNPV₁ - FNPV₂) × (i₂ - i₁)\n\n代入数据：\n= 10% + 500/(500 - (-300)) × (12% - 10%)\n= 10% + 500/800 × 2%\n= 10% + 0.625 × 2%\n= 10% + 1.25%\n= 11.25%\n\n选项C正确。\n\n【考点】线性插值法公式：FIRR ≈ i₁ + FNPV₁/(FNPV₁ - FNPV₂) × (i₂ - i₁)。使用时需注意i₁与i₂的差值一般不超过2%。(教材第8-9页)"},
+{id:38,type:"adv",qtype:"single",text:"某常规方案在不同折现率下的财务净现值如下：当i₁ = 8%时，FNPV₁ = 200万元；当i₂ = 10%时，FNPV₂ = -150万元。该方案的财务内部收益率约为（  ）。",opts:["8.57%","9.14%","9.50%","10.00%"],answer:"B",formula:"FIRR ≈ i₁ + FNPV₁/(FNPV₁ + |FNPV₂|) × (i₂ - i₁)\n\n= 8% + 200/(200 + 150) × (10% - 8%)\n= 8% + 200/350 × 2%\n= 8% + 0.5714 × 2%\n= 8% + 1.143%\n= 9.14%\n\ni₁=8%时FNPV₁>0，i₂=10%时FNPV₂<0，符号相反，满足条件。\n\n【考点】线性插值法公式：FIRR ≈ i₁ + FNPV₁/(FNPV₁ - FNPV₂) × (i₂ - i₁)。(教材第8-9页)"},
+{id:39,type:"adv",qtype:"single",text:"某方案在不同折现率下的净现值：当折现率为12%时FNPV₁ = 800万元，当折现率为14%时FNPV₂ = -200万元。则该方案的财务内部收益率约为（  ）。",opts:["12.50%","13.00%","13.6%","14.00%"],answer:"C",formula:"FIRR ≈ i₁ + FNPV₁/(FNPV₁ + |FNPV₂|) × (i₂ - i₁)\n\n= 12% + 800/(800 + 200) × (14% - 12%)\n= 12% + 800/1000 × 2%\n= 12% + 0.8 × 2%\n= 12% + 1.6%\n= 13.6%\n\ni₁=12%与i₂=14%之差为2%，符合不超过2%的精度要求。\n\n【考点】线性插值法：FIRR ≈ i₁ + FNPV₁/(FNPV₁ - FNPV₂) × (i₂ - i₁)。(教材第8-9页)"},
+{id:40,type:"adv",qtype:"multi",text:"关于财务内部收益率（FIRR）线性插值法的说法，正确的有（  ）。",opts:["线性插值法得到的FIRR是近似值而非精确解","i₁与i₂对应的FNPV值必须符号相反（一正一负）","i₁与i₂之间的差值越小，计算精度越高","线性插值法可以用于非常规现金流方案求FIRR","公式中FNPV₁和FNPV₂均取绝对值后相除"],answer:"ABC",formula:"A正确，线性插值法是利用直线近似曲线上的点，FIRR是近似值而非精确解。B正确，使用时需要分别找到FNPV > 0和FNPV < 0对应的折现率点，符号必须相反。C正确，i₁与i₂的差值越小，直线与曲线越接近，计算精度越高。D错误，非常规现金流方案可能不存在FIRR或有多个FIRR，不宜使用线性插值法。E错误，公式中FNPV₁取正值、FNPV₂取负值代入，不取绝对值，分母为FNPV₁ - FNPV₂。\n\n【考点】线性插值法公式：FIRR ≈ i₁ + FNPV₁/(FNPV₁ - FNPV₂) × (i₂ - i₁)。(教材第8-9页)"},
+{id:41,type:"adv",qtype:"multi",text:"关于财务内部收益率（FIRR）特点的说法，正确的有（  ）。",opts:["FIRR的大小完全取决于方案内部的现金流量，不受外部参数影响","FIRR反映了方案自身对借款利率的最高承受能力","对于常规现金流量方案，采用FIRR与FNPV进行方案比选，结论总是一致的","FIRR能够反映单位投资的收益水平","非常规现金流量的方案可能不存在FIRR或有多个FIRR"],answer:"ABCE",formula:"A正确，FIRR只取决于方案内部的现金流和计算期，不受外部参数（如ic）影响。B正确，FIRR可视为方案能承受的最高贷款利率。C正确，对于单一方案的绝对效果评价，FIRR与FNPV判别结论一致。D错误，FIRR是比率型指标，反映的是尚未回收资金的获利能力，不能直接反映单位投资的收益水平。E正确，非常规现金流量方案可分解为若干常规方案，可能存在多个FIRR或不存在。\n\n【考点】FIRR是使方案计算期内各年净现金流量现值累计等于零时的折现率，其大小完全取决于方案内部现金流量；非常规现金流量方案可能存在多个FIRR或不存在的情形。(教材第8-9页)"},
+{id:42,type:"adv",qtype:"multi",text:"关于财务内部收益率（FIRR）与财务基准收益率（ic）关系的说法，正确的有（  ）。",opts:["若FIRR ≥ ic，则方案在经济上可以接受","若FIRR < ic，则方案在经济上应予拒绝","FIRR与ic比较的判别结论与FNPV判别的结论一定一致","ic的设定对FIRR的计算结果有直接影响","ic设定得越高，FIRR的计算结果越大"],answer:"ABC",formula:"A正确，这是FIRR的基本判别准则。B正确，与A相对应。C正确，对于单一方案，采用FIRR与FNPV进行绝对效果评价，判别结论一致。D错误，FIRR的大小只取决于方案内部现金流量，与ic的设定无关。E错误，FIRR由方案自身现金流决定，不受ic影响。\n\n【考点】FIRR的评价准则：若FIRR ≥ ic，则方案可接受；若FIRR < ic，则方案应予拒绝。(教材第9页)"},
+{id:43,type:"adv",qtype:"single",text:"某项目正常年份的息税前利润（EBIT）为1000万元，折旧与摊销为550万元，所得税为250万元，当年应付利息为250万元，当年应还本金为400万元。则该项目的利息备付率和偿债备付率分别为（  ）。",opts:["ICR = 4.00，DSCR = 1.00","ICR = 4.00，DSCR = 0.80","ICR = 4.00，DSCR = 0.67","ICR = 4.00，DSCR = 1.50"],answer:"A",formula:"利息备付率（ICR）：\nICR = EBIT/PI = 1000/250 = 4.00\nICR = 4.00 ≥ 2，正常\n\n偿债备付率（DSCR）：\nPD = 当期应付利息 + 当期应还本金 = 250 + 400 = 650万元\nEBITDA = EBIT + 折旧摊销 = 1000 + 550 = 1550万元\nDSCR = (EBITDA - Tax - PD)/PD\n= (1550 - 250 - 650)/650\n= 650/650\n= 1.00\n\n答案为A。\n\n【考点】利息备付率（ICR）= EBIT/PI，ICR ≥ 2正常；偿债备付率（DSCR）= (EBITDA - Tax - PD)/PD，DSCR ≥ 1.3正常。(教材第4页及2.2节后半部分)"},
+{id:44,type:"adv",qtype:"single",text:"某项目正常年份的息税前利润（EBIT）为800万元，折旧与摊销为940万元，所得税为200万元，当年应付利息为200万元，当年应还本金为500万元。则该项目的利息备付率和偿债备付率分别为（  ）。",opts:["ICR = 4.00，DSCR = 1.20","ICR = 4.00，DSCR = 0.91","ICR = 4.00，DSCR = 0.50","ICR = 3.00，DSCR = 1.20"],answer:"A",formula:"利息备付率（ICR）：\nICR = EBIT/PI = 800/200 = 4.00\nICR = 4.00 ≥ 2，正常\n\n偿债备付率（DSCR）：\nPD = 当期应付利息 + 当期应还本金 = 200 + 500 = 700万元\nEBITDA = EBIT + 折旧摊销 = 800 + 940 = 1740万元\nDSCR = (EBITDA - Tax - PD)/PD\n= (1740 - 200 - 700)/700\n= 840/700\n= 1.20\n\n答案为A。\n\n【考点】利息备付率ICR = EBIT/PI；偿债备付率DSCR = (EBITDA - Tax - PD)/PD。(教材第4页及2.2节后半部分)"},
+{id:45,type:"adv",qtype:"single",text:"某项目期初资产总额为5000万元，负债总额为2000万元；期末资产总额为5200万元，负债总额为2400万元。则该项目的资产负债率为（  ）。",opts:["40.00%","42.31%","46.15%","50.00%"],answer:"C",formula:"资产负债率有多种常用计算方式：\n方法一（按期末数据）：2400/5200 × 100% = 46.15%\n方法二（按期初数据）：2000/5000 = 40.00%\n方法三（按平均值）：(2000+2400)/(5000+5200) = 4400/10200 = 43.14%\n\n财务评价中通常采用期末数据计算，答案为C（46.15%）。\n\n【考点】资产负债率 = 负债总额/资产总额 × 100%。(教材第4页及2.2节后半部分)"},
+{id:46,type:"adv",qtype:"single",text:"关于利息备付率（ICR）判别标准的说法，正确的是（  ）。",opts:["ICR < 1时，表示项目没有足够的息税前利润支付利息，偿债资金来源不足，应追加投资","ICR ≥ 2时，表示项目有足够的息税前利润支付当期利息，偿债能力强","ICR越高，说明项目偿债能力越强，因此ICR越高越好","ICR的大小与项目借款偿还期无关"],answer:"B",formula:"A前半句正确（ICR < 1时利息支付保障不足），但应追加投资的结论过于片面。B正确，ICR ≥ 2时，项目有足够的息税前利润支付当期利息，偿债能力强。C错误，ICR并非越高越好，ICR过高可能说明项目资金利用效率低。D错误，利息备付率是项目偿债能力分析的重要指标，与借款偿还期分析密切相关。\n\n【考点】利息备付率ICR = EBIT/PI，ICR ≥ 2正常。(教材第2.2节后半部分)"},
+{id:47,type:"adv",qtype:"single",text:"某项目正常年份的息税前利润为1200万元，应付利息为400万元，应得所得税为250万元，应还本金为600万元，折旧为300万元。则该项目的利息备付率为（  ）。",opts:["2.00","3.00","4.00","5.00"],answer:"B",formula:"ICR = EBIT/PI = 1200/400 = 3.00\n\nICR = 3.00 ≥ 2，偿债能力正常。\n\n【考点】利息备付率（ICR）= EBIT/PI，ICR ≥ 2表示项目有足够的息税前利润支付当期利息，偿债能力正常。(教材第4页及2.2节后半部分)"},
+{id:48,type:"adv",qtype:"single",text:"某项目正常年份的息税前利润为900万元，折旧为280万元，应付利息为300万元，应得所得税为200万元，应还本金为120万元。则该项目的偿债备付率为（  ）。",opts:["0.88","1.00","1.33","1.67"],answer:"C",formula:"DSCR = (EBITDA - Tax - PD)/PD\n\nPD = 当期应付利息 + 当期应还本金 = 300 + 120 = 420万元\nEBITDA = EBIT + 折旧摊销 = 900 + 280 = 1180万元\nDSCR = (1180 - 200 - 420)/420 = 560/420 = 4/3 = 1.333\n\nDSCR = 1.333 ≥ 1.3，偿债能力正常。答案为C。\n\n【考点】偿债备付率（DSCR）= (EBITDA - Tax - PD)/PD，DSCR ≥ 1.3表示项目有足够的偿债资金来源，偿债能力正常。(教材第2.2节后半部分)"},
+{id:49,type:"adv",qtype:"multi",text:"关于偿债能力指标的说法，正确的有（  ）。",opts:["资产负债率越高，企业偿债能力越强","利息备付率ICR = EBIT/PI，PI为当期应付利息","偿债备付率DSCR公式中，PD为当期应还本付息总额","ICR反映企业偿债能力对利息支付的保障程度","借款偿还期是评价企业偿债能力的核心指标"],answer:"BCD",formula:"A错误，资产负债率越高，说明负债在资产中的占比越大，企业偿债压力越大，偿债能力越弱。B正确，利息备付率ICR = EBIT/PI，PI为当期应付的全部利息。C正确，偿债备付率DSCR公式中，PD = 当期应还本金 + 当期应付利息。D正确，ICR反映企业偿债能力对利息支付的保障程度。E错误，借款偿还期是反映项目偿债能力的辅助指标，核心指标是ICR、DSCR和资产负债率。\n\n【考点】偿债能力主要指标包括：利息备付率ICR = EBIT/PI（ICR ≥ 2正常），偿债备付率DSCR = (EBITDA - Tax - PD)/PD（DSCR ≥ 1.3正常），资产负债率 = 负债总额/资产总额。(教材第4页及2.2节后半部分)"},
+{id:50,type:"adv",qtype:"multi",text:"关于利息备付率和偿债备付率计算的说法，正确的有（  ）。",opts:["ICR的分母PI是当期应付利息，不是应付账款或应付票据","DSCR的分子中，Tax是指企业当期全部应纳税额","DSCR的分子用EBITDA而非EBIT，是因为折旧摊销实际未支付现金","ICR ≥ 2且DSCR ≥ 1.3时，表明项目偿债能力达到正常水平","EBITDA在数值上等于息税前利润加上折旧和摊销"],answer:"ACDE",formula:"A正确，ICR公式中PI为当期应付利息。B错误，DSCR公式中的Tax是指企业所得税，不是企业全部应纳税额。C正确，折旧摊销虽计入成本但实际未支付现金，因此在DSCR中应加回EBITDA（而非仅用EBIT）。D正确，ICR ≥ 2和DSCR ≥ 1.3是项目偿债能力正常的判别标准。E正确，EBITDA = Earnings Before Interest, Taxes, Depreciation and Amortization = EBIT + 折旧摊销。\n\n【考点】ICR = EBIT/PI；DSCR = (EBITDA - Tax - PD)/PD。EBITDA = EBIT + 折旧摊销。(教材第2.2节后半部分)"},
+{id:51,type:"adv",qtype:"multi",text:"下列关于偿债能力指标计算的说法，正确的有（  ）。",opts:["利息备付率反映项目计算期内某年的偿债能力，应采用达产年份的数据","当ICR < 2时，说明项目支付利息的保障程度不足，需要通过其他资金来源解决","当DSCR < 1时，说明项目在该年份偿债资金来源不足以支付到期债务","DSCR公式中的Tax是指息税前利润中所包含的所得税部分","借款偿还期是反映项目偿债能力的唯一指标"],answer:"ABCD",formula:"A正确，偿债能力分析应采用项目达产年份（正常年份）的数据。B正确，当ICR < 2时，表示项目息税前利润不足以支付利息。C正确，当DSCR < 1时，表示该年份偿债资金来源不足以支付到期债务。D正确，DSCR公式中的Tax是指息税前利润中应缴纳的所得税部分。E错误，借款偿还期只是偿债能力的辅助指标，核心指标是ICR、DSCR和资产负债率。\n\n【考点】偿债能力指标：利息备付率ICR = EBIT/PI（ICR ≥ 2正常），偿债备付率DSCR = (EBITDA - Tax - PD)/PD（DSCR ≥ 1.3正常）。ICR和DSCR均应采用正常年份的数据。(教材第2.2节后半部分)"},
+{id:52,type:"adv",qtype:"single",text:"关于互斥方案比选的说法，正确的是（  ）。",opts:["互斥方案比选的第一步是相对效果分析，对所有方案按优劣排序","互斥方案比选的第一步是绝对效果分析，淘汰不可行方案","采用增量指标分析法时，应先比较投资额较大的方案","增量投资财务净现值≤ 0时，增量投资方案可行"],answer:"B",formula:"A错误，互斥方案比选的第一步是绝对效果分析（各方案自身的可行性检验），而非直接进行相对效果分析。B正确，第一步是绝对效果分析，淘汰不可行方案；第二步才对通过检验的方案进行相对效果分析。C错误，增量分析法的第二步是以投资额较小的可行方案为基础方案。D错误，增量投资财务净现值应大于等于0，增量投资方案才可行。\n\n【考点】互斥方案比选分为两个阶段：绝对效果分析（评价每个方案是否可行）和相对效果分析（对通过绝对效果检验的方案进行优劣排序）。(教材第9-14页)"},
+{id:53,type:"adv",qtype:"single",text:"甲、乙两个互斥方案，寿命期均为8年。甲方案投资额为3000万元，年净现金流量为750万元；乙方案投资额为2200万元，年净现金流量为580万元。若财务基准收益率为8%，则采用增量投资收益率法分析，两个方案的优劣关系为（  ）。",opts:["甲方案优于乙方案","乙方案优于甲方案","两方案优劣相同","无法判断"],answer:"A",formula:"增量投资收益率：\nΔI = 3000 - 2200 = 800万元\nΔA = 750 - 580 = 170万元\nR = ΔA/ΔI = 170/800 = 21.25%\n\n判别：R = 21.25% > ic = 8%\n\n由于R > ic，增量投资可行，故投资额较大的甲方案优于乙方案。\n\n【考点】增量投资收益率法：R = ΔA/ΔI。当增量投资收益率R ≥ ic时，说明增量投资可行，投资额较大的方案更优。(教材第2.3节增量指标分析法)"},
+{id:54,type:"adv",qtype:"single",text:"关于增量投资回收期法的说法，正确的是（  ）。",opts:["增量投资回收期越小，说明投资额较大的方案越优","增量投资回收期应与财务基准收益率（ic）比较来判断是否可行","增量投资回收期应与财务内部收益率（FIRR）比较来判断是否可行","当增量投资回收期大于基准投资回收期时，应选择投资额较大的方案"],answer:"A",formula:"A正确，增量投资回收期T = ΔI/ΔA。T越小，说明增量投资回收速度越快，投资额较大的方案更优。B错误，增量投资回收期应与基准投资回收期（Pc）比较，而非与财务基准收益率（ic）比较。C错误，增量投资回收期与FIRR是不同类型的指标，不能混淆。D错误，当T > Pc时，说明增量投资回收慢，不值得增加投资，应选择投资额较小的方案。\n\n【考点】增量投资回收期法：T = ΔI/ΔA。将T与基准投资回收期（Pc）比较：T ≤ Pc时，增量投资可行，投资额较大的方案更优；T > Pc时，投资额较小的方案更优。(教材第2.3节增量指标分析法)"},
+{id:55,type:"adv",qtype:"single",text:"某企业拟建一条生产线，有甲、乙两个方案可供选择。甲方案投资额为2000万元，年经营成本为800万元；乙方案投资额为4400万元，年经营成本为500万元。基准投资收益率为10%，采用增量投资收益率法比选，则应选择的方案是（ ）。",opts:["甲方案，增量投资收益率15%","乙方案，增量投资收益率12.5%","甲方案，增量投资收益率12.5%","乙方案，增量投资收益率10%"],answer:"B",formula:"增量投资收益率法计算公式：\nΔR = (C1-C2)/(I2-I1)×100%\n其中：C1=800万元（甲），C2=500万元（乙）\nI1=2000万元（甲），I2=4400万元（乙）\nΔR = (800-500)/(4400-2000)×100% = 300/2400×100% = 12.5%\n由于ΔR = 12.5% > ic = 10%，故选择投资额大的乙方案。\n选项B正确。\n\n【考点】增量投资收益率ΔR = (C1-C2)/(I2-I1)×100%，当ΔR ≥ ic时，选择投资额大的方案。(教材第2.3节增量指标分析法)"},
+{id:56,type:"adv",qtype:"single",text:"某企业进行设备更新，有A、B两个互斥方案可供选择。A方案投资额5000万元，B方案投资额7000万元；A方案年经营成本1200万元，B方案年经营成本800万元。基准投资回收期5年，采用增量投资回收期法进行比选，则增量投资回收期为（ ）年。",opts:["3.5","5.0","6.5","8.0"],answer:"B",formula:"ΔPt = (I2-I1)/(C1-C2) = (7000-5000)/(1200-800) = 2000/400 = 5.0年。\nΔPt = 5.0年 = Pc = 5年，满足ΔPt ≤ Pc条件，故应选择投资额大的B方案。\n选项B正确。\n\n【考点】增量投资回收期法：ΔPt = (I2-I1)/(C1-C2)，当ΔPt ≤ Pc时，选择投资额大的方案。(教材第2.3节增量指标分析法)"},
+{id:57,type:"adv",qtype:"multi",text:"下列关于互斥方案比选方法的说法，正确的有（ ）。",opts:["综合总费用法中，综合总费用=投资额+年经营成本×投资回收期","最小公倍数法适用于各方案计算期成整数倍的互斥方案比选","研究期法可以直接选取各方案中最长的计算期作为共同计算期","净年值法不适用于计算期不同的互斥方案比选","增量分析法适用于所有互斥方案比选"],answer:"ABE",formula:"A正确，综合总费用=投资额+年经营成本×投资回收期，该值越小方案越优。\nB正确，最小公倍数法将各方案计算期的最小公倍数作为共同计算期进行比较。\nC错误，研究期法通常取诸方案中最短的计算期（最小计算期法），而非最长的。\nD错误，净年值法（AW法）是处理计算期不同互斥方案比选的常用方法。\nE正确，增量分析法是互斥方案比选最常用的方法。\n\n【考点】教材第10-13页（2.3节）。"},
+{id:58,type:"adv",qtype:"multi",text:"关于互斥方案比选增量分析法的说法，正确的有（ ）。",opts:["采用增量分析法时，应将方案按投资额从小到大依次排列","增量投资收益率ΔR≥ic时，应选择投资额大的方案","增量财务净现值ΔFNPV≥0时，增量投资方案在经济上可行","当ΔFNPV=0时，两个方案在经济效果上不等价","增量分析法中的基础方案需满足绝对效果检验标准"],answer:"ACE",formula:"A正确，增量分析法第一步是将方案按投资额从小到大排列。\nB错误，ΔR≥ic时确实选投资大的方案，但未说明前提条件，不够严谨。\nC正确，ΔFNPV≥0表示增量投资能带来不低于基准收益率的收益，故经济上可行。\nD错误，ΔFNPV=0表示增量投资恰好满足基准收益率要求，两方案在经济上等价。\nE正确，基础方案必须是满足绝对效果检验（指标评判准则）的方案。\n\n【考点】教材第12-13页（2.3节增量指标分析法）。"},
+{id:59,type:"adv",qtype:"multi",text:"关于多方案比选的说法，正确的有（ ）。",opts:["独立方案在经济上是否可行，取决于方案本身的绝对效果是否达到评价标准","互斥方案比选时，增量投资净现值ΔFNPV>0时，应选择投资额较小的方案","相关方案比选时，应首先将方案组合转化为互斥方案后再比选","在有资金约束的条件下，独立方案的比选可以转化为互斥方案比选","互斥方案比选中，可以直接比较各方案的FNPV大小确定最优方案"],answer:"ACD",formula:"A正确，独立方案主要取决于方案自身的绝对经济效果是否达到预设标准。\nB错误，ΔFNPV>0时应选择投资额较大的方案，而非较小的。\nC正确，相关方案比选需首先明确方案间的相关性，将相关方案组合成互斥方案后再进行比选。\nD正确，在资金约束下，独立方案转化为相关方案，可采用互斥方案比选方法。\nE错误，计算期相同时可直接比较FNPV大小，但若计算期不同则不能直接比较。\n\n【考点】教材第9-14页（2.3节）。"},
+{id:60,type:"adv",qtype:"single",text:"某技术方案期初投资5000万元，预计寿命期6年，运营期内每年年末净现金流量均为1000万元，折现率为10%。若该方案财务基准收益率为10%，则该方案（ ）。（已知：(P/A,10%,6)=4.355）",opts:["FNPV为1645万元，方案可行","FNPV为645万元，方案可行","FNPV为-1645万元，方案不可行","FNPV为-645万元，方案不可行"],answer:"D",formula:"FNPV = -I0 + NCF×(P/A, i, n) = -5000 + 1000×4.355 = -5000 + 4355 = -645万元\n由于FNPV = -645万元 < 0，该方案达不到财务基准收益率要求的盈利水平，财务上不可行。\n选项D正确。\n\n【考点】FNPV = Σ(CI-CO)t×(1+ic)^(-t)，判别准则：FNPV≥0时方案可行。(教材第6-7页)"},
+{id:61,type:"adv",qtype:"single",text:"某技术方案期初投资5000万元，寿命期6年，运营期内每年年末净现金流量1200万元。则该方案的财务内部收益率为（ ）。[已知：(P/A,10%,6)=4.355，(P/A,12%,6)=4.111]",opts:["10%","11%","12%","13%"],answer:"B",formula:"FNPV=0时：5000 = 1200×(P/A, FIRR, 6)\n(P/A, FIRR, 6) = 5000/1200 ≈ 4.167\n\n(P/A, 10%, 6) = 4.355\nFNPV₁ = -5000 + 1200×4.355 = 226 > 0\n\n(P/A, 12%, 6) = 4.111\nFNPV₂ = -5000 + 1200×4.111 = -66.8 < 0\n\nFIRR ≈ 10% + 226/(226+66.8)×2% ≈ 11.54%\n\n选项B（11%）为最接近的整数选项。\nFIRR=11.54% > ic=10%，方案可行。\n\n【考点】教材第8-9页（2.2.4财务内部收益率）。"},
+{id:62,type:"adv",qtype:"single",text:"某技术方案总投资4000万元，年净利润400万元，年折旧200万元，基准投资回收期5年。关于该方案的说法，正确的是（ ）。",opts:["总投资收益率10%，静态投资回收期5年，方案可行","总投资收益率10%，静态投资回收期6.67年，方案不可行","总投资收益率20%，静态投资回收期3.33年，方案可行","总投资收益率20%，静态投资回收期6.67年，方案可行"],answer:"B",formula:"ROI = 400/4000×100% = 10%。\n年净现金流量 = 年净利润 + 年折旧 = 400 + 200 = 600万元。\nPt = 4000/600 ≈ 6.67年 > Pc = 5年，方案不可行。\n选项B正确。\n\n【考点】教材第5-6页（2.2.2投资回收期）和盈利能力指标。"},
+{id:63,type:"adv",qtype:"single",text:"某技术方案期初投资5000万元，寿命期5年，运营期内每年年末净现金流量1500万元，财务基准收益率12%。则该方案（ ）。[已知：(P/A,12%,5)=3.605，(P/A,14%,5)=3.433]",opts:["FNPV为1805万元，FIRR<12%，方案不可行","FNPV为1805万元，FIRR>12%，方案可行","FNPV为-1805万元，FIRR>12%，方案不可行","FNPV为407.5万元，FIRR>12%，方案可行"],answer:"D",formula:"FNPV = -5000 + 1500×3.605 = -5000 + 5407.5 = 407.5万元 > 0。\n(P/A, FIRR, 5) = 5000/1500 ≈ 3.333\nFIRR ≈ 12% + (3.605-3.333)/(3.605-3.433)×2% ≈ 15.16% > 12%。\nFNPV>0且FIRR>12%，方案可行。\n选项D正确。\n\n【考点】教材第6-9页（2.2.3财务净现值和2.2.4财务内部收益率）。"},
+{id:64,type:"adv",qtype:"single",text:"某项目年设计生产能力为20000件，产品单价2000元/件，年总固定成本为400万元，单位产品可变成本800元/件。若盈亏平衡点按产量表示，则以下说法正确的是（ ）。",opts:["BEP(Q)=3333件，此时项目刚好保本","BEP(Q)=2500件，此时项目刚好保本","BEP(Q)=5000件，此时项目刚好保本","BEP(Q)=6000件，此时项目刚好保本"],answer:"A",formula:"BEP(Q) = CF/(p-Cv) = 400万/(0.2万-0.08万) = 400/0.12 = 3333件。\n设计产量20000件，3333件<20000件，项目有较大盈利空间。\n选项A正确。\n\n【考点】不确定性分析相关知识点。盈亏平衡点（按产量）BEP(Q)=CF/(p-Cv)。(盈亏平衡分析知识点)"},
+{id:65,type:"adv",qtype:"single",text:"某投资项目年设计生产能力为10000件，产品销售价格200元/件，年固定成本总额40万元，单位产品可变成本120元/件。则该项目的盈亏平衡生产能力利用率为（ ）。",opts:["40%","50%","60%","75%"],answer:"B",formula:"BEP(Q) = CF / (p - Cv) = 40万 / (200 - 120) = 40万 / 80 = 5000件\nBEP(%) = BEP(Q) / 设计产量 × 100% = 5000 / 10000 × 100% = 50%\n\n选项B正确。\n\n【考点】不确定性分析——盈亏平衡分析。BEP(%)=BEP(Q)/设计产量×100%。(盈亏平衡分析知识点)"},
+{id:66,type:"adv",qtype:"single",text:"下列关于线性盈亏平衡分析的说法，错误的是（ ）。",opts:["总成本=固定成本+可变成本（变动成本总额）","总成本=固定成本×可变成本（变动成本总额）","盈亏平衡点越低，抗风险能力越强","产品产量等于产品销售量时适用"],answer:"B",formula:"总成本 = 固定成本 + 变动成本总额（即TC = CF + Cv×Q，而非TC = CF × Cv×Q）。\nA正确，B错误（混淆了加法和乘法关系）。C和D均正确。\n\n【考点】不确定性分析相关知识点。线性盈亏平衡分析的基本假设：生产量等于销售量、总成本是生产量的线性函数、产品价格不随销售量变化等。"},
+{id:67,type:"adv",qtype:"single",text:"某技术方案年设计能力为50000件，销售单价为1500元/件，年固定成本为1800万元，单位产品可变成本为800元/件，营业税金及附加为100元/件。若该方案盈亏平衡点按价值量表示（即BEP(销售额)），则该方案的盈亏平衡点销售额为（ ）。",opts:["2250万元","2700万元","3000万元","4500万元"],answer:"D",formula:"单位贡献边际 = p-Cv-t = 1500-800-100 = 600元/件。\nBEP(Q) = CF/单位贡献边际 = 1800万/600 = 30000件。\nBEP(销售额) = BEP(Q)×p = 30000×1500 = 4500万元。\n选项D正确。\n\n【考点】不确定性分析相关知识点。BEP(销售额)=固定成本/单位贡献边际率。(盈亏平衡分析知识点)"},
+{id:68,type:"adv",qtype:"single",text:"某设计方案年固定成本为600万元，每件产品单价1000元，单位变动成本600元/吨。设计生产能力为2.5万吨/年。若该方案年利润为-60万元，则此时该方案（ ）。",opts:["年产量为1.2万吨，处于盈利状态","年产量为1.35万吨，处于亏损状态","年产量为1.5万吨，处于亏损状态","年产量为1.5万吨，处于盈利状态"],answer:"B",formula:"单位贡献边际 = p-Cv = 1000-600 = 400元/吨。\nBEP(Q) = CF/(p-Cv) = 600/400 = 1.5万吨（此时年利润=0）。\n选项A（1.2万吨）：年利润=1.2×400-600=-120万元（亏损）。\n选项B（1.35万吨）：年利润=1.35×400-600=-60万元（亏损）✓。\n选项B正确。\n\n【考点】不确定性分析相关知识点。年利润=年产量×(p-Cv)-CF。(盈亏平衡分析知识点)"},
+{id:69,type:"adv",qtype:"multi",text:"某技术方案投资额为5000万元，年净现金流量为1300万元，寿命期为8年，财务基准收益率为10%。经单因素敏感性分析：若投资额增加10%，财务净现值从正值变为负值；若产品价格下降10%，财务净现值变为-50万元；若年净现金流量下降10%，财务净现值变为-80万元。下列说法正确的有（ ）。[已知：(P/A,10%,8)=5.335]",opts:["年净现金流量因素最敏感，敏感度系数绝对值最大","产品价格因素的敏感度系数为负","投资额因素的敏感度系数为-1.0","三个因素的敏感度系数绝对值均小于1","该方案的敏感性分析结果表明年净现金流量是最关键的不确定因素"],answer:"AE",formula:"基准FNPV = -5000+1300×5.335 = 1935.5万元>0。\n①投资额+10%→FNPV变负：ΔA/A≈-100%，SAF=-10.0，|SAF|=10.0。\n②价格-10%→FNPV=-50：ΔA/A≈-102.6%，SAF=+10.26，|SAF|=10.26。\n③净现金流-10%→FNPV=-80：ΔA/A≈-104.1%，SAF=+10.41，|SAF|=10.41（最大）。\nA正确（净现金流|SAF|最大）；B错误（价格SAF=+10.26，为正）；E正确（最敏感=最关键）。\n\n【考点】不确定性分析相关知识点。敏感度系数SAF=(ΔA/A)/(ΔX/X)，绝对值越大越敏感。(敏感性分析知识点)"},
+{id:70,type:"adv",qtype:"multi",text:"关于敏感性分析的说法，正确的有（ ）。",opts:["敏感性分析只能分析单一不确定因素变化对评价指标的影响","在方案评价中，各因素的敏感度系数均恒为负值","敏感度系数的绝对值越大，评价指标对不确定因素的变化越敏感","敏感度系数可以为负值","敏感性分析可以分析多个不确定因素同时变化对评价指标的影响"],answer:"ACD",formula:"A正确，这是敏感性分析的主要局限性。\nB错误，各因素SAF并非均恒为负，如产品价格↑→FNPV↑时SAF>0。\nC正确，|SAF|越大表示评价指标对不确定因素变化越敏感。\nD正确，当评价指标与不确定因素呈反向变化时SAF为负，如投资额↑→FNPV↓（SAF<0）。\nE错误，敏感性分析只能分析单一因素变化，无法分析多因素同时变化的影响。\n\n【考点】不确定性分析相关知识点。敏感度系数SAF=(ΔA/A)/(ΔX/X)，绝对值越大越敏感；SAF为负表示评价指标与不确定因素反向变化；敏感性分析局限性：只能分析单一因素变化。(敏感性分析知识点)"}
+];
+var state = {current:0, answered:{}, selected:{}, filter:"all", section:"home"};
+
+function normalizeAnswer(ans) { return (ans||'').split('').sort().join(''); }
+
+function checkAnswer(idx, userAns) {
+  var q = QUESTIONS[idx];
+  if(!q || !userAns) return false;
+  if(q.qtype==='multi') return normalizeAnswer(userAns)===normalizeAnswer(q.answer);
+  return userAns===q.answer;
+}
+
+function updateStats() {
+  var answered = Object.keys(state.answered).length;
+  var correct = 0;
+  Object.entries(state.answered).forEach(function(entry) {
+    if(checkAnswer(parseInt(entry[0]), entry[1])) correct++;
+  });
+  var wrong = answered - correct;
+  var acc = answered>0 ? Math.round(correct/answered*100) : 0;
+  document.getElementById("statAnswered").textContent = answered;
+  document.getElementById("statCorrect").textContent = correct;
+  document.getElementById("statWrong").textContent = wrong;
+  document.getElementById("statAccuracy").textContent = answered>0 ? acc+"%" : "--";
+  var pct = Math.round(answered/QUESTIONS.length*100);
+  document.getElementById("progressBar").style.width = pct+"%";
+  var label = document.getElementById("progressLabel");
+  if(answered > 0) {
+    label.style.display = "block";
+    label.style.left = pct + "%";
+    label.textContent = correct + "分";
+  } else {
+    label.style.display = "none";
+  }
+}
+
+function buildQuestionCard(q, idx) {
+  var answered = state.answered[idx];
+  var selected = state.selected[idx];
+  var isMulti = q.qtype==='multi';
+  var isCorrect = answered && checkAnswer(idx, answered);
+  var isWrong = answered && !checkAnswer(idx, answered);
+  var tagClass = isCorrect ? "tag-done" : isWrong ? "tag-wrong" : q.type==="base" ? "tag-base" : "tag-adv";
+  var tagText = isCorrect ? "✓ 正确" : isWrong ? "✗ 错误" : q.type==="base" ? "基础题" : "进阶题";
+  if(isMulti && !answered) { tagClass = "tag-multi"; tagText = "多选题"; }
+  var letters = ["A","B","C","D","E"];
+  var useLetters = letters.slice(0, q.opts.length);
+
+  var optsHtml = q.opts.map(function(opt,j){
+    var letter = useLetters[j];
+    var liClass = "";
+    var indicator = "";
+    if (answered) {
+      var correctAns = q.answer;
+      var isCorrectOpt = isMulti ? correctAns.indexOf(letter)!==-1 : correctAns === letter;
+      var isUserSelected = isMulti ? (selected||'').indexOf(letter)!==-1 : selected === letter;
+      if(isCorrectOpt) { liClass = "correct"; indicator = " ✓"; }
+      else if(isUserSelected) { liClass = "wrong-choice"; indicator = " ✗"; }
+      else { liClass = "dim"; }
+    } else if(selected && isMulti && selected.indexOf(letter)!==-1) {
+      liClass = "selected";
+    }
+    var onclickStr = answered ? "" : (isMulti ? "toggleMultiOpt(" + idx + ",'" + letter + "')" : "selectOpt(" + idx + ",'" + letter + "')");
+    var input = isMulti ? '<input type="checkbox" class="multi-cb"' + (selected&&selected.indexOf(letter)!==-1?' checked':'') + ' onclick="event.stopPropagation()"' : '';
+    var itemOnclick = answered ? "" : 'onclick="' + onclickStr + '"';
+    return '<li '+itemOnclick+' class="'+liClass+'">'+input+'<span class="opt-letter">'+letter+'.</span><span class="opt-text">'+opt+indicator+'</span></li>';
+  }).join("");
+
+  var expClass = isCorrect ? "right" : isWrong ? "wrong" : "";
+  var expVisible = answered ? "show" : "";
+  var expTitle = isCorrect ? "✓ 回答正确" : isWrong ? "✗ 回答错误" : "";
+  var actionHtml = "";
+  if (!answered && selected && !isMulti) {
+    actionHtml = '<button class="btn btn-primary" onclick="submitAnswer('+idx+')">提交答案</button>';
+  } else if (!answered && selected && isMulti) {
+    actionHtml = '<button class="btn btn-primary" onclick="submitAnswer('+idx+')">提交答案</button>';
+  } else if (!answered && !selected) {
+    actionHtml = '<span style="color:var(--text-sec);font-size:0.8rem;">'+(isMulti?'请选择多个答案':'请选择一个答案')+'后点击提交</span>';
+  } else if (answered) {
+    actionHtml = '<button class="btn btn-ghost" onclick="resetAnswer('+idx+')">🔄 重做</button>';
+  }
+  var formulaHtml = formatFormula(q.formula);
+  return '<div class="question-card"><div class="q-header"><div class="q-num">'+q.id+'</div><span class="q-tag '+tagClass+'">'+tagText+'</span></div><div class="q-text">'+formatFormula(q.text)+'</div><ul class="options">'+optsHtml+'</ul><div class="action-row">'+actionHtml+'</div><div class="explanation '+expClass+' '+expVisible+'"><div class="ex-title">'+expTitle+' 答案：'+q.answer+'</div><div class="ex-formula">'+formulaHtml+'</div></div></div>';
+}
+
+function formatFormula(text) {
+  if (!text) return '';
+  var html = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // parse markdown tables: scan lines, collect consecutive pipe lines into <table>
+  var lines = html.split('\n');
+  var result = [];
+  var tableRows = [];
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    if (line.indexOf('|') === 0 && line.lastIndexOf('|') === line.length - 1 && line.length > 2) {
+      tableRows.push(line);
+    } else {
+      if (tableRows.length > 0) {
+        result.push(buildMdTable(tableRows));
+        tableRows = [];
+      }
+      result.push(line);
+    }
+  }
+  if (tableRows.length > 0) result.push(buildMdTable(tableRows));
+  return result.join('<br>');
+}
+
+function buildMdTable(rows) {
+  var html = '<div style="overflow-x:auto"><table class="md-table"><tbody>';
+  rows.forEach(function(row) {
+    if (/^\|[\s\-:|]+\|$/.test(row.trim())) return;
+    var cells = row.split('|'); cells.shift(); cells.pop();
+    html += '<tr>' + cells.map(function(c) { return '<td>' + c.trim() + '</td>'; }).join('') + '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function renderQuestions() {
+  var list = document.getElementById("questionsList");
+  var q = QUESTIONS[state.current];
+  if (!q) { list.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-sec);">暂无题目</div>'; return; }
+  list.innerHTML = buildQuestionCard(q, state.current);
+}
+
+function buildWrongbook() {
+  var wrong = QUESTIONS.map(function(q,i){return {q,i};}).filter(function(item){return state.answered[item.i] && !checkAnswer(item.i, state.answered[item.i]);});
+  var list = document.getElementById("wrongbookList");
+  var empty = document.getElementById("wrongbookEmpty");
+  var retryBtn = document.getElementById("btnRetryWrong");
+  if (wrong.length===0) { list.innerHTML=""; empty.style.display="block"; retryBtn.style.display="none"; return; }
+  empty.style.display="none"; retryBtn.style.display="inline-block";
+  list.innerHTML = wrong.map(function(item){var answered = state.answered[item.i];return '<div class="mini-card" onclick="jumpTo('+item.i+')"><span class="mn">'+item.q.id+'</span><span class="mt">'+item.q.text.slice(0,40)+'...</span><span class="mst wrong">✗ '+answered+'</span></div>';}).join("");
+}
+
+function toggleMultiOpt(idx, letter) {
+  var q = QUESTIONS[idx];;
+  if(q.qtype!=='multi') return;
+  if(!state.selected[idx]) state.selected[idx]='';
+  var sel = state.selected[idx];
+  if(sel.indexOf(letter)!==-1) sel=sel.split('').filter(function(c){return c!==letter;}).sort().join('');
+  else sel=(sel+letter).split('').sort().join('');
+  state.selected[idx]=sel;
+  renderQuestions();
+  updateNavButtons();
+  saveState();
+}
+
+function selectOpt(idx, letter) {
+  var q = QUESTIONS[idx];;
+  if (q.qtype === 'multi') return;
+  state.selected[idx] = letter;
+  renderQuestions();
+  updateNavButtons();
+  saveState();
+}
+
+function submitAnswer(idx) {
+  if (state.selected[idx]) {
+    state.answered[idx] = state.selected[idx];
+    delete state.selected[idx];
+  }
+  renderQuestions();
+  updateStats();
+  updateNavButtons();
+  saveState();
+}
+
+function resetAnswer(idx) {
+  delete state.answered[idx];
+  delete state.selected[idx];
+  renderQuestions();
+  updateStats();
+  updateNavButtons();
+  saveState();
+}
+
+function setFilter(f) {
+  state.filter = f;
+  document.querySelectorAll(".sec-tab").forEach(function(btn){btn.classList.remove("on");});
+  var tabs = document.querySelectorAll(".sec-tab");
+  var map = {all:0,single:1,multi:2,undone:3,wrong:4};
+  if (tabs[map[f]]) tabs[map[f]].classList.add("on");
+  if (f==="single") { var first = QUESTIONS.findIndex(function(q){return q.qtype==="single";}); state.current = first>=0?first:0; }
+  else if (f==="multi") { var first = QUESTIONS.findIndex(function(q){return q.qtype==="multi";}); state.current = first>=0?first:0; }
+  else if (f==="undone") { var first = QUESTIONS.findIndex(function(_,i){return !state.answered[i];}); state.current = first>=0?first:0; }
+  else if (f==="wrong") { var first = QUESTIONS.findIndex(function(q,i){return state.answered[i] && !checkAnswer(i, state.answered[i]);}); state.current = first>=0?first:0; }
+  else state.current = 0;
+  renderQuestions();
+  updateNavButtons();
+}
+
+function jumpTo(idx) {
+  state.current = idx;
+  state.section = "questions";
+  document.querySelectorAll("#page-home, #page-questions, #page-wrongbook, #page-complete").forEach(function(el){el.classList.add("hidden");});
+  document.getElementById("page-questions").classList.remove("hidden");
+  renderQuestions();
+  updateNavButtons();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function jumpToSelect() {
+  var sel = document.getElementById("jumpSelect");
+  if (!sel.value) return;
+  jumpTo(parseInt(sel.value));
+  sel.value = "";
+}
+
+function navigateQ(dir) {
+  var total = QUESTIONS.length;
+  var next = state.current + dir;
+  if (next < 0) next = 0;
+  if (next >= total) next = total - 1;
+  state.current = next;
+  renderQuestions();
+  updateNavButtons();
+  saveState();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function retryWrong() {
+  var wrong = QUESTIONS.map(function(q,i){return i;}).filter(function(i){return state.answered[i] && !checkAnswer(i, state.answered[i]);});
+  if (wrong.length===0) return;
+  wrong.forEach(function(i){delete state.answered[i];});
+  state.filter = "all";
+  setFilter("all");
+  jumpTo(wrong[0]);
+  buildWrongbook();
+  updateStats();
+  saveState();
+}
+
+function openRetryModal() {
+  var wrong = QUESTIONS.map(function(q,i){return {q,i};}).filter(function(item){return state.answered[item.i] && !checkAnswer(item.i, state.answered[item.i]);});
+  var list = document.getElementById("retryList");
+  var modal = document.getElementById("retryModal");
+  var emptyMsg = document.getElementById("retryEmpty");
+  if (wrong.length === 0) { list.innerHTML = ""; emptyMsg.style.display = "block"; } else {
+    emptyMsg.style.display = "none";
+    list.innerHTML = wrong.map(function(item){return '<div class="mini-card" onclick="jumpTo('+item.i+');closeRetryModal()"><span class="mn">'+item.q.id+'</span><span class="mt">'+item.q.text.slice(0,50)+'...</span><span class="mst wrong">✗ '+state.answered[item.i]+'</span></div>';}).join("");
+  }
+  modal.classList.remove("hidden");
+}
+
+function closeRetryModal() { document.getElementById("retryModal").classList.add("hidden"); }
+
+function updateNavButtons() {
+  var prev = document.getElementById("btnPrev");
+  var next = document.getElementById("btnNext");
+  if (prev) prev.disabled = state.current <= 0;
+  if (next) next.disabled = state.current >= QUESTIONS.length - 1;
+}
+
+function showSection(name) {
+  state.section = name;
+  document.querySelectorAll("#page-home, #page-questions, #page-wrongbook, #page-complete").forEach(function(el){el.classList.add("hidden");});
+  document.getElementById("page-"+name).classList.remove("hidden");
+  if (name==="wrongbook") { document.getElementById("btnWrongbook").classList.add("active"); buildWrongbook(); }
+  if (name==="complete") buildComplete();
+  if (name==="questions") { renderQuestions(); updateNavButtons(); }
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function buildComplete() {
+  var answered = Object.keys(state.answered).length;
+  var correct = 0;
+  Object.entries(state.answered).forEach(function(entry){if(checkAnswer(parseInt(entry[0]), entry[1])) correct++;});
+  var wrong = answered - correct;
+  var acc = answered>0 ? Math.round(correct/answered*100) : 0;
+  var pct = Math.round(answered/QUESTIONS.length*100);
+  var emoji = pct===100?"🏆":pct>=80?"🎉":pct>=50?"📚":"📖";
+  var title = pct===100?"满分通关！":pct>=80?"表现优秀！":pct>=50?"继续加油！":"正在积累中...";
+  var desc = pct<100?"已完成 "+answered+"/70 题，正确率 "+acc+"%":"全部完成！";
+  document.getElementById("completeEmoji").textContent = emoji;
+  document.getElementById("completeTitle").textContent = title;
+  document.getElementById("completeDesc").textContent = desc;
+  document.getElementById("completeScoreRow").innerHTML = '<div class="score-box"><div class="sb-num '+(correct>=wrong?'good':'bad')+'">'+correct+'</div><div class="sb-lbl">答对</div></div><div class="score-box"><div class="sb-num bad">'+wrong+'</div><div class="sb-lbl">答错</div></div><div class="score-box"><div class="sb-num">'+acc+'%</div><div class="sb-lbl">正确率</div></div><div class="score-box"><div class="sb-num">'+pct+'%</div><div class="sb-lbl">总进度</div></div>';
+  var wrongList = QUESTIONS.map(function(q,i){return {q,i};}).filter(function(item){return state.answered[item.i] && !checkAnswer(item.i, state.answered[item.i]);});
+  var summaryEl = document.getElementById("wrongSummary");
+  if (wrongList.length>0) {
+    summaryEl.innerHTML = '<h2 style="color:var(--title);font-size:1rem;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--border);">✗ 错题列表</h2>' + wrongList.map(function(item){return '<div class="mini-card" onclick="jumpTo('+item.i+')"><span class="mn">'+item.q.id+'</span><span class="mt">'+item.q.text.slice(0,50)+'...</span><span class="mst wrong">✗ '+state.answered[item.i]+'</span></div>';}).join("");
+  } else { summaryEl.innerHTML = ""; }
+  document.getElementById("completeActions").innerHTML = '<button class="btn btn-ghost" onclick="clearAll()">🔄 重置刷题</button><button class="btn btn-primary" onclick="showSection(\'wrongbook\')">📕 查看错题</button><button class="btn btn-primary" onclick="showSection(\'questions\')">继续刷题</button>';
+}
+
+function saveState() {
+  try { localStorage.setItem("yijian_ch02_v2", JSON.stringify({answered: state.answered, selected: state.selected, current: state.current})); } catch(e){}
+}
+
+function loadState() {
+  try {
+    var saved = localStorage.getItem("yijian_ch02_v2");
+    if (saved) { var data = JSON.parse(saved); state.answered = data.answered||{}; state.selected = data.selected||{}; state.current = data.current||0; }
+  } catch(e){}
+}
+
+function clearAll() {
+  if (!confirm("确定要重置所有答题记录吗？")) return;
+  state.answered = {}; state.selected = {}; state.current = 0;
+  localStorage.removeItem("yijian_ch02_v2");
+  updateStats(); buildWrongbook();
+  if (state.section==="questions") renderQuestions();
+  if (state.section==="complete") buildComplete();
+  showSection("home");
+}
+
+function populateJumpSelect() {
+  var sel = document.getElementById("jumpSelect");
+  var html = '<option value="">-- 选择题号 --</option>';
+  QUESTIONS.forEach(function(q,i) { html += '<option value="'+i+'">第'+q.id+'题（'+(q.qtype==='multi'?'多选':'单选')+'）</option>'; });
+  sel.innerHTML = html;
+}
+
+loadState();
+updateStats();
+populateJumpSelect();
+showSection("home");
+updateNavButtons();
+</script>
+</body>
+</html>
