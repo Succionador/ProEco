@@ -6,39 +6,149 @@
 <title>一建经济刷题系统</title>
 <style>
   :root {
-    --bg: #F5F7FA;
+    --bg: #F0F4F8;
     --card-bg: #FFFFFF;
-    --title: #1A365D;
-    --accent: #2C5282;
-    --text: #2D3748;
-    --text-sec: #718096;
+    --title: #1E293B;
+    --accent: #334155;
+    --text: #334155;
+    --text-sec: #64748B;
     --border: #E2E8F0;
-    --right: #38A169;
-    --wrong: #E53E3E;
+    --right: #10B981;
+    --wrong: #EF4444;
     --disabled: #CBD5E0;
+    --tag-avail: #EFF6FF;
+    --tag-avail-text: #3B82F6;
+    --tag-avail-bd: #BFDBFE;
+    --tag-locked: #F1F5F9;
+    --tag-locked-text: #94A3B8;
+    --tag-locked-bd: #E2E8F0;
     --font: "等线", "DengXian", "Microsoft YaHei", sans-serif;
-    --radius: 10px;
-    --shadow: 0 2px 12px rgba(26,54,93,0.1);
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(30,41,59,0.08);
+    --shadow-hover: 0 6px 20px rgba(30,41,59,0.14);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.7; min-height: 100vh; padding: 20px; }
 
   .header {
     text-align: center;
-    padding: 40px 20px;
+    padding: 40px 20px 30px;
     margin-bottom: 30px;
   }
+
+  /* ====== Logo 动画 ====== */
+  .logo-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .logo-wrap svg {
+    width: 88px;
+    height: 88px;
+    filter: drop-shadow(0 0 20px rgba(59,130,246,0.45)) drop-shadow(0 0 40px rgba(59,130,246,0.2));
+  }
+
+  /* 外环脉冲动画 */
+  .ring-outer {
+    animation: pulseRing 2.8s ease-in-out infinite;
+    transform-origin: 50px 50px;
+  }
+  @keyframes pulseRing {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.65; transform: scale(1.05); }
+  }
+
+  /* 中环逆向脉冲 */
+  .ring-mid {
+    animation: pulseRingMid 2.8s ease-in-out infinite;
+    animation-delay: -1.4s;
+    transform-origin: 50px 50px;
+  }
+  @keyframes pulseRingMid {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(0.97); }
+  }
+
+  /* 书本发光脉冲 */
+  .book-glow {
+    animation: bookPulse 2.8s ease-in-out infinite;
+  }
+  @keyframes bookPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+  }
+
+  /* 粒子浮动 */
+  .dot-a { animation: floatA 3s ease-in-out infinite; }
+  .dot-b { animation: floatB 3.5s ease-in-out infinite; animation-delay: -1.2s; }
+  .dot-c { animation: floatC 2.8s ease-in-out infinite; animation-delay: -0.7s; }
+  .dot-d { animation: floatD 4s ease-in-out infinite; animation-delay: -2s; }
+  .dot-e { animation: floatE 3.2s ease-in-out infinite; animation-delay: -1.8s; }
+
+  @keyframes floatA {
+    0%, 100% { transform: translateY(0px); opacity: 0.7; }
+    50% { transform: translateY(-4px); opacity: 1; }
+  }
+  @keyframes floatB {
+    0%, 100% { transform: translateY(0px); opacity: 0.6; }
+    50% { transform: translateY(-3px); opacity: 1; }
+  }
+  @keyframes floatC {
+    0%, 100% { transform: translateX(0px); opacity: 0.7; }
+    50% { transform: translateX(3px); opacity: 1; }
+  }
+  @keyframes floatD {
+    0%, 100% { transform: translate(0,0); opacity: 0.5; }
+    50% { transform: translate(-2px,-2px); opacity: 1; }
+  }
+  @keyframes floatE {
+    0%, 100% { transform: translateY(0px); opacity: 0.8; }
+    50% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  /* 电路闪流动画 */
+  .circuit-h {
+    animation: circuitFlash 4s ease-in-out infinite;
+  }
+  @keyframes circuitFlash {
+    0%, 85%, 100% { opacity: 0.2; }
+    90% { opacity: 1; }
+    95% { opacity: 0.3; }
+  }
+
+  /* 勾选脉冲 */
+  .check-pulse {
+    animation: checkPulse 2.8s ease-in-out infinite;
+    transform-origin: 68px 30px;
+  }
+  @keyframes checkPulse {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.12); }
+    60% { transform: scale(0.95); }
+  }
+
+  /* 核心光环呼吸 */
+  .core-halo {
+    animation: haloBreath 2.8s ease-in-out infinite;
+    transform-origin: 50px 52px;
+  }
+  @keyframes haloBreath {
+    0%, 100% { opacity: 0.15; transform: scale(0.9); }
+    50% { opacity: 0.4; transform: scale(1.1); }
+  }
+
   .header h1 {
     font-size: 2rem;
     color: var(--title);
-    font-weight: 700;
-    letter-spacing: 0.05em;
+    font-weight: 800;
+    letter-spacing: 0.04em;
     margin-bottom: 8px;
   }
   .header .subtitle {
     font-size: 1rem;
     color: var(--text-sec);
     font-weight: 400;
+    letter-spacing: 0.03em;
   }
 
   .container {
@@ -47,66 +157,139 @@
   }
 
   .chapter-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 12px;
   }
 
   .chapter-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 14px 16px;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    flex-direction: column;
+    gap: 6px;
     box-shadow: var(--shadow);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.22s, box-shadow 0.22s;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+  /* 左上角彩色装饰条 */
+  .chapter-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    border-radius: var(--radius) 0 0 var(--radius);
   }
   .chapter-card:hover:not(.disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(26,54,93,0.15);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
   }
   .chapter-card.disabled {
-    opacity: 0.5;
+    opacity: 0.55;
     cursor: not-allowed;
-    background: #F7FAFC;
+    background: #F8FAFC;
+    border: 1px solid var(--border);
   }
+
+  /* 各章节独立配色 */
+  .ch01 { background: linear-gradient(135deg, #FFF9F0 0%, #FFFFFF 100%); border: 1px solid #FDE68A; }
+  .ch01::before { background: #F59E0B; }
+  .ch01:hover:not(.disabled) { box-shadow: 0 6px 20px rgba(245,158,11,0.18); }
+
+  .ch02 { background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%); border: 1px solid #BBF7D0; }
+  .ch02::before { background: #10B981; }
+  .ch02:hover:not(.disabled) { box-shadow: 0 6px 20px rgba(16,185,129,0.18); }
+
+  .ch03 { background: linear-gradient(135deg, #FFF1F2 0%, #FFFFFF 100%); border: 1px solid #FECDD3; }
+  .ch03::before { background: #F43F5E; }
+  .ch03:hover:not(.disabled) { box-shadow: 0 6px 20px rgba(244,63,94,0.18); }
+
+  .ch04 { background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%); border: 1px solid #BFDBFE; }
+  .ch04::before { background: #3B82F6; }
+  .ch04:hover:not(.disabled) { box-shadow: 0 6px 20px rgba(59,130,246,0.18); }
+
+  .ch05 { background: linear-gradient(135deg, #FAF5FF 0%, #FFFFFF 100%); border: 1px solid #E9D5FF; }
+  .ch05::before { background: #9333EA; }
+
+  .ch06 { background: linear-gradient(135deg, #FFF7ED 0%, #FFFFFF 100%); border: 1px solid #FED7AA; }
+  .ch06::before { background: #F97316; }
+
+  .ch07 { background: linear-gradient(135deg, #F0FDFA 0%, #FFFFFF 100%); border: 1px solid #99F6E4; }
+  .ch07::before { background: #14B8A6; }
+
+  .ch08 { background: linear-gradient(135deg, #FDF4FF 0%, #FFFFFF 100%); border: 1px solid #F5D0FE; }
+  .ch08::before { background: #C026D3; }
+
+  .ch09 { background: linear-gradient(135deg, #FEF9C3 0%, #FFFFFF 100%); border: 1px solid #FDE047; }
+  .ch09::before { background: #EAB308; }
+
+  .ch10 { background: linear-gradient(135deg, #ECFDF5 0%, #FFFFFF 100%); border: 1px solid #A7F3D0; }
+  .ch10::before { background: #059669; }
+
+  .ch11 { background: linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 100%); border: 1px solid #FEE2E2; }
+  .ch11::before { background: #DC2626; }
+
+  .ch12 { background: linear-gradient(135deg, #F0F9FF 0%, #FFFFFF 100%); border: 1px solid #BAE6FD; }
+  .ch12::before { background: #0284C7; }
+
+  .ch13 { background: linear-gradient(135deg, #FDF2F8 0%, #FFFFFF 100%); border: 1px solid #FBCFE8; }
+  .ch13::before { background: #DB2777; }
+
+  .ch14 { background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%); border: 1px solid #BBF7D0; }
+  .ch14::before { background: #16A34A; }
+
+  .ch15 { background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%); border: 1px solid #FDE68A; }
+  .ch15::before { background: #D97706; }
+
+  .ch16 { background: linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 100%); border: 1px solid #DDD6FE; }
+  .ch16::before { background: #7C3AED; }
+
+  .ch17 { background: linear-gradient(135deg, #FFF7ED 0%, #FFFFFF 100%); border: 1px solid #FED7AA; }
+  .ch17::before { background: #EA580C; }
+
+  .ch18 { background: linear-gradient(135deg, #F0FDFA 0%, #FFFFFF 100%); border: 1px solid #99F6E4; }
+  .ch18::before { background: #0D9488; }
+
+  .ch19 { background: linear-gradient(135deg, #FDF4FF 0%, #FFFFFF 100%); border: 1px solid #F5D0FE; }
+  .ch19::before { background: #A21CAF; }
+
+  .ch20 { background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%); border: 1px solid #FDE68A; }
+  .ch20::before { background: #CA8A04; }
 
   .chapter-info {
     display: flex;
-    align-items: baseline;
-    gap: 10px;
-    flex: 1;
-    min-width: 0;
+    align-items: center;
+    gap: 8px;
   }
   .chapter-num {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--accent);
-    background: #EBF8FF;
-    padding: 3px 8px;
-    border-radius: 6px;
-    min-width: 46px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--tag-avail-text);
+    background: var(--tag-avail);
+    border: 1px solid var(--tag-avail-bd);
+    padding: 2px 9px;
+    border-radius: 8px;
+    min-width: 52px;
     text-align: center;
     white-space: nowrap;
     flex-shrink: 0;
+    letter-spacing: 0.02em;
   }
   .chapter-card.disabled .chapter-num {
-    background: #EDF2F7;
-    color: var(--disabled);
+    background: var(--tag-locked);
+    color: var(--tag-locked-text);
+    border-color: var(--tag-locked-bd);
   }
   .chapter-title {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text);
-    word-break: break-word;
     line-height: 1.4;
+    flex: 1;
   }
   .chapter-card.disabled .chapter-title {
     color: var(--disabled);
@@ -115,14 +298,13 @@
   .chapter-status {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 6px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    flex-shrink: 0;
+    font-size: 0.78rem;
   }
   .status-available {
     color: var(--right);
-    font-weight: 500;
+    font-weight: 700;
   }
   .status-locked {
     color: var(--disabled);
@@ -130,13 +312,14 @@
   .status-coming {
     font-size: 0.72rem;
     color: var(--text-sec);
-    background: #EDF2F7;
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
     padding: 2px 6px;
     border-radius: 4px;
   }
 
   .progress-info {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-sec);
   }
 
@@ -151,44 +334,143 @@
   @media (max-width: 480px) {
     body { padding: 12px; font-size: 14px; }
     .header { padding: 24px 12px 16px; margin-bottom: 16px; }
+    .logo-wrap { margin-bottom: 16px; }
+    .logo-wrap svg { width: 64px; height: 64px; }
     .header h1 { font-size: 1.4rem; letter-spacing: 0.02em; }
     .header .subtitle { font-size: 0.85rem; }
 
-    .chapter-list { gap: 8px; }
-    .chapter-card {
-      flex-direction: column;
-      align-items: stretch;
-      padding: 10px 12px;
-      gap: 6px;
-    }
-    .chapter-info {
+    .chapter-list {
+      grid-template-columns: repeat(2, 1fr);
       gap: 8px;
-      align-items: center;
     }
+    .chapter-card {
+      padding: 10px 12px;
+      gap: 5px;
+    }
+    .chapter-info { gap: 6px; }
     .chapter-num {
-      font-size: 0.75rem;
-      padding: 2px 7px;
+      font-size: 0.72rem;
+      padding: 2px 6px;
       min-width: auto;
       border-radius: 4px;
     }
     .chapter-title {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       line-height: 1.35;
     }
     .chapter-status {
-      justify-content: flex-end;
-      font-size: 0.75rem;
-      gap: 5px;
+      font-size: 0.72rem;
+      gap: 4px;
     }
     .status-coming { font-size: 0.68rem; padding: 1px 5px; }
-    .progress-info { font-size: 0.75rem; }
+    .progress-info { font-size: 0.72rem; }
     .footer { padding: 20px 12px; font-size: 0.78rem; }
+  }
+
+  /* 超窄屏单列 */
+  @media (max-width: 360px) {
+    .chapter-list { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
 <div class="header">
+  <div class="logo-wrap">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 外层霓虹大环 -->
+      <circle class="ring-outer" cx="50" cy="50" r="46" stroke="#F59E0B" stroke-width="1.5" opacity="0.2"/>
+      <!-- 中层脉冲环 -->
+      <circle class="ring-mid" cx="50" cy="50" r="40" stroke="#FBBF24" stroke-width="1" opacity="0.35"/>
+      <!-- 核心光晕 -->
+      <circle class="core-halo" cx="50" cy="52" r="32" fill="url(#haloGrad2)" opacity="0.15"/>
+      <!-- 背景填充 -->
+      <circle cx="50" cy="50" r="38" fill="#0F172A" opacity="0.9"/>
+      <circle cx="50" cy="50" r="38" stroke="#292524" stroke-width="1.5"/>
+
+      <!-- 电路板——横线 -->
+      <g class="circuit-h">
+        <line x1="14" y1="50" x2="24" y2="50" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <line x1="76" y1="50" x2="86" y2="50" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <line x1="50" y1="14" x2="50" y2="22" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <line x1="50" y1="78" x2="50" y2="86" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <circle cx="14" cy="50" r="2.5" fill="#F59E0B" opacity="0.7"/>
+        <circle cx="86" cy="50" r="2.5" fill="#F59E0B" opacity="0.7"/>
+        <circle cx="50" cy="14" r="2" fill="#FBBF24" opacity="0.6"/>
+        <circle cx="50" cy="86" r="2" fill="#FBBF24" opacity="0.6"/>
+      </g>
+
+      <!-- 电路斜线 -->
+      <g class="circuit-h" style="animation-delay: -2s">
+        <line x1="20" y1="20" x2="28" y2="28" stroke="#10B981" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+        <line x1="80" y1="20" x2="72" y2="28" stroke="#10B981" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+        <line x1="20" y1="80" x2="28" y2="72" stroke="#10B981" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+        <line x1="80" y1="80" x2="72" y2="72" stroke="#10B981" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+      </g>
+
+      <!-- K线图表发光层 -->
+      <g class="book-glow" style="transform-origin:50px 50px">
+        <!-- 柱状图（发光） -->
+        <rect x="20" y="58" width="7" height="14" rx="1.5" fill="#F59E0B" opacity="0.4" filter="url(#glow2)"/>
+        <rect x="29" y="50" width="7" height="22" rx="1.5" fill="#F97316" opacity="0.45" filter="url(#glow2)"/>
+        <rect x="38" y="43" width="7" height="29" rx="1.5" fill="#EF4444" opacity="0.45" filter="url(#glow2)"/>
+        <rect x="47" y="36" width="7" height="36" rx="1.5" fill="#10B981" opacity="0.5" filter="url(#glow2)"/>
+        <rect x="56" y="28" width="7" height="44" rx="1.5" fill="#22C55E" opacity="0.5" filter="url(#glow2)"/>
+        <rect x="65" y="21" width="7" height="51" rx="1.5" fill="#34D399" opacity="0.5" filter="url(#glow2)"/>
+        <!-- 基线 -->
+        <line x1="18" y1="72" x2="74" y2="72" stroke="#F59E0B" stroke-width="0.8" opacity="0.3"/>
+      </g>
+
+      <!-- K线图表实体层 -->
+      <rect x="20" y="58" width="7" height="14" rx="1.5" fill="#92400E"/>
+      <rect x="29" y="50" width="7" height="22" rx="1.5" fill="#B45309"/>
+      <rect x="38" y="43" width="7" height="29" rx="1.5" fill="#DC2626"/>
+      <rect x="47" y="36" width="7" height="36" rx="1.5" fill="#059669"/>
+      <rect x="56" y="28" width="7" height="44" rx="1.5" fill="#10B981"/>
+      <rect x="65" y="21" width="7" height="51" rx="1.5" fill="#22C55E"/>
+      <!-- 基线 -->
+      <line x1="18" y1="72" x2="74" y2="72" stroke="#F59E0B" stroke-width="1" opacity="0.6"/>
+      <!-- 顶部箭头趋势线 -->
+      <polyline points="23,55 32,47 41,40 50,33 59,25 68,18" stroke="#34D399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+      <polyline points="23,55 32,47 41,40 50,33 59,25 68,18" stroke="#86EFAC" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" filter="url(#glow2)"/>
+
+      <!-- 人民币符号（右上角）霓虹徽章 -->
+      <g class="check-pulse">
+        <circle cx="70" cy="28" r="15" fill="#0F172A" opacity="0.95"/>
+        <circle cx="70" cy="28" r="15" stroke="#F59E0B" stroke-width="1.5" opacity="0.85"/>
+        <circle cx="70" cy="28" r="13" stroke="#FBBF24" stroke-width="0.8" opacity="0.4"/>
+        <!-- ¥ 符号 -->
+        <text x="70" y="33" font-size="14" font-weight="900" fill="#FBBF24"
+              text-anchor="middle" font-family="'Courier New', monospace">¥</text>
+        <!-- ¥ 符号发光层 -->
+        <text x="70" y="33" font-size="14" font-weight="900" fill="#FDE68A"
+              text-anchor="middle" font-family="'Courier New', monospace" opacity="0.5"
+              style="filter:blur(2px)">¥</text>
+      </g>
+
+      <!-- 浮动粒子 -->
+      <circle class="dot-a" cx="18" cy="38" r="2" fill="#F59E0B" opacity="0.8"/>
+      <circle class="dot-b" cx="82" cy="38" r="1.5" fill="#10B981" opacity="0.7"/>
+      <circle class="dot-c" cx="18" cy="62" r="1.5" fill="#34D399" opacity="0.6"/>
+      <circle class="dot-d" cx="82" cy="62" r="2" fill="#FBBF24" opacity="0.7"/>
+      <circle class="dot-e" cx="50" cy="12" r="1.5" fill="#22C55E" opacity="0.7"/>
+
+      <!-- 渐变和滤镜定义 -->
+      <defs>
+        <radialGradient id="haloGrad2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="glow2" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
+  </div>
   <h1>一建经济刷题系统</h1>
   <div class="subtitle">2026 一级建造师 · 建设工程经济</div>
 </div>
@@ -197,7 +479,7 @@
   <div class="chapter-list">
 
     <!-- 第1章 - 可用 -->
-    <a href="ch01.html" class="chapter-card">
+    <a href="ch01.html" class="chapter-card ch01">
       <div class="chapter-info">
         <div class="chapter-num">第1章</div>
         <div class="chapter-title">资金时间价值计算及应用</div>
@@ -209,7 +491,7 @@
     </a>
 
     <!-- 第2章 - 可用 -->
-    <a href="ch02.html" class="chapter-card">
+    <a href="ch02.html" class="chapter-card ch02">
       <div class="chapter-info">
         <div class="chapter-num">第2章</div>
         <div class="chapter-title">技术方案经济效果评价</div>
@@ -221,7 +503,7 @@
     </a>
 
     <!-- 第3章 - 可用 -->
-    <a href="ch03.html" class="chapter-card">
+    <a href="ch03.html" class="chapter-card ch03">
       <div class="chapter-info">
         <div class="chapter-num">第3章</div>
         <div class="chapter-title">技术方案不确定性分析</div>
@@ -233,19 +515,19 @@
     </a>
 
     <!-- 第4章 - 已上线 -->
-    <a href="ch04.html" class="chapter-card">
+    <a href="ch04.html" class="chapter-card ch04">
       <div class="chapter-info">
         <div class="chapter-num">第4章</div>
         <div class="chapter-title">设备更新分析</div>
       </div>
       <div class="chapter-status">
-        <span class="progress-info">83题（多选42+单选41）</span>
+        <span class="progress-info">83题</span>
         <span class="status-available">✅ 开始</span>
       </div>
     </a>
 
     <!-- 第5章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch05">
       <div class="chapter-info">
         <div class="chapter-num">第5章</div>
         <div class="chapter-title">设备更新分析</div>
@@ -257,7 +539,7 @@
     </div>
 
     <!-- 第6章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch06">
       <div class="chapter-info">
         <div class="chapter-num">第6章</div>
         <div class="chapter-title">价值工程在工程建设中的应用</div>
@@ -269,7 +551,7 @@
     </div>
 
     <!-- 第7章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch07">
       <div class="chapter-info">
         <div class="chapter-num">第7章</div>
         <div class="chapter-title">新技术、新工艺和新材料应用方案的技术经济分析</div>
@@ -281,7 +563,7 @@
     </div>
 
     <!-- 第8章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch08">
       <div class="chapter-info">
         <div class="chapter-num">第8章</div>
         <div class="chapter-title">财务会计基础</div>
@@ -293,7 +575,7 @@
     </div>
 
     <!-- 第9章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch09">
       <div class="chapter-info">
         <div class="chapter-num">第9章</div>
         <div class="chapter-title">成本与费用</div>
@@ -305,7 +587,7 @@
     </div>
 
     <!-- 第10章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch10">
       <div class="chapter-info">
         <div class="chapter-num">第10章</div>
         <div class="chapter-title">收入</div>
@@ -317,7 +599,7 @@
     </div>
 
     <!-- 第11章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch11">
       <div class="chapter-info">
         <div class="chapter-num">第11章</div>
         <div class="chapter-title">利润</div>
@@ -329,7 +611,7 @@
     </div>
 
     <!-- 第12章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch12">
       <div class="chapter-info">
         <div class="chapter-num">第12章</div>
         <div class="chapter-title">财务分析</div>
@@ -341,7 +623,7 @@
     </div>
 
     <!-- 第13章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch13">
       <div class="chapter-info">
         <div class="chapter-num">第13章</div>
         <div class="chapter-title">筹资管理</div>
@@ -353,7 +635,7 @@
     </div>
 
     <!-- 第14章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch14">
       <div class="chapter-info">
         <div class="chapter-num">第14章</div>
         <div class="chapter-title">营运资金管理</div>
@@ -365,7 +647,7 @@
     </div>
 
     <!-- 第15章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch15">
       <div class="chapter-info">
         <div class="chapter-num">第15章</div>
         <div class="chapter-title">建设工程项目总投资</div>
@@ -377,7 +659,7 @@
     </div>
 
     <!-- 第16章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch16">
       <div class="chapter-info">
         <div class="chapter-num">第16章</div>
         <div class="chapter-title">建设工程定额</div>
@@ -389,7 +671,7 @@
     </div>
 
     <!-- 第17章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch17">
       <div class="chapter-info">
         <div class="chapter-num">第17章</div>
         <div class="chapter-title">建设工程项目设计概算</div>
@@ -401,7 +683,7 @@
     </div>
 
     <!-- 第18章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch18">
       <div class="chapter-info">
         <div class="chapter-num">第18章</div>
         <div class="chapter-title">建设工程项目施工图预算</div>
@@ -413,7 +695,7 @@
     </div>
 
     <!-- 第19章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch19">
       <div class="chapter-info">
         <div class="chapter-num">第19章</div>
         <div class="chapter-title">工程量清单计价</div>
@@ -425,7 +707,7 @@
     </div>
 
     <!-- 第20章 - 未解锁 -->
-    <div class="chapter-card disabled">
+    <div class="chapter-card disabled ch20">
       <div class="chapter-info">
         <div class="chapter-num">第20章</div>
         <div class="chapter-title">工程计价数字化与智能化</div>
@@ -441,7 +723,7 @@
 
 <div class="footer">
   <p>📚 共20章 · 前4章已上线 · 持续更新中</p>
-  <p style="margin-top:8px;font-size:0.78rem;color:#A0AEC0;">第4章已更新：83题 · 含设备磨损与补偿、经济寿命估算、更新方案比选、设备租赁分析</p>
+  <p style="margin-top:8px;font-size:0.78rem;color:#94A3B8;">第4章已更新：83题 · 含设备磨损与补偿、经济寿命估算、更新方案比选、设备租赁分析</p>
 </div>
 
 </body>
