@@ -1038,8 +1038,8 @@ function buildComplete() {
   const acc = answered > 0 ? Math.round(correct / answered * 100) : 0;
   const pct = Math.round(answered / QUESTIONS.length * 100);
   
-  const emoji = pct === 100 ? '🏆' : pct >= 80 ? '🌟' : pct >= 50 ? '💪' : '📚';
-  const title = pct === 100 ? '满分通关！' : pct >= 80 ? '表现优秀！' : pct >= 50 ? '继续加油！' : '正在积累中...';
+  const emoji = acc === 100 && pct === 100 ? '🏆' : acc >= 90 ? '🌟' : acc >= 60 ? '💪' : '📚';
+  const title = acc === 100 && pct === 100 ? '满分通关！' : pct === 100 ? '全部完成！' : acc >= 80 ? '表现优秀！' : acc >= 50 ? '继续加油！' : '正在积累中...';
   const desc = `已完成 ${answered}/${QUESTIONS.length} 题，正确率 ${acc}%`;
   
   document.getElementById('completeEmoji').textContent = emoji;
