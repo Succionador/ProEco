@@ -622,7 +622,7 @@ const QUESTIONS = [
   {id:80,type:"adv",diff:"进阶",text:"某设备价格为120万元，租期6年，折现率为8%，按年金法（期末支付）计算，每年末应支付租金约为（ ）万元。已知：(A/P,8%,6)=0.2163。",opts:["21.63","25.96","26.00","20.00"],answer:"B",formula:`✅ 正确答案：B\n\n年金法（期末支付）公式：R = P·(A/P,i,n)\n\n已知：P=120万元，(A/P,8%,6)=0.2163\nR = 120 × 0.2163 = 25.956 ≈ 25.96万元\n\nA❌ 21.63万元 → P×0.18的估算，系数用错。\nB✅ 25.96万元 → 正确计算结果。\nC❌ 26.00万元 → 近似但不够精确。\nD❌ 20.00万元 → P/n=120/6=20，忽略了利息和附加。`,
     kb:"年金法（期末支付）公式：R=P(A/P,i,N)。例题：P=120万，(A/P,8%,6)=0.2163，R=120×0.2163=25.96万元。",
     page:50},
-  {id:81,type:"adv",diff:"进阶",text:"关于年金法计算租金，下列说法错误的是（ ）。",opts:["年金法分为期末支付（普通年金）和期初支付（预付年金）两种","期末支付年租金 R = P·(A/P,i,N)","期初支付年租金 R = P·(A/P,i,N)÷(1+i)","在相同条件下，期初支付的年金大于期末支付的年金"],answer:"D",formula:`✅ 正确答案：D\n\nA✅ 年金法分为期末支付（普通年金）和期初支付（预付年金）两种。\nB✅ 期末支付年租金 R = P·(A/P,i,N)。\nC✅ 期初支付年租金 R = P·(A/P,i,N)/(1+i)（比期末支付提前一期）。\nD✅ 期初支付的年金应小于期末支付的年金。R期初 = R期末/(1+i)，故期初支付额约为期末的90.9%。`,
+  {id:81,type:"adv",diff:"进阶",text:"关于年金法计算租金，下列说法错误的是（ ）。",opts:["年金法分为期末支付（普通年金）和期初支付（预付年金）两种","期末支付年租金 R = P·(A/P,i,N)","期初支付年租金 R = P·(A/P,i,N)÷(1+i)","在相同条件下，期初支付的年金大于期末支付的年金"],answer:"D",formula:`✅ 正确答案：D\n\nA✅ 年金法分为期末支付（普通年金）和期初支付（预付年金）两种。\nB✅ 期末支付年租金 R = P·(A/P,i,N)。\nC✅ 期初支付年租金 R = P·(A/P,i,N)/(1+i)（比期末支付提前一期）。\nD❌ 期初支付的年金大于期末支付的年金（题目说法错误）。实际上 R期初 = R期末/(1+i)，期初支付额更小，约为期末的90.9%。`,
     kb:"年金法分期末支付（R=P(A/P,i,N)）和期初支付（R=P(A/P,i,N)/(1+i)）。相同条件下期初支付年金小于期末支付年金。",
     page:50},
   {id:82,type:"adv",diff:"进阶",text:"在进行设备租赁与购置方案的比选时，应采用的方法是（ ）。",opts:["净现值法（NPV），选择NPV最大的方案","费用现值法（PC）或费用年值法（AC），选择费用最小的方案","内部收益率法（IRR），选择IRR最高的方案","投资回收期法，选择回收期最短的方案"],answer:"B",formula:`✅ 正确答案：B\n\n租赁vs购置比选属于费用型方案比较（收入相同或基本相同），应采用费用现值法(PC)或费用年值法(AC)。\n\nA❌ 净现值法(NPV)适用于收益型方案，租赁vs购置不以NPV最大为目标。\nB✅ 费用现值法(PC)或费用年值法(AC)，选择费用最小的方案。\nC❌ 内部收益率法(IRR)用于单方案评价，多方案比选不适用此法。\nD❌ 投资回收期法是辅助指标，不用于租赁vs购置决策。`,
@@ -939,7 +939,18 @@ function updateNavButtons() {
   const prev = document.getElementById('btnPrev');
   const next = document.getElementById('btnNext');
   if (prev) prev.disabled = state.current <= 0;
-  if (next) next.disabled = state.current >= list.length - 1;
+  if (next) {
+    const isLast = state.current >= list.length - 1;
+    if (isLast) {
+      next.textContent = '提交 ✅';
+      next.onclick = function() { showSection('complete'); };
+      next.disabled = false;
+    } else {
+      next.textContent = '下一题';
+      next.onclick = function() { navigateQ(1); };
+      next.disabled = false;
+    }
+  }
 }
 
 // 构建跳转按钮网格
