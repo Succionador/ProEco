@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一建经济 * 第5章 刷题</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+:root {
+  --bg: #F5F7FA;
+  --card-bg: #FFFFFF;
+  --title: #1A365D;
+  --accent: #2C5282;
+  --text: #2D3748;
+  --text-sec: #718096;
+  --border: #E2E8F0;
+  --right: #38A169;
+  --right-bg: #F0FFF4;
+  --wrong: #E53E3E;
+  --wrong-bg: #FFF5F5;
+  --info-bg: #EBF8FF;
+  --info-bd: #4299E1;
+  --tag-base: #BEE3F8;
+  --tag-adv: #C4F1F9;
+  --topbar-start: #1A365D;
+  --topbar-end: #2B6CB0;
+  --font: "等线", "DengXian", "Microsoft YaHei", sans-serif;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(26,54,93,0.1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+/* 顶部控制栏 */
+.top-bar {
+  background: linear-gradient(135deg, var(--topbar-start), var(--topbar-end));
+  padding: 10px 16px 8px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 3px 16px rgba(26,54,93,0.15);
+}
+.top-bar-center {
+  display: flex; flex-direction: column; align-items: center;
+  max-width: 760px; margin: 0 auto;
+  gap: 5px;
+}
+.tb-title { text-align: center; margin-bottom: 2px; }
+.tb-title .line1 { font-size: 1.05rem; color: #FFFFFF; font-weight: 700; letter-spacing: 0.06em; }
+.tb-title .line2 { font-size: 0.78rem; color: rgba(255,255,255,0.9); font-weight: 400; letter-spacing: 0.04em; }
+.tb-title .line3 { font-size: 0.78rem; color: rgba(255,255,255,0.75); font-weight: 400; letter-spacing: 0.04em; }
+.tb-stats { display: flex; gap: 8px; font-size: 0.72rem; color: rgba(255,255,255,0.9); }
+.tb-stats .stat { display: flex; align-items: center; gap: 3px; }
+.tb-stats b { color: #FFFFFF; font-size: 0.85rem; min-width: 16px; text-align: center; }
+.tb-tabs { display: flex; gap: 4px; }
+.sec-tab { padding: 3px 9px; border-radius: 10px; font-size: 0.7rem; border: none; cursor: pointer; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); font-family: var(--font); transition: all 0.2s; }
+.sec-tab:hover { background: rgba(255,255,255,0.22); }
+.sec-tab.on { background: rgba(255,255,255,0.32); color: #FFFFFF; font-weight: 600; }
+.tb-btns { display: flex; gap: 5px; }
+.ctrl-btn { padding: 4px 10px; border: 1px solid rgba(255,255,255,0.35); border-radius: 6px; font-family: var(--font); font-size: 0.72rem; cursor: pointer; background: rgba(255,255,255,0.15); color: #FFFFFF; transition: all 0.2s; }
+.ctrl-btn:hover { background: rgba(255,255,255,0.28); }
+.progress-bar-wrap { position: relative; background: rgba(0,0,0,0.2); border-radius: 4px; height: 8px; width: 100%; overflow: visible; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #68D391, #48BB78); width: 0%; transition: width 0.4s ease; border-radius: 4px; }
+.progress-label { position: absolute; top: -1px; left: 0; background: rgba(0,0,0,0.6); color: #fff; font-size: 0.65rem; padding: 1px 4px; border-radius: 3px; transform: translateX(-50%); pointer-events: none; white-space: nowrap; }
+
+/* 容器 */
+.container { max-width: 760px; margin: 0 auto; padding: 6px 16px 80px; }
+
+/* 框架区 */
+.framework { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+.framework h2 { color: var(--title); font-size: 1.05rem; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+.framework-pre { font-family: "Courier New", monospace; font-size: 0.85rem; color: var(--text-sec); line-height: 1.6; white-space: pre-wrap; background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 6px; padding: 12px 14px; }
+
+/* 公式区 */
+.formula-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+.formula-section h2 { color: var(--title); font-size: 1.05rem; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+.formula-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.formula-table th { background: var(--tag-base); color: var(--title); padding: 7px 10px; text-align: center; font-weight: 600; }
+.formula-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: center; color: var(--text); }
+.formula-table tr:last-child td { border-bottom: none; }
+.formula-table td:first-child { color: var(--accent); font-weight: 600; }
+.formula-table .formula { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+
+/* 题目卡片 */
+.question-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px 14px; margin-bottom: 10px; box-shadow: var(--shadow); }
+.q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.q-num { font-weight: 700; font-size: 0.82rem; color: #fff; background: var(--accent); border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.q-tag { font-size: 0.68rem; padding: 1px 8px; border-radius: 10px; font-weight: 600; letter-spacing: 0.04em; }
+.tag-base { background: var(--tag-base); color: var(--title); }
+.tag-adv  { background: var(--tag-adv);  color: var(--text); }
+.tag-done { background: var(--right-bg); color: var(--right); }
+.tag-wrong { background: var(--wrong-bg); color: var(--wrong); }
+.q-text { font-size: 0.88rem; line-height: 1.7; color: var(--text); margin-bottom: 8px; }
+
+/* 选项 */
+.options { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.options li { padding: 7px 12px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 8px; font-size: 0.88rem; }
+.options li:hover { border-color: var(--accent); background: #FFF3E0; }
+.opt-letter { font-weight: 700; color: var(--accent); flex-shrink: 0; width: 18px; }
+.opt-letter.selected { color: var(--title); }
+.opt-text { flex: 1; }
+.options li.selected { border-color: var(--accent); background: #FFF3E0; }
+.options li.correct { border-color: var(--right); background: var(--right-bg); color: var(--right); }
+.options li.wrong-choice { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+.options li.dim { opacity: 0.5; }
+
+/* 按钮 */
+.action-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+.btn { padding: 7px 18px; border-radius: 8px; font-family: var(--font); font-size: 0.88rem; cursor: pointer; border: none; transition: all 0.2s; }
+.btn-primary { background: var(--title); color: #fff; }
+.btn-primary:hover { background: var(--accent); }
+.btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text-sec); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* 解析 */
+.explanation { margin-top: 8px; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; line-height: 1.7; display: none; }
+.explanation.show { display: block; }
+.explanation.right { background: var(--right-bg); border-left: 3px solid var(--right); }
+.explanation.wrong { background: var(--wrong-bg); border-left: 3px solid var(--wrong); }
+.explanation .ex-title { font-weight: 700; margin-bottom: 6px; }
+.explanation.right .ex-title { color: var(--right); }
+.explanation.wrong .ex-title { color: var(--wrong); }
+.explanation .ex-content { color: var(--text); }
+.explanation .ex-content br { display: block; margin: 2px 0; }
+.explanation .ex-formula { background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 6px; padding: 8px 12px; margin-top: 6px; font-size: 0.85rem; color: var(--text); }
+.explanation .warn-tag { background: #FEF9C3; color: #854D0E; border: 1px solid #FDE047; border-radius: 4px; padding: 4px 10px; margin-top: 6px; font-size: 0.82rem; display: block; }
+.explanation .math-block { background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 6px; padding: 10px 14px; margin: 8px 0; text-align: center; }
+.kb-section { background: #fffde7; border-left: 4px solid #ffc107; padding: 12px; margin-top: 10px; border-radius: 4px; }
+.kb-title { font-weight: bold; color: #f57c00; margin-bottom: 6px; }
+.kb-content { color: #333; margin-bottom: 6px; line-height: 1.7; }
+.kb-page { color: #1976d2; font-weight: bold; }
+.math-inline { font-style: italic; color: var(--accent); }
+
+/* 底部导航 */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, #FDF6E3 85%, transparent); padding: 10px 16px 14px; display: flex; justify-content: center; gap: 12px; z-index: 90; }
+.nav-btn { padding: 9px 28px; border-radius: 24px; font-family: var(--font); font-size: 0.88rem; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+.nav-btn.prev { background: var(--card-bg); border: 1.5px solid var(--border); color: var(--text-sec); }
+.nav-btn.next { background: var(--title); color: #fff; }
+.nav-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+.nav-spacer { height: 72px; }
+
+/* 错题列表 */
+.mini-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; box-shadow: 0 1px 4px rgba(139,69,19,0.06); }
+.mini-card:hover { border-color: var(--accent); background: #FFF3E0; }
+.mini-card .mn { font-weight: 700; color: var(--accent); min-width: 32px; }
+.mini-card .mt { font-size: 0.82rem; color: var(--text-sec); flex: 1; }
+.mini-card .mst { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+.mini-card .mst.right { background: var(--right-bg); color: var(--right); }
+.mini-card .mst.wrong { background: var(--wrong-bg); color: var(--wrong); }
+
+/* 完成页 */
+.complete-panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 24px; text-align: center; box-shadow: var(--shadow); margin-bottom: 18px; }
+.complete-panel .big { font-size: 3rem; margin-bottom: 10px; }
+.complete-panel .title { font-size: 1.3rem; color: var(--title); font-weight: 700; margin-bottom: 8px; }
+.complete-panel .desc { color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; }
+.score-row { display: flex; justify-content: center; gap: 24px; margin: 18px 0; flex-wrap: wrap; }
+.score-box { background: var(--info-bg); border: 1px solid var(--info-bd); border-radius: 10px; padding: 14px 24px; text-align: center; min-width: 100px; }
+.score-box .sb-num { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+.score-box .sb-lbl { font-size: 0.75rem; color: var(--text-sec); margin-top: 2px; }
+.score-box .sb-num.good { color: var(--right); }
+.score-box .sb-num.bad  { color: var(--wrong); }
+
+.hidden { display: none !important; }
+
+/* 跳转栏 — 下拉框样式 */
+.q-jump { margin-bottom: 12px; }
+#jumpDropdown { position: relative; display: inline-block; }
+#jumpDropdown > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--text-sec); padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--card-bg); user-select: none; transition: border-color 0.15s; }
+#jumpDropdown > summary:hover { border-color: var(--accent); }
+#jumpDropdown > summary::-webkit-details-marker { display: none; }
+.jump-current-num { color: var(--accent); font-weight: 700; min-width: 3em; text-align: center; }
+.jump-arrow { font-size: 0.7rem; transition: transform 0.2s; display: inline-block; }
+#jumpDropdown[open] .jump-arrow { transform: rotate(180deg); }
+.jump-grid-wrap { position: absolute; top: calc(100% + 6px); left: 0; min-width: 320px; max-width: 90vw; z-index: 50; background: var(--card-bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px; box-shadow: 0 6px 24px rgba(0,0,0,0.12); max-height: 340px; overflow-y: auto; }
+.jump-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+.jump-btn { padding: 4px 2px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--card-bg); color: var(--text-sec); font-size: 0.78rem; cursor: pointer; text-align: center; transition: all 0.15s; font-family: var(--font); line-height: 1.2; }
+.jump-btn:hover { border-color: var(--accent); background: #FFF3E0; color: var(--accent); font-weight: 700; }
+.jump-btn.done { border-color: var(--right); background: var(--right-bg); color: var(--right); }
+.jump-btn.wrong { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+
+/* 弹窗 */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal-box { background: var(--card-bg); border-radius: var(--radius); padding: 20px; max-width: 480px; width: 100%; max-height: 70vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
+.modal-title { font-size: 0.95rem; font-weight: 700; color: var(--title); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+.modal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 6px; }
+.modal-qbtn { padding: 6px 4px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--card-bg); color: var(--text); font-size: 0.78rem; cursor: pointer; text-align: center; transition: all 0.15s; }
+.modal-qbtn:hover { border-color: var(--accent); background: #FFF3E0; color: var(--accent); font-weight: 700; }
+.modal-qbtn.wrong { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+.modal-close { margin-top: 12px; width: 100%; padding: 8px; background: var(--border); color: var(--text-sec); border: none; border-radius: 8px; cursor: pointer; font-family: var(--font); font-size: 0.82rem; }
+.modal-close:hover { background: var(--title); color: #fff; }
+
+.fade-in { animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- 顶部控制栏 -->
+<div class="top-bar">
+  <div class="top-bar-center">
+    <div class="tb-title">
+      <div class="line1"><a href="index.html" style="color:#FFF;text-decoration:none;opacity:0.7;margin-right:8px;" title="返回首页">🏠</a> 大懒唐刷题系统</div>
+      <div class="line2">2026 一建工程经济</div>
+      <div class="line3">📖 第5章 价值工程</div>
+    </div>
+    <div class="tb-stats">
+      <span class="stat"><b id="statAnswered">0</b>已答</span>
+      <span class="stat"><b id="statCorrect">0</b>对</span>
+      <span class="stat"><b id="statWrong">0</b>错</span>
+      <span class="stat"><b id="statAccuracy">--</b>正确率</span>
+    </div>
+    <div class="tb-tabs" id="sectionTabs">
+      <button class="sec-tab on" onclick="setFilter('all')">全部</button>
+      <button class="sec-tab" onclick="setFilter('base')">基础</button>
+      <button class="sec-tab" onclick="setFilter('adv')">进阶</button>
+      <button class="sec-tab" onclick="setFilter('undone')">未答</button>
+      <button class="sec-tab" onclick="setFilter('wrong')">错题</button>
+    </div>
+    <div class="tb-btns">
+      <button class="ctrl-btn" onclick="openRetryModal()">🔄 重做</button>
+      <button class="ctrl-btn" onclick="showSection('wrongbook')">📕 错题</button>
+      <button class="ctrl-btn" onclick="showSection('complete')">📊 统计</button>
+      <button class="ctrl-btn" onclick="clearAll()">🗑 重置</button>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+    <div class="progress-label" id="progressLabel" style="display:none;"></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 首页 -->
+  <div id="page-home" class="fade-in">
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;box-shadow:var(--shadow);margin-bottom:16px;">
+      <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:10px;">第5章 * 价值工程</div>
+      <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:16px;">共 90 道题（多选题 30 道 + 单选题 60 道）</div>
+      <div style="font-size:0.78rem;color:var(--info-bd);background:var(--info-bg);border:1px solid var(--info-bd);border-radius:8px;padding:8px 14px;margin-bottom:16px;line-height:1.7;text-align:left;display:inline-block;">
+        <strong>多选题规则：</strong>5个备选项，选2~4个正确项，不得全选或不选。<br>
+        选对1个得0.5分，选对全部正确项得2分，选错0分。
+      </div>
+      <button class="btn btn-primary" onclick="showSection('questions')" style="font-size:0.95rem;padding:10px 32px;">▶ 开始刷题</button>
+    </div>
+
+    <div class="framework">
+      <h2>📖 本章知识框架</h2>
+      <div class="framework-pre">第5章 价值工程
+
+  5.1 价值工程概述
+     5.1.1 价值工程的含义
+         * 价值 V = F / C（功能/费用）
+         * 寿命周期成本 = 研究+形成+退出使用的全部费用
+     5.1.2 提高价值的5种途径
+         * 双向型（功能↑，费用↓）-- 最理想
+         * 改进型（功能↑，费用→）
+         * 节约型（功能→，费用↓）
+         * 投资型（功能↑↑，费用↑）
+         * 牺牲型（功能↓，费用↓↓）
+     5.1.3 价值工程的特点（7条）
+
+  5.2 价值工程实施步骤
+     5.2.1 准备阶段
+         * 对象选择 / 组成工作组 / 制订计划
+     5.2.2 分析阶段
+         * 收集资料 / 功能分析 / 功能评价
+     5.2.3 创新阶段
+         * 方案创新 / 方案评价 / 提案编写
+     5.2.4 实施阶段
+         * 四个落实：组织、经费、物资、时间
+
+  5.3 对象选择方法
+     5.3.1 因素分析法（定性）
+     5.3.2 ABC分析法（二八法则）
+     5.3.3 强制确定法（0-1评分/0-4评分）
+     5.3.4 百分比分析法（成本维度）
+     5.3.5 价值指数法（功能+成本）
+
+  5.4 功能分析
+     5.4.1 功能定义（动词+名词）
+     5.4.2 功能整理（上位=目的，下位=手段）
+     5.4.3 功能计量（数量/等级/系数/强制确定）
+     5.4.4 功能分类
+         * 按重要程度：基本功能 / 辅助功能
+         * 按使用性质：使用功能 / 品位功能
+         * 按用户需求：必要功能 / 不必要功能
+         * 按相对需求：不足功能 / 过剩功能
+
+  5.5 功能评价
+     5.5.1 价值指数 V = F / C
+         * V=1：匹配理想，无需改进
+         * V<1：成本过高，应优先改进
+         * V>1：成本偏低，需具体分析
+     5.5.2 成本改进期望值 ΔC = C - F
+
+  5.6 方案创新与评价
+     5.6.1 方案创新方法（头脑风暴/歌顿/德尔菲/专家检查）
+     5.6.2 方案评价（概略评价+详细评价）
+     5.6.3 评价内容（技术/经济/社会/环境）</div>
+    </div>
+
+    <div class="formula-section">
+      <h2>📐 核心公式速查</h2>
+      <table class="formula-table">
+        <thead><tr><th>#</th><th>公式名称</th><th>公式</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>价值指数</td><td class="formula">$V = \dfrac{F}{C}$</td></tr>
+          <tr><td>2</td><td>成本改进期望值</td><td class="formula">$\Delta C = C - F$</td></tr>
+          <tr><td>3</td><td>功能评价值</td><td class="formula">$\text{功能评价值} = \text{初始总成本} \times \text{重要性系数}$</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px;font-size:0.82rem;color:var(--text-sec);">V=价值指数；F=功能评价值；C=目前成本；ΔC=成本改进期望值</p>
+    </div>
+
+    <div class="formula-section" style="background:var(--info-bg);border-color:var(--info-bd);">
+      <h2>📌 各节核心考点</h2>
+      <div style="font-size:0.88rem;line-height:1.8;color:var(--text);">
+        <p><strong>5.1 价值工程概述：</strong>价值V=F/C的含义；提高价值的5种途径（双向型最理想）；价值工程7个特点</p>
+        <p><strong>5.2 工作程序：</strong>4个阶段（准备→分析→创新→实施）；各阶段工作内容区分</p>
+        <p><strong>5.3 对象选择：</strong>5种方法适用场景；ABC分析法（二八法则）；强制确定法（0-1/0-4评分）</p>
+        <p><strong>5.4 功能分析：</strong>功能定义（动词+名词）；功能整理（上位=目的，下位=手段）；功能分类（4种标准）</p>
+        <p><strong>5.5 功能评价：</strong>价值指数判断（V=1/V&lt;1/V&gt;1）；成本改进期望值ΔC=C-F；改进优先级</p>
+        <p><strong>5.6 方案创新：</strong>4种创新方法；概略评价vs详细评价；4个评价内容（技术/经济/社会/环境）</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 刷题页 -->
+  <div id="page-questions" class="hidden fade-in">
+    <div class="q-jump">
+      <details id="jumpDropdown">
+        <summary>
+          <span>跳转</span>
+          <span id="jumpCurrent" class="jump-current-num"></span>
+          <span class="jump-arrow">▼</span>
+        </summary>
+        <div class="jump-grid-wrap">
+          <div id="jumpSelectGrid" class="jump-grid"></div>
+        </div>
+      </details>
+    </div>
+    <div id="questionsList"></div>
+    <div class="nav-spacer"></div>
+    <div class="bottom-nav">
+      <button class="nav-btn prev" id="btnPrev" onclick="navigateQ(-1)">上一题</button>
+      <button class="nav-btn next" id="btnNext" onclick="navigateQ(1)">下一题</button>
+    </div>
+  </div>
+
+  <!-- 错题本 -->
+  <div id="page-wrongbook" class="hidden fade-in">
+    <h2 style="color:var(--title);font-size:1.05rem;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--border);">错题查看</h2>
+    <div id="wrongbookList"></div>
+    <div id="wrongbookEmpty" style="text-align:center;padding:40px 0;color:var(--text-sec);font-size:0.9rem;">暂无错题记录</div>
+    <div class="nav-spacer"></div>
+    <div class="bottom-nav">
+      <button class="nav-btn prev" onclick="showSection('questions')">返回刷题</button>
+      <button class="nav-btn next" id="btnRetryWrong" onclick="retryWrong()" style="display:none">重做错题</button>
+    </div>
+  </div>
+
+  <!-- 完成页 -->
+  <div id="page-complete" class="hidden fade-in">
+    <div class="complete-panel">
+      <div class="big" id="completeEmoji">📊</div>
+      <div class="title" id="completeTitle">正在刷题中...</div>
+      <div class="desc" id="completeDesc">完成所有题目后查看统计</div>
+      <div class="score-row" id="completeScoreRow"></div>
+      <div id="completeActions" style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;"></div>
+    </div>
+    <div id="wrongSummary"></div>
+  </div>
+</div>
+
+<!-- 重做弹窗 -->
+<div id="retryModal" class="modal-overlay hidden" onclick="if(event.target===this)closeRetryModal()">
+  <div class="modal-box">
+    <div class="modal-title">选择错题重做</div>
+    <div id="retryEmpty" style="text-align:center;padding:20px;color:var(--text-sec);display:none;">暂无错题</div>
+    <div id="retryList"></div>
+    <button class="modal-close" onclick="closeRetryModal()">关闭</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {id:1,type:"base",diff:"基础",text:"价值工程中\"价值\"的计算公式是（  ）",opts:["V = F + C","V = F - C","V = F × C","V = F / C"],answer:"D",formula:`- A选项错误：价值不是功能和费用的相加关系
+- B选项错误：价值不是功能和费用的差值关系
+- C选项错误：价值不是功能和费用的乘积关系
+- D选项正确：价值工程中价值V的计算公式是V = F / C，即功能与费用之比`,kb:`价值工程的含义
+公式：V = F / C`,page:"52"},
+  {id:2,type:"base",diff:"基础",text:"在价值工程中，F表示（  ）",opts:["费用","功能","价值","成本"],answer:"B",formula:`- A选项错误：费用用C表示
+- B选项正确：F表示对象的功能，即对象能满足某种需求的效用或属性
+- C选项错误：价值用V表示
+- D选项错误：成本也是用C表示（费用=成本）`,kb:`价值工程的含义
+公式：V = F / C（F=功能，C=费用/成本，V=价值）`,page:"52"},
+  {id:3,type:"base",diff:"基础",text:"在价值工程中，C表示（  ）",opts:["功能","价值","费用（成本）","时间"],answer:"C",formula:`- A选项错误：功能用F表示
+- B选项错误：价值用V表示
+- C选项正确：C表示对象获得功能所产生的费用（成本），包括获得功能所有权/使用权的费用和保证功能发挥作用的费用（寿命周期成本）
+- D选项错误：时间不是价值公式中的要素`,kb:`价值工程的含义
+公式：V = F / C（C=寿命周期成本）`,page:"52"},
+  {id:4,type:"base",diff:"基础",text:"下列哪种提高价值的途径是最理想的？（  ）",opts:["改进型","双向型","节约型","投资型"],answer:"B",formula:`- A选项错误：改进型是功能提高、费用不变，不是最理想
+- B选项正确：双向型是功能提高、费用降低，是最理想的提高价值的途径
+- C选项错误：节约型是功能不变、费用降低，不是最理想
+- D选项错误：投资型是功能较大提高、费用较少提高，不是最理想`,kb:`提高价值的5种途径
+双向型（功能↑，费用↓）是最理想的途径`,page:"52"},
+  {id:5,type:"base",diff:"基础",text:"\"功能提高，费用降低\"属于提高价值的哪种途径？（  ）",opts:["改进型","双向型","节约型","投资型"],answer:"B",formula:`- A选项错误：改进型是功能提高、费用不变
+- B选项正确：双向型是功能提高、费用降低
+- C选项错误：节约型是功能不变、费用降低
+- D选项错误：投资型是功能较大提高、费用较少提高`,kb:`提高价值的5种途径
+双向型 = 功能↑ + 费用↓`,page:"52"},
+  {id:6,type:"base",diff:"基础",text:"\"功能提高，费用不变\"属于提高价值的哪种途径？（  ）",opts:["改进型","双向型","节约型","牺牲型"],answer:"A",formula:`- A选项正确：改进型是功能提高、费用不变
+- B选项错误：双向型是功能提高、费用降低
+- C选项错误：节约型是功能不变、费用降低
+- D选项错误：牺牲型是功能略有下降、费用大幅度降低`,kb:`提高价值的5种途径
+改进型 = 功能↑ + 费用→`,page:"52"},
+  {id:7,type:"base",diff:"基础",text:"\"功能不变，费用降低\"属于提高价值的哪种途径？（  ）",opts:["改进型","双向型","节约型","投资型"],answer:"C",formula:`- A选项错误：改进型是功能提高、费用不变
+- B选项错误：双向型是功能提高、费用降低
+- C选项正确：节约型是功能不变、费用降低
+- D选项错误：投资型是功能较大提高、费用较少提高`,kb:`提高价值的5种途径
+节约型 = 功能→ + 费用↓`,page:"52"},
+  {id:8,type:"base",diff:"基础",text:"\"功能较大提高，费用较少提高\"属于提高价值的哪种途径？（  ）",opts:["改进型","投资型","牺牲型"],answer:"B",formula:`- A选项错误：改进型是功能提高、费用不变
+- B选项正确：投资型是功能较大提高、费用较少提高
+- C选项错误：节约型是功能不变、费用降低
+- D选项错误：牺牲型是功能略有下降、费用大幅度降低`,kb:`提高价值的5种途径
+投资型 = 功能↑↑ + 费用↑`,page:"52"},
+  {id:9,type:"base",diff:"基础",text:"\"功能略有下降，费用大幅度降低\"属于提高价值的哪种途径？（  ）",opts:["改进型","双向型","节约型","牺牲型"],answer:"D",formula:`- A选项错误：改进型是功能提高、费用不变
+- B选项错误：双向型是功能提高、费用降低
+- C选项错误：节约型是功能不变、费用降低
+- D选项正确：牺牲型是功能略有下降、费用大幅度降低`,kb:`提高价值的5种途径
+牺牲型 = 功能↓ + 费用↓↓`,page:"52"},
+  {id:10,type:"base",diff:"基础",text:"价值工程的核心是（  ）",opts:["功能评价","功能分析","方案创新","方案评价"],answer:"B",formula:`- A选项错误：功能评价是功能分析后的工作
+- B选项正确：价值工程的核心是企业功能分析，围绕消费者所需要的功能展开
+- C选项错误：方案创新是创新阶段的工作
+- D选项错误：方案评价是创新阶段的工作`,kb:`价值工程的特点
+价值工程活动的核心是功能分析`,page:"53"},
+  {id:11,type:"base",diff:"基础",text:"价值工程活动的工作程序分为几个阶段？（  ）",opts:["3个","4个","5个","6个"],answer:"B",formula:`- A选项错误：不是3个阶段
+- B选项正确：价值工程的一般工作程序分为4个阶段：准备阶段、分析阶段、创新阶段、实施阶段
+- C选项错误：不是5个阶段
+- D选项错误：不是6个阶段`,kb:`价值工程实施步骤
+4个阶段（准备、分析、创新、实施）`,page:"54-55"},
+  {id:12,type:"base",diff:"基础",text:"价值工程准备阶段不包括以下哪项工作？（  ）",opts:["对象选择","组成价值工程工作组","功能分析","制订工作计划"],answer:"C",formula:`- A选项错误：对象选择是准备阶段的工作
+- B选项错误：组成价值工程工作组是准备阶段的工作
+- C选项正确：功能分析是分析阶段的工作，不是准备阶段
+- D选项错误：制订工作计划是准备阶段的工作`,kb:`价值工程工作程序
+准备阶段（对象选择、组成工作组、制订计划）`,page:"54-55"},
+  {id:13,type:"base",diff:"基础",text:"在价值工程对象选择方法中，ABC分析法遵循什么法则？（  ）",opts:["三七法则","二八法则","四六法则","五五法则"],answer:"B",formula:`- A选项错误：不是三七法则
+- B选项正确：ABC分析法遵循二八法则，即20%对象产生80%效果
+- C选项错误：不是四六法则
+- D选项错误：不是五五法则`,kb:`对象选择方法（ABC分析法）
+二八法则（20%对象产生80%效果）`,page:"55-56"},
+  {id:14,type:"base",diff:"基础",text:"在ABC分析法中，应优先选择哪类为价值工程对象？（  ）",opts:["A类","B类","C类","所有类别"],answer:"A",formula:`- A选项正确：A类是指累计成本占比80%上下而数量仅占20%左右的对象，应优先选择为价值工程对象
+- B选项错误：B类位居A类和C类之间，不是优先选择
+- C选项错误：C类种类多但成本占比低，实行一般管理
+- D选项错误：不是所有类别都优先选择`,kb:`对象选择方法（ABC分析法）
+A类优先选择（成本占比80%，数量占比20%）`,page:"55-56"},
+  {id:15,type:"base",diff:"基础",text:"下列哪种价值工程对象选择方法适用于备选对象彼此差异较大、不需要量化比较的情形？（  ）",opts:["ABC分析法","因素分析法","强制确定法","百分比分析法"],answer:"B",formula:`- A选项错误：ABC分析法适用于根据技术、经济特征分类排列的情形
+- B选项正确：因素分析法是凭借分析人员的经验集体研究确定价值工程对象的一种方法，适用于备选对象彼此差异较大不需要量化比较或难以量化比较的情形
+- C选项错误：强制确定法适用于从产品或其组成部分的性能、效用维度选择
+- D选项错误：百分比分析法适用于从成本/费用维度选择`,kb:`对象选择方法（5种方法）
+因素分析法 = 定性分析，适用于差异大、难量化情形`,page:"55-56"},
+  {id:16,type:"base",diff:"基础",text:"功能定义的方法是采用什么形式表述功能？（  ）",opts:["\"名词\"+\"动词\"","\"动词\"+\"名词\"","\"形容词\"+\"名词\"","\"动词\"+\"形容词\""],answer:"B",formula:`- A选项错误：不是"名词+动词"形式
+- B选项正确：功能定义的方法是采用"动词"+"名词"的形式表述功能，如果两个词不足以表示清楚功能的定义，允许增加一个词来表述，这个词往往是形容词
+- C选项错误：不是"形容词+名词"形式
+- D选项错误：不是"动词+形容词"形式`,kb:`功能分析（功能定义）
+功能定义采用"动词+名词"形式`,page:"57"},
+  {id:17,type:"base",diff:"基础",text:"在功能系统图中，上位功能是（  ）",opts:["实现功能的手段","功能的目的","下位功能","辅助功能"],answer:"B",formula:`- A选项错误：实现功能的手段是下位功能
+- B选项正确：上位功能是功能的目的，放在功能系统图的左边
+- C选项错误：下位功能是实现上位功能的直接手段，放在右边
+- D选项错误：辅助功能是按重要程度分类的功能类型`,kb:`功能分析（功能整理）
+上位功能=目的功能，下位功能=手段功能`,page:"58"},
+  {id:18,type:"base",diff:"基础",text:"在功能系统图中，下位功能是（  ）",opts:["功能的目的","实现功能的手段","上位功能","基本功能"],answer:"B",formula:`- A选项错误：功能的目的是上位功能
+- B选项正确：下位功能是实现上位功能的直接手段，放在功能系统图的右边
+- C选项错误：上位功能是目的功能，不是手段
+- D选项错误：基本功能是按重要程度分类的功能类型`,kb:`功能分析（功能整理）
+下位功能=手段功能，实现上位功能`,page:"58"},
+  {id:19,type:"base",diff:"基础",text:"功能评价时，如果价值指数V=1，表示（  ）",opts:["功能目前成本大于功能评价值","功能目前成本小于功能评价值","功能和成本匹配理想","需要优先改进"],answer:"C",formula:`- A选项错误：V<1时，功能目前成本大于功能评价值
+- B选项错误：V>1时，功能目前成本小于功能评价值
+- C选项正确：V=1为功能和成本匹配理想的情况，表明为保证功能及功能水平值得的投入与功能目前成本投入一致，一般无须改进
+- D选项错误：V<1的情形应作为重点改进区域，V=1一般不需要改进`,kb:`功能评价（价值指数判断）
+V=1（功能和成本匹配理想，无须改进）`,page:"60-61"},
+  {id:20,type:"base",diff:"基础",text:"功能评价时，如果价值指数V<1，表示（  ）",opts:["功能和成本匹配理想","功能目前成本小于功能评价值","功能目前成本大于功能评价值","不需要改进"],answer:"C",formula:`- A选项错误：V=1时功能和成本匹配理想
+- B选项错误：V>1时功能目前成本小于功能评价值
+- C选项正确：V<1表明功能目前成本大于功能评价值（初始目标成本），应作为重点改进的区域，越低的越应优先改进
+- D选项错误：V<1需要改进，不是不需要改进`,kb:`功能评价（价值指数判断）
+V<1（功能目前成本>功能评价值，应改进）`,page:"60-61"},
+  {id:21,type:"base",diff:"基础",text:"功能评价时，如果价值指数V>1，表示（  ）",opts:["功能和成本匹配理想","功能目前成本小于功能评价值","功能目前成本大于功能评价值","必须立即改进"],answer:"B",formula:`- A选项错误：V=1时功能和成本匹配理想
+- B选项正确：V>1表明功能目前投入低于实现该功能合理的、理想的投入，需具体分析（可能是评价值估计过高、企业有优势、或有外部因素影响）
+- C选项错误：V<1时功能目前成本大于功能评价值
+- D选项错误：V>1不一定必须立即改进，需具体分析`,kb:`功能评价（价值指数判断）
+V>1（功能目前成本<功能评价值，需具体分析）`,page:"60-61"},
+  {id:22,type:"base",diff:"基础",text:"成本改进期望值的计算公式是（  ）",opts:["ΔC = F - C","ΔC = F × C","ΔC = C - F","ΔC = F / C"],answer:"C",formula:`- A选项错误：不是F - C
+- B选项错误：不是F × C
+- C选项正确：成本改进期望值ΔC = C - F（目前成本 - 功能评价值），改进期望值越大的越应优先改进
+- D选项错误：V = F / C是价值指数的计算公式，不是成本改进期望值`,kb:`功能评价（成本改进期望值）
+公式：ΔC = C - F`,page:"60-61"},
+  {id:23,type:"base",diff:"基础",text:"在价值工程方案评价中，应选择哪个方案为最优方案？（  ）",opts:["价值指数较小的方案","价值指数较大的方案","成本较低的方案","功能得分最高的方案"],answer:"B",formula:`- A选项错误：应选择价值指数较大的方案，不是较小的
+- B选项正确：价值工程应用于方案评价和选优时，应选择价值指数较大的方案为最优方案
+- C选项错误：成本较低不一定最优，需结合功能综合判断
+- D选项错误：功能得分最高不一定最优，需结合成本综合判断`,kb:`价值工程应用于方案评价
+选择价值指数较大的方案为最优方案`,page:"61-62"},
+  {id:24,type:"base",diff:"基础",text:"价值工程创新阶段不包括以下哪项工作？（  ）",opts:["方案创新","方案评价","提案编写","功能分析"],answer:"D",formula:`- A选项错误：方案创新是创新阶段的工作
+- B选项错误：方案评价是创新阶段的工作
+- C选项错误：提案编写是创新阶段的工作
+- D选项正确：功能分析是分析阶段的工作，不是创新阶段`,kb:`价值工程工作程序（创新阶段）
+创新阶段（方案创新、方案评价、提案编写）`,page:"62-63"},
+  {id:25,type:"base",diff:"基础",text:"下列哪种方案创新方法又称为模糊目标法？（  ）",opts:["头脑风暴法","歌顿法","专家意见法","专家检查法"],answer:"B",formula:`- A选项错误：头脑风暴法不是模糊目标法
+- B选项正确：歌顿法又称为模糊目标法，通过模糊表达问题，避免思维定势
+- C选项错误：专家意见法又称为德尔菲法
+- D选项错误：专家检查法不是模糊目标法`,kb:`方案创新方法
+歌顿法=模糊目标法`,page:"62"},
+  {id:26,type:"base",diff:"基础",text:"下列哪种方案创新方法又称为德尔菲法？（  ）",opts:["头脑风暴法","歌顿法","专家意见法","专家检查法"],answer:"C",formula:`- A选项错误：头脑风暴法不是德尔菲法
+- B选项错误：歌顿法不是德尔菲法
+- C选项正确：专家意见法又称为德尔菲法，通过匿名征求专家意见进行创新
+- D选项错误：专家检查法不是德尔菲法`,kb:`方案创新方法
+专家意见法=德尔菲法`,page:"62"},
+  {id:27,type:"base",diff:"基础",text:"方案评价分为哪两个阶段？（  ）",opts:["技术评价和经济评价","概略评价和详细评价","社会评价和环境评价","定性评价和定量评价"],answer:"B",formula:`- A选项错误：技术评价和经济评价是评价内容，不是评价阶段
+- B选项正确：方案评价分为概略评价和详细评价两阶段进行
+- C选项错误：社会评价和环境评价是评价内容，不是评价阶段
+- D选项错误：定性评价和定量评价是评价方法，不是评价阶段`,kb:`方案评价
+概略评价（初步筛选）+ 详细评价（最终选择）`,page:"62"},
+  {id:28,type:"base",diff:"基础",text:"价值工程实施阶段要求做到\"四个落实\"，其中不包括（  ）",opts:["组织落实","经费落实","物资落实","人员落实"],answer:"D",formula:`- A选项错误：组织落实是四个落实之一
+- B选项错误：经费落实是四个落实之一
+- C选项错误：物资落实是四个落实之一
+- D选项正确：四个落实是组织落实、经费落实、物资落实、时间落实，不包括人员落实`,kb:`价值工程实施阶段（四个落实）
+组织、经费、物资、时间四个落实`,page:"63-64"},
+  {id:29,type:"base",diff:"基础",text:"价值工程的特点有几条？（  ）",opts:["5条","6条","7条","8条"],answer:"C",formula:`- A选项错误：不是5条
+- B选项错误：不是6条
+- C选项正确：价值工程的特点有7条：①有效实现对象技术和经济的结合；②基于用户/顾客视角解决问题；③目标是提高对象的价值；④核心是企业功能分析；⑤强调技术方案创新；⑥需要进行量化分析；⑦是一种有组织的管理活动
+- D选项错误：不是8条`,kb:`价值工程的特点（7条）
+7个特点`,page:"52-54"},
+  {id:30,type:"base",diff:"基础",text:"在价值工程中，寿命周期成本是指（  ）",opts:["仅指生产成本","仅指使用成本","研究、形成到退出使用所需的全部费用","仅指设计成本"],answer:"C",formula:`- A选项错误：不仅指生产成本，还包括其他阶段的成本
+- B选项错误：不仅指使用成本，还包括其他阶段的成本
+- C选项正确：价值工程的费用（成本）是指寿命周期成本，即从对象的研究、形成到退出使用所需的全部费用
+- D选项错误：不仅指设计成本，还包括其他阶段的成本`,kb:`价值工程的含义（寿命周期成本）
+寿命周期成本 = 研究+形成+退出使用的全部费用`,page:"52-53"},
+  {id:31,type:"base",diff:"基础",text:"提高价值的途径包括（  ）",opts:["双向型","改进型","节约型","投资型","牺牲型"],answer:"BCD",formula:`- A选项错误：双向型是功能提高、费用降低，但功能和费用都变化，不符合题意（本题考察只有一项变化的途径）
+- B选项正确：改进型是功能提高、费用不变
+- C选项正确：节约型是功能不变、费用降低
+- D选项正确：投资型是功能较大提高、费用较少提高
+- E选项错误：牺牲型是功能略有下降、费用大幅度降低，但功能和费用都变化，不符合题意`,kb:`提高价值的5种途径
+改进型（功能↑，费用→）、节约型（功能→，费用↓）、投资型（功能↑↑，费用↑）
+（双向型、牺牲型是功能和费用都变化，本题不选）`,page:"52"},
+  {id:32,type:"base",diff:"基础",text:"价值工程的特点包括（  ）",opts:["有效实现对象技术和经济的结合","基于用户/顾客视角解决问题","目标是提高对象的价值","活动核心是功能分析","强调技术方案创新"],answer:"ABCD",formula:`- A选项正确：这是价值工程的第1个特点（有效实现对象技术和经济的结合）
+- B选项正确：这是价值工程的第2个特点（基于用户/顾客视角解决问题）
+- C选项正确：这是价值工程的第3个特点（目标是提高对象的价值）
+- D选项正确：这是价值工程的第4个特点（核心是企业功能分析）
+- E选项错误：表述不够准确，教材原文是"价值工程应致力于技术方案的创新"，但这是特点⑤的一部分，且表述不够完整`,kb:`价值工程的特点（7条）
+技术与经济结合、基于用户视角、提高价值、功能分析是核心
+（还有：强调技术方案创新、需要量化分析、有组织的管理活动）`,page:"52-54"},
+  {id:33,type:"base",diff:"基础",text:"价值工程的一般工作程序分为以下哪些阶段？（  ）",opts:["准备阶段","分析阶段","创新阶段","实施阶段","总结阶段"],answer:"ABCD",formula:`- A选项正确：准备阶段是第一个阶段
+- B选项正确：分析阶段是第二个阶段
+- C选项正确：创新阶段是第三个阶段
+- D选项正确：实施阶段是第四个阶段
+- E选项错误：价值工程工作程序分为4个阶段，不包括总结阶段`,kb:`价值工程实施步骤（4阶段）
+准备、分析、创新、实施4个阶段`,page:"54-55"},
+  {id:34,type:"base",diff:"基础",text:"价值工程准备阶段的工作包括（  ）",opts:["对象选择","组成价值工程工作组","制订工作计划","功能分析","功能评价"],answer:"ABC",formula:`- A选项正确：对象选择是准备阶段的工作
+- B选项正确：组成价值工程工作组是准备阶段的工作
+- C选项正确：制订工作计划是准备阶段的工作
+- D选项错误：功能分析是分析阶段的工作，不是准备阶段
+- E选项错误：功能评价是分析阶段的工作，不是准备阶段`,kb:`价值工程工作程序（准备阶段）
+准备阶段（对象选择、组成工作组、制订计划）`,page:"54-55"},
+  {id:35,type:"base",diff:"基础",text:"价值工程分析阶段的工作包括（  ）",opts:["收集整理信息资料","功能分析","功能评价","方案创新","方案评价"],answer:"ABC",formula:`- A选项正确：收集整理信息资料是分析阶段的工作
+- B选项正确：功能分析是分析阶段的工作
+- C选项正确：功能评价是分析阶段的工作
+- D选项错误：方案创新是创新阶段的工作，不是分析阶段
+- E选项错误：方案评价是创新阶段的工作，不是分析阶段`,kb:`价值工程工作程序（分析阶段）
+分析阶段（收集资料、功能分析、功能评价）`,page:"54-55"},
+  {id:36,type:"base",diff:"基础",text:"价值工程对象选择的方法包括（  ）",opts:["因素分析法","ABC分析法","强制确定法","百分比分析法","价值指数法"],answer:"ABD",formula:`- A选项正确：因素分析法是对象选择方法之一（定性方法）
+- B选项正确：ABC分析法是对象选择方法之一（定量方法，二八法则）
+- C选项错误：强制确定法通常在进阶篇考察，基础篇不作为主要考察内容
+- D选项正确：百分比分析法是对象选择方法之一（成本/费用维度）
+- E选项错误：价值指数法通常在进阶篇考察，基础篇不作为主要考察内容`,kb:`对象选择方法（基础篇主要3种）
+因素分析法（定性）、ABC分析法（定量，二八法则）、百分比分析法（成本维度）
+（强制确定法、价值指数法在进阶篇考察）`,page:"55-56"},
+  {id:37,type:"base",diff:"基础",text:"功能可以按照哪些标准进行分类？（  ）",opts:["重要程度","使用性质","用户需求","相对需求","成本高低"],answer:"ABCD",formula:`- A选项正确：按重要程度分为基本功能和辅助功能
+- B选项正确：按使用性质分为使用功能和品位功能
+- C选项正确：按用户需求分为必要功能和不必要功能
+- D选项正确：按相对需求分为不足功能和过剩功能
+- E选项错误：功能分类没有按成本高低分类的标准`,kb:`功能分析（功能分类）
+4种分类方式（重要程度、使用性质、用户需求、相对需求）`,page:"56-57"},
+  {id:38,type:"base",diff:"基础",text:"按重要程度，功能可以分为（  ）",opts:["基本功能","辅助功能","使用功能","品位功能","必要功能"],answer:"AB",formula:`- A选项正确：按重要程度分类，基本功能是与对象主要目的直接有关的功能
+- B选项正确：按重要程度分类，辅助功能是为更好实现基本功能服务的功能
+- C选项错误：使用功能是按使用性质分类，不是按重要程度分类
+- D选项错误：品位功能是按使用性质分类，不是按重要程度分类
+- E选项错误：必要功能是按用户需求分类，不是按重要程度分类`,kb:`功能分析（功能分类-重要程度）
+基本功能 + 辅助功能`,page:"56-57"},
+  {id:39,type:"base",diff:"基础",text:"按使用性质，功能可以分为（  ）",opts:["基本功能","辅助功能","使用功能","品位功能","必要功能"],answer:"CD",formula:`- A选项错误：基本功能是按重要程度分类，不是按使用性质分类
+- B选项错误：辅助功能是按重要程度分类，不是按使用性质分类
+- C选项正确：按使用性质分类，使用功能是对象具有的与技术经济用途直接有关的功能
+- D选项正确：按使用性质分类，品位功能是使用者的精神感觉、主观意识有关的功能
+- E选项错误：必要功能是按用户需求分类，不是按使用性质分类`,kb:`功能分析（功能分类-使用性质）
+使用功能 + 品位功能`,page:"56-57"},
+  {id:40,type:"base",diff:"基础",text:"功能分析包括以下哪些过程？（  ）",opts:["功能定义","功能整理","功能计量","功能评价","功能创新"],answer:"ABC",formula:`- A选项正确：功能定义是功能分析的过程之一
+- B选项正确：功能整理是功能分析的过程之一
+- C选项正确：功能计量是功能分析的过程之一
+- D选项错误：功能评价是功能分析后的独立阶段，不是功能分析的过程
+- E选项错误：功能创新是创新阶段的工作，不是功能分析的过程`,kb:`功能分析（基本过程）
+功能定义 + 功能整理 + 功能计量`,page:"57-58"},
+  {id:41,type:"base",diff:"基础",text:"功能计量表达方式包括（  ）",opts:["以具体的数量指标表示","以等级表示","以系数表示","以强制确定的量化方式表示","以文字描述表示"],answer:"ABCD",formula:`- A选项正确：功能计量可以以具体的数量指标表示，如设计行车速度
+- B选项正确：功能计量可以以等级表示，如建筑耐火等级一级
+- C选项正确：功能计量可以以系数表示，如围护结构传热系数
+- D选项正确：功能计量可以以强制确定的量化方式表示，如强制打分确定的分值
+- E选项错误：功能计量是定量分析，不是以文字描述表示`,kb:`功能分析（功能计量）
+4种表达方式（数量指标、等级、系数、强制确定量化）`,page:"57-58"},
+  {id:42,type:"base",diff:"基础",text:"功能评价的基本过程包括（  ）",opts:["确定功能评价值","求出功能区域目前成本","确定需要改进的功能区域","确定功能区域目标成本","方案创新"],answer:"ABCD",formula:`- A选项正确：功能评价第1步是确定功能评价值（功能区域大小）
+- B选项正确：功能评价第2步是求出功能区域目前成本
+- C选项正确：功能评价第3步是确定需要改进的功能区域
+- D选项正确：功能评价第4步是确定功能区域目标成本
+- E选项错误：方案创新是创新阶段的工作，不是功能评价的过程`,kb:`功能评价（4个步骤）
+确定功能评价值、计算目前成本、确定改进区域、确定目标成本`,page:"58-62"},
+  {id:43,type:"base",diff:"基础",text:"方案创新的方法包括（  ）",opts:["头脑风暴法","歌顿法（模糊目标法）","专家意见法（德尔菲法）","专家检查法","因素分析法"],answer:"ABCD",formula:`- A选项正确：头脑风暴法是方案创新方法之一
+- B选项正确：歌顿法（模糊目标法）是方案创新方法之一
+- C选项正确：专家意见法（德尔菲法）是方案创新方法之一
+- D选项正确：专家检查法是方案创新方法之一
+- E选项错误：因素分析法是对象选择方法，不是方案创新方法`,kb:`方案创新方法（4种）
+头脑风暴、歌顿法、专家意见法、专家检查法`,page:"62"},
+  {id:44,type:"base",diff:"基础",text:"方案评价的内容包括（  ）",opts:["技术评价","经济评价","社会评价","环境影响评价","功能评价"],answer:"ABCD",formula:`- A选项正确：技术评价是方案评价的内容之一
+- B选项正确：经济评价是方案评价的内容之一
+- C选项正确：社会评价是方案评价的内容之一
+- D选项正确：环境影响评价是方案评价的内容之一
+- E选项错误：功能评价是分析阶段的工作，不是方案评价的内容`,kb:`方案评价（4个评价内容）
+技术、经济、社会、环境4个评价`,page:"62"},
+  {id:45,type:"base",diff:"基础",text:"价值工程实施阶段的\"四个落实\"包括（  ）",opts:["组织落实","经费落实","物资落实","时间落实","人员落实"],answer:"ABCD",formula:`- A选项正确：组织落实是四个落实之一
+- B选项正确：经费落实是四个落实之一
+- C选项正确：物资落实是四个落实之一
+- D选项正确：时间落实是四个落实之一
+- E选项错误：四个落实是组织、经费、物资、时间，不包括人员落实`,kb:`价值工程实施阶段（四个落实）
+组织、经费、物资、时间四个落实`,page:"63-64"},
+  {id:46,type:"adv",diff:"进阶",text:"某产品功能评价值为800元，目前成本为1000元，则该产品的价值指数V为（  ）",opts:["0.8","1.0","1.2","1.25"],answer:"A",formula:`- A选项正确：价值指数V = F / C = 800 / 1000 = 0.8
+- B选项错误：1.0是V=1的情况
+- C选项错误：1.2不是正确计算结果
+- D选项错误：1.25不是正确计算结果`,kb:`功能评价（价值指数计算）
+公式：V = F / C`,page:"60-61"},
+  {id:47,type:"adv",diff:"进阶",text:"在第1题的情况下，该产品的成本改进期望值为（  ）",opts:["100元","200元","800元","1800元"],answer:"B",formula:`- A选项错误：不是100元
+- B选项正确：成本改进期望值ΔC = C - F = 1000 - 800 = 200元
+- C选项错误：800元是功能评价值F
+- D选项错误：1800元不是正确计算结果`,kb:`功能评价（成本改进期望值）
+公式：ΔC = C - F`,page:"60-61"},
+  {id:48,type:"adv",diff:"进阶",text:"某住宅工程建筑部分初始总成本为2300元/m²，空间配置F1的重要性系数为0.4，则F1的功能评价值为（  ）",opts:["230元/m²","460元/m²","690元/m²","920元/m²"],answer:"D",formula:`- A选项错误：230元/m²是F4的评价值
+- B选项错误：460元/m²是F3的评价值
+- C选项错误：690元/m²是F2的评价值
+- D选项正确：F1评价值 = 2300 × 0.4 = 920元/m²`,kb:`功能评价（功能评价值计算）
+公式：功能区域评价值 = 初始总成本 × 功能区域重要性系数`,page:"59"},
+  {id:49,type:"adv",diff:"进阶",text:"在ABC分析法中，A类对象是指（  ）",opts:["数量占比约20%，成本占比约80%","数量占比约80%，成本占比约20%","数量占比约50%，成本占比约50%","数量占比约70%，成本占比约30%"],answer:"A",formula:`- A选项正确：A类是指数量占比约20%，成本占比约80%的对象
+- B选项错误：这是C类对象的特征
+- C选项错误：不是ABC分类的标准
+- D选项错误：不是ABC分类的标准`,kb:`对象选择方法（ABC分析法）
+A类（数量20%，成本80%）`,page:"55-56"},
+  {id:50,type:"adv",diff:"进阶",text:"在强制确定法中，0-1评分法的特点是（  ）",opts:["非常重要为1分，不重要为0分，允许对象自己和自己相比","非常重要为1分，不重要为0分，不允许对象自己和自己相比","很重要为4分，较重要为3分，同样重要为2分，不太重要为1分，很不重要为0分","采用5级评分制"],answer:"B",formula:`- A选项错误：0-1评分法不允许对象自己和自己相比
+- B选项正确：0-1评分法特点：非常重要=1分，不重要=0分，不允许自比
+- C选项错误：这是0-4评分法的特点
+- D选项错误：0-1评分法是2级评分，不是5级`,kb:`对象选择方法（强制确定法）
+0-1评分法 vs 0-4评分法`,page:"55-56"},
+  {id:51,type:"adv",diff:"进阶",text:"功能定义应该按照什么顺序进行？（  ）",opts:["从次要向主要，从小到大","从主要向次要，从大到小","随机进行","从下位功能向上位功能"],answer:"B",formula:`- A选项错误：不是从次要向主要
+- B选项正确：功能定义应该从主要向次要，从大到小的步骤依次进行
+- C选项错误：不能随机进行
+- D选项错误：不是从下位功能向上位功能`,kb:`功能分析（功能定义）
+功能定义顺序（主要→次要，大到小）`,page:"57"},
+  {id:52,type:"adv",diff:"进阶",text:"在功能系统图中，上位功能与下位功能的关系是（  ）",opts:["上位功能是实现下位功能的手段","下位功能是上位功能的目的","上位功能是目的，下位功能是手段","两者没有逻辑关系"],answer:"C",formula:`- A选项错误：上位功能不是手段
+- B选项错误：下位功能不是目的
+- C选项正确：上位功能=目的功能，下位功能=手段功能
+- D选项错误：两者有严格的逻辑关系`,kb:`功能分析（功能整理）
+上位功能=目的，下位功能=手段`,page:"57-58"},
+  {id:53,type:"adv",diff:"进阶",text:"价值工程中的寿命周期成本对消费者而言，包括（  ）",opts:["仅取得成本","仅使用与维护成本","取得成本 + 使用与维护成本","仅处置成本"],answer:"C",formula:`- A选项错误：不仅指取得成本
+- B选项错误：不仅指使用与维护成本
+- C选项正确：对消费者而言，寿命周期成本 = 取得成本 + 使用与维护成本
+- D选项错误：不仅指处置成本`,kb:`价值工程的含义（寿命周期成本）
+寿命周期成本（生产者视角 vs 消费者视角）`,page:"52-53"},
+  {id:54,type:"adv",diff:"进阶",text:"某抹灰工程，机械喷涂抹灰方案分包单价50元/m²，提前1个月完工可获得奖励4.5万元（面积5000m²），则扣除奖励后机械喷涂的实际成本为（  ）",opts:["41元/m²","45元/m²","50元/m²","40元/m²"],answer:"A",formula:`- 计算：奖励4.5万元=45000元，面积5000m²，每平方米奖励=45000/5000=9元/m²
+- 机械喷涂扣除奖励后成本 = 50 - 9 = 41元/m²
+- A选项正确：41元/m²
+- B、C、D选项错误：不是正确计算结果`,kb:`价值工程应用于方案评价（例5.2-2）
+机械喷涂抹灰方案扣除奖励后成本计算`,page:"61-62"},
+  {id:55,type:"adv",diff:"进阶",text:"在第9题的情况下，若采用价值工程原理选择施工方案，应选择的方案是（  ）",opts:["人工抹灰方案","机械喷涂抹灰方案","两个方案都可以","无法确定"],answer:"B",formula:`- 计算价值指数：
+- 人工抹灰：功能指数=9.10/(9.10+9.80)=0.48，成本指数=40/(40+41)=0.49，价值指数=0.48/0.49=0.98
+- 机械喷涂：功能指数=9.80/(9.10+9.80)=0.52，成本指数=41/(40+41)=0.51，价值指数=0.52/0.51=1.02
+- A选项错误：人工抹灰价值指数0.98 < 机械喷涂1.02
+- B选项正确：应选择价值指数较大的机械喷涂抹灰方案
+- C选项错误：两个方案价值指数不同，不能随便选
+- D选项错误：可以明确选择`,kb:`价值工程应用于方案评价
+选择价值指数较大的方案为最优方案`,page:"61-62"},
+  {id:56,type:"adv",diff:"进阶",text:"价值工程活动中的\"工程\"是指（  ）",opts:["建筑工程","为提高对象价值所进行的一系列活动","工程施工","工程设计"],answer:"B",formula:`- A选项错误：不是指建筑工程
+- B选项正确："工程"是指为提高对象价值所进行的一系列活动
+- C选项错误：不是指工程施工
+- D选项错误：不是指工程设计`,kb:`价值工程的含义
+"工程"= 为提高价值进行的一系列活动`,page:"52"},
+  {id:57,type:"adv",diff:"进阶",text:"价值工程研究对象选择时，建设单位宜侧重于从哪些维度选择？（  ）",opts:["设计维度、施工维度","市场维度、设计维度、成本/费用维度","施工维度、成本/费用维度","设计维度、成本/费用维度"],answer:"B",formula:`- A选项错误：不是建设单位的首选维度
+- B选项正确：建设单位宜侧重于从市场维度、设计维度、成本/费用维度选择
+- C选项错误：这是施工单位的侧重维度
+- D选项错误：这是设计单位的侧重维度`,kb:`对象选择的原则
+不同单位的选择侧重不同`,page:"55"},
+  {id:58,type:"adv",diff:"进阶",text:"价值工程研究对象选择时，设计单位宜侧重于从哪些维度选择？（  ）",opts:["设计维度、成本/费用维度","市场维度、设计维度","施工维度、成本/费用维度","市场维度、成本/费用维度"],answer:"A",formula:`- A选项正确：设计单位宜侧重于从设计维度、成本/费用维度选择
+- B选项错误：市场维度不是设计单位的首选
+- C选项错误：施工维度不是设计单位的主要维度
+- D选项错误：市场维度不是设计单位的主要维度`,kb:`对象选择的原则
+设计单位侧重（设计、成本/费用维度）`,page:"55"},
+  {id:59,type:"adv",diff:"进阶",text:"价值工程研究对象选择时，施工单位宜侧重于从哪些维度选择？（  ）",opts:["设计维度、成本/费用维度","市场维度、设计维度","施工维度、成本/费用维度","市场维度、成本/费用维度"],answer:"C",formula:`- A选项错误：设计维度不是施工单位的主要维度
+- B选项错误：市场维度、设计维度不是施工单位的主要维度
+- C选项正确：施工单位宜侧重于从施工维度、成本/费用维度选择
+- D选项错误：市场维度不是施工单位的主要维度`,kb:`对象选择的原则
+施工单位侧重（施工、成本/费用维度）`,page:"55"},
+  {id:60,type:"adv",diff:"进阶",text:"在价值工程活动中，功能评价时需要完成的工作中不包括（  ）",opts:["用某种数量形式表述对象各功能的大小","求出原有对象的各功能目前成本","确定应当在哪些功能区域改进原有对象","提出创新方案"],answer:"D",formula:`- A选项错误：这是功能评价需要完成的工作（确定功能评价值）
+- B选项错误：这是功能评价需要完成的工作（计算目前成本）
+- C选项错误：这是功能评价需要完成的工作（确定改进区域）
+- D选项正确：提出创新方案是创新阶段的工作，不是功能评价阶段`,kb:`功能评价的基本过程
+功能评价3步骤`,page:"58-61"},
+  {id:61,type:"adv",diff:"进阶",text:"功能目前成本计算时，需要将按对象组成划分的成本转换为功能成本，这是因为（  ）",opts:["企业成本核算要求","对象的某一组成部分可能具有一项或多项功能，而一项功能需要对象的多个组成部分共同实现","功能评价要求","价值工程工作组要求"],answer:"B",formula:`- A选项错误：不是因为企业成本核算要求
+- B选项正确：因为组成部分与功能不是简单对应关系，需要将成本按功能转换
+- C选项错误：不是因为功能评价要求，而是功能评价需要这样计算
+- D选项错误：不是因为工作组要求`,kb:`功能评价（功能区域目前成本计算）
+成本转换原因`,page:"59-60"},
+  {id:62,type:"adv",diff:"进阶",text:"在价值指数V>1的情况下，不需要调整对象的实施方案的是（  ）",opts:["第一种情况","第二种情况","第三种情况","所有情况"],answer:"B",formula:`- A选项错误：第一种情况（功能评价值估计过高）需要调整
+- B选项正确：第二种情况（企业有特别优势实现低投入）一般不需调整方案
+- C选项错误：第三种情况（可能有外部因素影响）需要具体分析
+- D选项错误：不是所有情况都不需调整`,kb:`功能评价（价值指数V>1的三种情况）
+V>1时第2种情况一般不需调整`,page:"60-61"},
+  {id:63,type:"adv",diff:"进阶",text:"价值工程方案评价中，概略评价的目的是（  ）",opts:["从众多的创新方案中进行粗略筛选，以减少详细评价的工作量","对方案进行具体化，选择最令人满意的方案","对方案进行技术评价","对方案进行经济评价"],answer:"A",formula:`- A选项正确：概略评价目的是从众多方案中粗略筛选，减少详细评价工作量
+- B选项错误：这是详细评价的目的
+- C选项错误：技术评价是评价内容，不是概略评价的目的
+- D选项错误：经济评价是评价内容，不是概略评价的目的`,kb:`方案评价（概略评价和详细评价）
+概略评价 = 初步筛选`,page:"62"},
+  {id:64,type:"adv",diff:"进阶",text:"价值工程方案评价中，详细评价的目的是（  ）",opts:["从众多的创新方案中进行粗略筛选","对经过筛选后的少数备选方案再具体化，最后选出最令人满意的方案","对方案进行社会评价","对方案进行环境影响评价"],answer:"B",formula:`- A选项错误：这是概略评价的目的
+- B选项正确：详细评价是对筛选后的少数方案具体化，最终选择最满意方案
+- C选项错误：社会评价是评价内容，不是详细评价的目的
+- D选项错误：环境影响评价是评价内容，不是详细评价的目的`,kb:`方案评价（概略评价和详细评价）
+详细评价 = 具体化，最终选择`,page:"62"},
+  {id:65,type:"adv",diff:"进阶",text:"价值工程工作组的负责人应由谁来担任？（  ）",opts:["普通员工","能对项目负责的人员","技术专家","外部顾问"],answer:"B",formula:`- A选项错误：普通员工不适合担任负责人
+- B选项正确：负责人应由能对项目负责的人员担任
+- C选项错误：技术专家可以是成员，但负责人应对项目负责
+- D选项错误：外部顾问可以是成员，但负责人应对项目负责`,kb:`组成价值工程工作组
+负责人要求`,page:"55"},
+  {id:66,type:"adv",diff:"进阶",text:"在价值工程活动中，功能系统图的英文缩写是（  ）",opts:["FAST图","FMEA图","FTA图","DOE图"],answer:"A",formula:`- A选项正确：功能系统图根据FAST分析结果绘制，简称FAST图（Function Analysis System Technique）
+- B选项错误：FMEA是失效模式与影响分析
+- C选项错误：FTA是故障树分析
+- D选项错误：DOE是实验设计`,kb:`功能分析（功能整理）
+功能系统图 = FAST图`,page:"57-58"},
+  {id:67,type:"adv",diff:"进阶",text:"价值工程活动中，功能定义使用的动词和名词的词义应该（  ）",opts:["模糊，以便扩大创新空间","明确，以便对功能内涵和属性进行准确定义","简单，越少越好","复杂，越详细越好"],answer:"B",formula:`- A选项错误：词义应明确，不是模糊
+- B选项正确：动词和名词的词义应明确，以便准确定义功能内涵和属性
+- C选项错误：不是简单越好，而是明确
+- D选项错误：不是复杂越好，而是明确`,kb:`功能分析（功能定义）
+动词和名词词义应明确`,page:"57"},
+  {id:68,type:"adv",diff:"进阶",text:"在确定提高对象价值途径时，应遵循的原则不包括（  ）",opts:["功能调整应以顾客/用户对功能的需求为依据","提高对象价值应平衡用户体验和企业或产品的商业价值","应从方案创新、替代方案选择和管理控制三方面寻求具体解决方案","应优先考虑降低功能以提高价值"],answer:"D",formula:`- A选项错误：这是应遵循的原则之一
+- B选项错误：这是应遵循的原则之一
+- C选项错误：这是应遵循的原则之一
+- D选项正确：降低功能不是优先考虑的，应根据5种途径合理确定`,kb:`提高价值的途径（遵循原则）
+3个原则`,page:"52"},
+  {id:69,type:"adv",diff:"进阶",text:"价值工程活动的核心是功能分析，这是因为（  ）",opts:["价值工程的价值是功能与费用（成本）的比较价值","价值工程的出发点和目标是提高对象的价值或选择价值较高的对象为较优方案，但价值工程是将价值、功能和成本作为一个整体同时考虑的管理思想和管理方法，在价值工程活动中，一系列工作均是围绕消费者所需要的功能展开的","价值工程需要进行量化分析","价值工程强调技术方案创新"],answer:"B",formula:`- A选项错误：这是价值工程的特点之一，但不是核心原因
+- B选项正确：因为所有工作均是围绕消费者所需要的功能展开的，所以功能分析是核心
+- C选项错误：这是价值工程的特点之一，但不是核心原因
+- D选项错误：这是价值工程的特点之一，但不是核心原因`,kb:`价值工程的特点（核心是功能分析）
+功能分析是核心的原因`,page:"53"},
+  {id:70,type:"adv",diff:"进阶",text:"在价值工程活动中，寿命周期成本的两种成本通常存在什么关系？（  ）",opts:["同步增长","同步下降","此消彼长","没有关系"],answer:"C",formula:`- A选项错误：不是同步增长
+- B选项错误：不是同步下降
+- C选项正确：取得成本和使用与维护成本通常存在此消彼长的关系
+- D选项错误：两者有关系`,kb:`价值工程的含义（寿命周期成本）
+取得成本 ↔ 使用与维护成本 = 此消彼长`,page:"52-53"},
+  {id:71,type:"adv",diff:"进阶",text:"在价值工程对象选择中，百分比分析法侧重于从哪个维度选择对象？（  ）",opts:["设计维度","施工维度","成本/费用维度","市场维度"],answer:"C",formula:`- A选项错误：不是设计维度
+- B选项错误：不是施工维度
+- C选项正确：百分比分析法侧重于从成本/费用维度选择价值工程对象
+- D选项错误：不是市场维度`,kb:`对象选择方法（百分比分析法）
+百分比分析法侧重成本/费用维度`,page:"55-56"},
+  {id:72,type:"adv",diff:"进阶",text:"在价值工程对象选择中，价值指数法综合考虑了哪些因素选择对象？（  ）",opts:["仅功能重要性","仅成本/费用","功能重要性和成本/费用","仅市场维度"],answer:"C",formula:`- A选项错误：不仅考虑功能重要性
+- B选项错误：不仅考虑成本/费用
+- C选项正确：价值指数法综合考虑功能重要性和成本/费用选择对象
+- D选项错误：不仅考虑市场维度`,kb:`对象选择方法（价值指数法）
+价值指数法综合考虑功能和成本`,page:"55-56"},
+  {id:73,type:"adv",diff:"进阶",text:"在功能评价中，若价值指数V=1，表示（  ）",opts:["功能目前成本大于功能评价值","功能目前成本小于功能评价值","功能和成本匹配理想","无法确定"],answer:"C",formula:`- A选项错误：这是V<1的情况
+- B选项错误：这是V>1的情况
+- C选项正确：V=1表示功能和成本匹配理想
+- D选项错误：可以确定`,kb:`功能评价（价值指数判断）
+V=1（功能和成本匹配理想）`,page:"60-61"},
+  {id:74,type:"adv",diff:"进阶",text:"在功能评价中，若价值指数V<1，表明（  ）",opts:["功能目前成本小于功能评价值","功能目前成本等于功能评价值","功能目前成本大于功能评价值","无法确定"],answer:"C",formula:`- A选项错误：这是V>1的情况
+- B选项错误：这是V=1的情况
+- C选项正确：V<1表明功能目前成本大于功能评价值
+- D选项错误：可以确定`,kb:`功能评价（价值指数判断）
+V<1（功能目前成本>功能评价值，应改进）`,page:"60-61"},
+  {id:75,type:"adv",diff:"进阶",text:"在功能评价中，若价值指数V>1，可能的情况不包括（  ）",opts:["功能评价值估计过高","企业有特别的资源、技术优势或管理手段实现了低投入","可能有外部因素的影响","功能目前成本大于功能评价值"],answer:"D",formula:`- A选项错误：这是V>1的可能情况①
+- B选项错误：这是V>1的可能情况②
+- C选项错误：这是V>1的可能情况③
+- D选项正确：功能目前成本大于功能评价值是V<1的情况，不是V>1的情况`,kb:`功能评价（价值指数V>1的三种可能情况）
+V>1的3种可能情况`,page:"60-61"},
+  {id:76,type:"adv",diff:"进阶",text:"提高价值的5种途径中，属于功能和费用同时变化的有（  ）",opts:["双向型","改进型","节约型","投资型","牺牲型"],answer:"ADE",formula:`- A选项正确：双向型（功能↑，费用↓）两者都变化
+- B选项错误：改进型（功能↑，费用→）费用没有变化
+- C选项错误：节约型（功能→，费用↓）功能没有变化
+- D选项正确：投资型（功能↑↑，费用↑）两者都变化
+- E选项正确：牺牲型（功能↓，费用↓↓）两者都变化`,kb:`提高价值的5种途径
+双向型、投资型、牺牲型（功能+费用都变化）`,page:"52"},
+  {id:77,type:"adv",diff:"进阶",text:"价值工程的特点中，关于\"基于用户/顾客视角解决问题\"，企业应解决好的问题包括（  ）",opts:["功能必须是消费者需要的功能","处理好消费者获得功能所有权/使用权的费用与保证功能发挥作用的费用之间的辩证关系","费用（成本）控制效果必须被消费者所感受","保证功能所发生的费用及消费者需要付出的代价应在消费者所能够并愿意支付的范围内","功能越高越好，不考虑成本"],answer:"ABCD",formula:`- A选项正确：功能必须是消费者需要的功能（避免功能不足或功能过剩）
+- B选项正确：应处理好"消费者获得功能所有权/使用权的费用"和"保证功能发挥作用的费用"之间的辩证关系
+- C选项正确：费用（成本）控制效果必须被消费者所感受（消费者能感知到性价比）
+- D选项正确：保证功能所发生的费用及消费者需要付出的代价应在消费者所能够并愿意支付的范围内
+- E选项错误：价值工程不是"功能越高越好"，而是要平衡功能和成本，提高价值`,kb:`价值工程的特点（基于用户/顾客视角）
+4个问题：①功能需求 ②费用辩证关系 ③成本控制效果 ④支付范围`,page:"52-53"},
+  {id:78,type:"adv",diff:"进阶",text:"在价值工程对象选择原则中，企业应优先选择为价值工程对象的有（  ）",opts:["造价高的组成部分","成本/费用占比大的组成部分","数量多的组成部分","体积或重量大的组成部分","加工工序少或简单的组成部分"],answer:"ABCD",formula:`- A选项正确：造价高的组成部分应优先选择
+- B选项正确：成本/费用占比大的组成部分应优先选择
+- C选项正确：数量多的组成部分应优先选择
+- D选项正确：体积或重量大的组成部分应优先选择
+- E选项错误：应该是加工工序多或复杂的组成部分，不是工序少或简单的`,kb:`对象选择的原则
+6类优先选择对象`,page:"55"},
+  {id:79,type:"adv",diff:"进阶",text:"价值工程分析阶段的工作包括（  ）",opts:["收集整理信息资料","功能分析","功能评价","方案创新","提案编写"],answer:"ABC",formula:`- A选项正确：收集整理信息资料是分析阶段的工作
+- B选项正确：功能分析是分析阶段的工作
+- C选项正确：功能评价是分析阶段的工作
+- D选项错误：方案创新是创新阶段的工作
+- E选项错误：提案编写是创新阶段的工作`,kb:`价值工程工作程序（分析阶段）
+分析阶段（收集资料、功能分析、功能评价）`,page:"54-55"},
+  {id:80,type:"adv",diff:"进阶",text:"功能按相对需求可以分为（  ）",opts:["基本功能","辅助功能","不足功能","过剩功能","必要功能"],answer:"CD",formula:`- A选项错误：基本功能是按重要程度分类
+- B选项错误：辅助功能是按重要程度分类
+- C选项正确：不足功能是按相对需求分类
+- D选项正确：过剩功能是按相对需求分类
+- E选项错误：必要功能是按用户需求分类`,kb:`功能分析（功能分类-相对需求）
+不足功能 + 过剩功能`,page:"56-57"},
+  {id:81,type:"adv",diff:"进阶",text:"功能计量表达方式包括（  ）",opts:["以具体的数量指标表示","以等级表示","以系数表示","以强制确定的量化方式表示","以文字描述表示"],answer:"ABCD",formula:`- A选项正确：可以以具体数量指标表示
+- B选项正确：可以以等级表示
+- C选项正确：可以以系数表示
+- D选项正确：可以以强制确定的量化方式表示
+- E选项错误：功能计量是定量分析，不是以文字描述表示`,kb:`功能分析（功能计量）
+4种表达方式`,page:"57-58"},
+  {id:82,type:"adv",diff:"进阶",text:"在价值工程活动中，收集整理信息资料的工作贯穿于价值工程的全过程，信息资料包括（  ）",opts:["消费者信息","市场信息","技术信息","成本/费用信息","政治信息"],answer:"ABCD",formula:`- A选项正确：消费者信息是应收集的信息之一
+- B选项正确：市场信息是应收集的信息之一
+- C选项正确：技术信息是应收集的信息之一
+- D选项正确：成本/费用信息是应收集的信息之一
+- E选项错误：政治信息不是必须收集的信息类别`,kb:`价值工程分析阶段（收集整理信息资料）
+4类信息（消费者、市场、技术、成本/费用）`,page:"56"},
+  {id:83,type:"adv",diff:"进阶",text:"功能评价时，若价值指数V<1，表明（  ）",opts:["功能目前成本大于功能评价值","可能存在过剩功能","可能实现功能的条件或方法不佳","功能目前成本小于功能评价值","功能和成本匹配理想"],answer:"ABC",formula:`- A选项正确：V<1表明功能目前成本大于功能评价值
+- B选项正确：V<1可能的情形①（存在过剩功能）
+- C选项正确：V<1可能的情形②（实现功能的条件或方法不佳）
+- D选项错误：这是V>1的情况
+- E选项错误：这是V=1的情况`,kb:`功能评价（价值指数判断）
+V<1（功能目前成本>功能评价值）`,page:"60-61"},
+  {id:84,type:"adv",diff:"进阶",text:"价值工程创新阶段的方案创新方法包括（  ）",opts:["头脑风暴法","歌顿法（模糊目标法）","专家意见法（德尔菲法）","专家检查法","因素分析法"],answer:"ABCD",formula:`- A选项正确：头脑风暴法是方案创新方法之一
+- B选项正确：歌顿法（模糊目标法）是方案创新方法之一
+- C选项正确：专家意见法（德尔菲法）是方案创新方法之一
+- D选项正确：专家检查法是方案创新方法之一
+- E选项错误：因素分析法是对象选择方法，不是方案创新方法`,kb:`方案创新方法（4种）
+头脑风暴、歌顿法、专家意见法、专家检查法`,page:"62"},
+  {id:85,type:"adv",diff:"进阶",text:"价值工程实施阶段\"四个落实\"包括（  ）",opts:["组织落实","经费落实","物资落实","时间落实","人员落实"],answer:"ABCD",formula:`- A选项正确：组织落实是四个落实之一
+- B选项正确：经费落实是四个落实之一
+- C选项正确：物资落实是四个落实之一
+- D选项正确：时间落实是四个落实之一
+- E选项错误：四个落实是组织、经费、物资、时间，不包括人员落实（人员在组织落实中已经明确）`,kb:`价值工程实施阶段（四个落实）
+组织、经费、物资、时间四个落实`,page:"63-64"},
+  {id:86,type:"adv",diff:"进阶",text:"价值工程的特点包括（  ）",opts:["能有效实现对象技术和经济的结合","基于用户/顾客（消费者）视角解决问题","目标是提高对象的价值","活动核心是功能分析","强调技术方案创新"],answer:"ABCE",formula:`- A选项正确：特点①（有效实现对象技术和经济的结合）
+- B选项正确：特点②（基于用户/顾客视角解决问题）
+- C选项正确：特点③（目标是提高对象的价值）
+- D选项错误：表述不够准确，教材原文是"价值工程活动的核心是功能分析"，这里"活动核心是功能分析"表述不完整
+- E选项正确：特点⑤（强调技术方案创新）
+**注意：** 价值工程共有7个特点：①技术与经济结合 ②基于用户视角 ③提高价值 ④核心是功能分析 ⑤强调技术创新 ⑥需要量化分析 ⑦有组织的管理活动`,kb:`价值工程的特点（7个）
+①技术与经济结合 ②基于用户视角 ③提高价值 ④核心是功能分析
+⑤强调技术创新 ⑥需要量化分析 ⑦有组织的管理活动`,page:"53-54"},
+  {id:87,type:"adv",diff:"进阶",text:"功能按用户需求可以分为（  ）",opts:["必要功能","不必要功能","基本功能","辅助功能","使用功能"],answer:"AB",formula:`- A选项正确：必要功能是按用户需求分类
+- B选项正确：不必要功能是按用户需求分类
+- C选项错误：基本功能是按重要程度分类
+- D选项错误：辅助功能是按重要程度分类
+- E选项错误：使用功能是按使用性质分类`,kb:`功能分析（功能分类-用户需求）
+必要功能 + 不必要功能`,page:"56-57"},
+  {id:88,type:"adv",diff:"进阶",text:"功能按重要程度可以分为（  ）",opts:["基本功能","辅助功能","必要功能","不必要功能","使用功能"],answer:"AB",formula:`- A选项正确：基本功能是按重要程度分类
+- B选项正确：辅助功能是按重要程度分类
+- C选项错误：必要功能是按用户需求分类
+- D选项错误：不必要功能是按用户需求分类
+- E选项错误：使用功能是按使用性质分类`,kb:`功能分析（功能分类-重要程度）
+基本功能 + 辅助功能`,page:"56-57"},
+  {id:89,type:"adv",diff:"进阶",text:"价值工程准备阶段的工作包括（  ）",opts:["对象选择","组成价值工程工作组","制订工作计划","收集整理信息资料","功能分析"],answer:"ABC",formula:`- A选项正确：对象选择是准备阶段的工作
+- B选项正确：组成价值工程工作组是准备阶段的工作
+- C选项正确：制订工作计划是准备阶段的工作
+- D选项错误：收集整理信息资料是分析阶段的工作
+- E选项错误：功能分析是分析阶段的工作`,kb:`价值工程工作程序（准备阶段）
+准备阶段（对象选择、组成工作组、制订计划）`,page:"54-55"},
+  {id:90,type:"adv",diff:"进阶",text:"在价值工程方案评价中，详细评价的内容包括（  ）",opts:["技术评价","经济评价","社会评价","环境影响评价","概略评价"],answer:"ABCD",formula:`- A选项正确：技术评价是详细评价的内容之一
+- B选项正确：经济评价是详细评价的内容之一
+- C选项正确：社会评价是详细评价的内容之一
+- D选项正确：环境影响评价是详细评价的内容之一
+- E选项错误：概略评价是与详细评价并列的概念，不是详细评价的内容`,kb:`方案评价（详细评价内容）
+4个评价内容（技术、经济、社会、环境）`,page:"62-63"},
+];
+
+// 格式化公式显示：处理换行、警告标签、MathJax块
+function formatFormula(text) {
+  if (!text) return '';
+
+  // 辅助函数：将 Unicode 数学符号转换为 LaTeX
+  function toLatex(str) {
+    const subMap = {'₀':'0','₁':'1','₂':'2','₃':'3','₄':'4','₅':'5','₆':'6','₇':'7','₈':'8','₉':'9'};
+    return str
+      .replace(/([A-Za-z])([₀₁₂₃₄₅₆₇₈₉])/g, '$1_$2')
+      .replace(/_([₀₁₂₃₄₅₆₇₈₉])/g, (m, d) => '_' + subMap[d])
+      .replace(/N_0\s*=/g, 'N_0 =')
+      .replace(/√\[([^\]]+)\]/g, '\\sqrt{$1}')
+      .replace(/√([0-9A-Za-z]+)/g, '\\sqrt{$1}')
+      .replace(/×/g, '\\times')
+      .replace(/÷/g, '\\div')
+      .replace(/≈/g, '\\approx')
+      .replace(/≥/g, '\\geq')
+      .replace(/≤/g, '\\leq')
+      .replace(/λ/g, '\\lambda')
+      .replace(/Σ/g, '\\Sigma')
+      .replace(/α/g, '\\alpha')
+      .replace(/β/g, '\\beta')
+      .replace(/π/g, '\\pi')
+      .replace(/θ/g, '\\theta')
+      .replace(/·/g, '\\cdot ')
+      .replace(/(\d)\s*万/g, '$1\\text{万}')
+      .replace(/(\d)\s*元/g, '$1\\text{元}')
+      .replace(/(\d)\s*年/g, '$1\\text{年}');
+  }
+
+  // Pass 1: 独立公式行（以变量开头、包含等号+数学符号）→ $$...$$ 块级公式
+  text = text.replace(/^([\s]*[A-Za-z0-9_₀₁₂₃₄₅₆₇₈₉]+\s*[=＝≈≥≤<>]\s*.*[√λΣαβγδεθπ\×÷\+\-\*\/\(\)\[\]\{\}_₀₁₂₃₄₅₆₇₈₉·].*)$/gm, function(match) {
+    if (match.trim().startsWith('$$') && match.trim().endsWith('$$')) return match;
+    return '$$' + toLatex(match.trim()) + '$$';
+  });
+
+  // Pass 2: 中文文本中嵌入的 N₀=√[...] 公式 → $...$ 行内公式
+  text = text.replace(/N₀\s*=\s*√\[[^\]]+\]/g, m => '$' + toLatex(m) + '$');
+
+  // Pass 3: 其他含等号的公式片段（变量=表达式，表达式包含数学符号，长度≤80）
+  text = text.replace(/([A-Za-z0-9_\\\{\}\+\-\*\/\(\)\[\]^·]+)\s*=\s*[^，。；！？\n]{1,80}/g, function(m) {
+    if (m.includes('$')) return m;          // 已包裹则跳过
+    if (!/[√λΣαβπθ×÷≈≥≤·]/.test(m)) return m; // 不含数学符号则跳过
+    return '$' + toLatex(m) + '$';
+  });
+
+  // Pass 4: 含下标数字的数学表达式（如 C₁+(N-1)、C₁+(N-1)λ）
+  text = text.replace(/([A-Za-z0-9_\(\)\+\-\*\/λ]*[₀₁₂₃₄₅₆₇₈₉][A-Za-z0-9_\(\)\+\-\*\/λ]*)/g, function(m) {
+    if (m.includes('$')) return m;
+    if (m.length < 2) return m;
+    return '$' + toLatex(m) + '$';
+  });
+
+  // Pass 5: 未包裹的希腊字母 λ（前后不是字母/数字/$）
+  text = text.replace(/([^\w$])λ(?![\w$])/g, '$1$\\lambda$');
+
+  // Pass 6: =√number 连续等式片段
+  text = text.replace(/=\s*√([0-9A-Za-z\.]+)/g, '=$\\sqrt{$1}$');
+
+  // 处理 $$...$$ 数学块（转为displayMath）
+  text = text.replace(/\$\$(.*?)\$\$/gs, '<div class="math-block">$$$$$1$$$$</div>');
+  // 处理 $...$ 行内数学
+  text = text.replace(/\$([A-Za-z0-9_\\\{\}\+\-\*\/\(\)\[\]^·]+)\$/g, '<span class="math-inline">$$$1$$</span>');
+  // 处理 ⚠️ 警告标签
+  text = text.replace(/⚠️/g, '<span class="warn-tag">⚠️');
+  // 关闭最后的警告标签
+  if (text.includes('warn-tag')) {
+    text = text.replace(/(<\/span>(?:<br>)?)*$/, '</span><br>');
+  }
+  // 换行转<br>
+  return text.replace(/\n/g, '<br>');
+}
+const state = {
+  section: 'home',
+  filter: 'all',
+  current: 0,
+  answered: {},
+  selected: {}
+};
+
+// 初始化
+function init() {
+  loadState();
+  updateStats();
+  buildJumpSelect();
+  showSection('home');
+  // 点击外部关闭跳转下拉框
+  document.addEventListener('click', function(e) {
+    const dd = document.getElementById('jumpDropdown');
+    if (dd && dd.open && !dd.contains(e.target)) {
+      dd.open = false;
+    }
+  });
+}
+
+// 显示页面
+function showSection(name) {
+  state.section = name;
+  ['home', 'questions', 'wrongbook', 'complete'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.classList.toggle('hidden', p !== name);
+  });
+  if (name === 'wrongbook') buildWrongbook();
+  if (name === 'complete') buildComplete();
+  if (name === 'questions') {
+    renderQuestions();
+    updateNavButtons();
+  }
+  window.scrollTo({ top: 0 });
+}
+
+// 筛选
+function setFilter(f) {
+  state.filter = f;
+  document.querySelectorAll('.sec-tab').forEach(btn => btn.classList.remove('on'));
+  event.target.classList.add('on');
+  if (state.section === 'questions') {
+    state.current = 0;
+    renderQuestions();
+    updateNavButtons();
+  }
+}
+
+// 获取筛选后的题目列表
+function getFilteredQuestions() {
+  return QUESTIONS.map((q, i) => ({ q, i })).filter(({ q, i }) => {
+    if (state.filter === 'all') return true;
+    if (state.filter === 'base') return q.type === 'base';
+    if (state.filter === 'adv') return q.type === 'adv';
+    if (state.filter === 'undone') return !state.answered[i];
+    if (state.filter === 'wrong') return state.answered[i] && state.answered[i] !== q.answer;
+    return true;
+  });
+}
+
+// 渲染题目
+function renderQuestions() {
+  const list = getFilteredQuestions();
+  if (list.length === 0) {
+    document.getElementById('questionsList').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-sec);">暂无题目</div>';
+    return;
+  }
+  updateJumpSummary();
+  const { q, i } = list[state.current] || list[0];
+  const answered = !!state.answered[i];
+  const isWrong = answered && state.answered[i] !== q.answer;
+  const isCorrect = answered && state.answered[i] === q.answer;
+  const multi = q.answer.length > 1;
+  const letters = 'ABCDE';
+  
+  let html = `<div class="question-card">
+    <div class="q-header">
+      <span class="q-num">${q.id}</span>
+      <span class="q-tag ${q.type === 'base' ? 'tag-base' : 'tag-adv'}">${q.diff}</span>
+      ${answered ? `<span class="q-tag ${isWrong ? 'tag-wrong' : 'tag-done'}">${isWrong ? '错' : '对'}</span>` : ''}
+      ${multi ? '<span class="q-tag" style="background:#FEF3C7;color:#92400E;">多选</span>' : ''}
+    </div>
+    <div class="q-text">${q.text}</div>
+    <ul class="options">`;
+  
+  q.opts.forEach((opt, j) => {
+    if (j >= letters.length) return;
+    const letter = letters[j];
+    const selected = state.selected[i] && state.selected[i].includes(letter);
+    const isCorrectOpt = q.answer.includes(letter);
+    let liClass = '';
+    if (answered) {
+      if (selected && isCorrectOpt) liClass = 'correct';
+      else if (selected && !isCorrectOpt) liClass = 'wrong-choice';
+      else if (!selected && isCorrectOpt) liClass = 'dim';
+    } else if (selected) {
+      liClass = 'selected';
+    }
+    const checkMark = answered && isCorrectOpt ? '<span style="margin-left:auto;color:var(--right);font-weight:700;">✓</span>' : '';
+    const onclick = answered ? '' : `onclick="toggleOpt(${i},'${letter}')"`;
+    html += `<li ${onclick} class="${liClass}"><span class="opt-letter ${selected ? 'selected' : ''}">${letter}.</span><span class="opt-text">${opt}</span>${checkMark}</li>`;
+  });
+  
+  html += '</ul>';
+  
+  // 操作按钮
+  if (!answered) {
+    const selCount = (state.selected[i] || '').length;
+    const canSubmit = multi ? (selCount >= 1 && selCount <= 4) : selCount === 1;
+    html += `<div class="action-row">
+      <button class="btn btn-primary" ${canSubmit ? '' : 'disabled'} onclick="submitAnswer(${i})">提交答案</button>
+      ${multi ? `<span style="color:var(--text-sec);font-size:0.8rem;">已选${selCount}个，可选1~4个</span>` : ''}
+    </div>`;
+  } else {
+    // 格式化公式显示：处理MathJax块、警告标签、换行
+    const fmtFormula = formatFormula(q.formula);
+    html += `<div class="explanation show ${isWrong ? 'wrong' : 'right'}">
+      <div class="ex-title">${isWrong ? '❌ 解析' : '✓ 解析'}</div>
+      <div class="ex-content">${fmtFormula}</div>
+    </div>`;
+    
+    // 知识点速览
+    if (q.kb) {
+      const fmtKb = formatFormula(q.kb);
+      html += `<div class="kb-section">
+        <div class="kb-title">📖 知识点速览</div>
+        <div class="kb-content">${fmtKb}</div>
+        <div class="kb-page">📚 教材第${q.page}页</div>
+      </div>`;
+    }
+    
+    html += `<div class="action-row">
+      <button class="btn btn-ghost" onclick="retryOne(${i})">重做本题</button>
+    </div>`;
+  }
+  
+  html += '</div>';
+  document.getElementById('questionsList').innerHTML = html;
+  
+  // MathJax 渲染
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([document.getElementById('questionsList')]).catch(err => console.log(err));
+  }
+}
+
+// 选择选项
+function toggleOpt(idx, letter) {
+  const q = QUESTIONS[idx];
+  const multi = q.answer.length > 1;
+  if (!state.selected[idx]) state.selected[idx] = '';
+  
+  if (multi) {
+    if (state.selected[idx].includes(letter)) {
+      state.selected[idx] = state.selected[idx].replace(letter, '');
+    } else {
+      state.selected[idx] += letter;
+    }
+  } else {
+    state.selected[idx] = letter;
+  }
+  
+  renderQuestions();
+}
+
+// 提交答案
+function submitAnswer(idx) {
+  const q = QUESTIONS[idx];
+  const sel = state.selected[idx] || '';
+  if (!sel) return;
+  
+  state.answered[idx] = sel.split('').sort().join('');
+  saveState();
+  updateStats();
+  buildJumpSelect();
+  renderQuestions();
+}
+
+// 重做单题
+function retryOne(idx) {
+  delete state.answered[idx];
+  delete state.selected[idx];
+  saveState();
+  updateStats();
+  buildJumpSelect();
+  renderQuestions();
+}
+
+// 导航
+function navigateQ(dir) {
+  const list = getFilteredQuestions();
+  let next = state.current + dir;
+  if (next < 0) next = 0;
+  if (next >= list.length) next = list.length - 1;
+  state.current = next;
+  renderQuestions();
+  updateNavButtons();
+  updateJumpSummary();
+  saveState();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function jumpTo(idx) {
+  const list = getFilteredQuestions();
+  const pos = list.findIndex(item => item.i === idx);
+  if (pos >= 0) {
+    state.current = pos;
+    showSection('questions');
+  }
+  const dd = document.getElementById('jumpDropdown');
+  if (dd) dd.open = false;
+}
+
+function updateJumpSummary() {
+  const cur = document.getElementById('jumpCurrent');
+  if (!cur) return;
+  const list = getFilteredQuestions();
+  const item = list[state.current];
+  if (item && item.q && item.q.id) {
+    cur.textContent = '第' + item.q.id + '题';
+  } else {
+    cur.textContent = '';
+  }
+}
+
+function updateNavButtons() {
+  const list = getFilteredQuestions();
+  const prev = document.getElementById('btnPrev');
+  const next = document.getElementById('btnNext');
+  if (prev) prev.disabled = state.current <= 0;
+  if (next) {
+    const isLast = state.current >= list.length - 1;
+    if (isLast) {
+      next.textContent = '提交 ✅';
+      next.onclick = function() { showSection('complete'); };
+      next.disabled = false;
+    } else {
+      next.textContent = '下一题';
+      next.onclick = function() { navigateQ(1); };
+      next.disabled = false;
+    }
+  }
+}
+
+// 构建跳转按钮网格
+function buildJumpSelect() {
+  const grid = document.getElementById('jumpSelectGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const done = !!state.answered[i];
+    const isWrong = done && state.answered[i] !== q.answer;
+    const btn = document.createElement('button');
+    btn.className = 'jump-btn' + (isWrong ? ' wrong' : '') + (done && !isWrong ? ' done' : '');
+    btn.textContent = q.id;
+    btn.title = `${q.id}. ${q.type==='base'?'基础':'进阶'} ${q.answer.length>1?'多选':'单选'} ${done?(isWrong?'✗':'✓'):'未答'}`;
+    btn.onclick = () => jumpTo(i);
+    grid.appendChild(btn);
+  });
+  updateJumpSummary();
+}
+
+// 更新统计
+function updateStats() {
+  const answered = Object.keys(state.answered).length;
+  const correct = Object.keys(state.answered).filter(i => state.answered[i] === QUESTIONS[parseInt(i)].answer).length;
+  const wrong = answered - correct;
+  const acc = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  
+  document.getElementById('statAnswered').textContent = answered;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statAccuracy').textContent = acc + '%';
+  
+  // 进度条
+  const pct = Math.round(answered / QUESTIONS.length * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+// 错题本
+function buildWrongbook() {
+  const wrong = QUESTIONS.map((q, i) => ({ q, i })).filter(({ q, i }) => state.answered[i] && state.answered[i] !== q.answer);
+  const list = document.getElementById('wrongbookList');
+  const empty = document.getElementById('wrongbookEmpty');
+  const retryBtn = document.getElementById('btnRetryWrong');
+  
+  if (wrong.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    retryBtn.style.display = 'none';
+    return;
+  }
+  
+  empty.style.display = 'none';
+  retryBtn.style.display = 'inline-block';
+  list.innerHTML = wrong.map(({ q, i }) => 
+    `<div class="mini-card" onclick="jumpTo(${i})">
+      <span class="mn">${q.id}</span>
+      <span class="mt">${q.text.slice(0, 40)}...</span>
+      <span class="mst wrong">✗</span>
+    </div>`
+  ).join('');
+}
+
+function retryWrong() {
+  const wrong = QUESTIONS.map((q, i) => i).filter(i => state.answered[i] && state.answered[i] !== QUESTIONS[i].answer);
+  if (wrong.length === 0) return;
+  wrong.forEach(i => {
+    delete state.answered[i];
+    delete state.selected[i];
+  });
+  state.filter = 'all';
+  document.querySelectorAll('.sec-tab').forEach((btn, idx) => btn.classList.toggle('on', idx === 0));
+  state.current = 0;
+  showSection('questions');
+  buildWrongbook();
+  buildJumpSelect();
+  updateStats();
+  saveState();
+}
+
+// 完成页
+function buildComplete() {
+  const answered = Object.keys(state.answered).length;
+  const correct = Object.keys(state.answered).filter(i => state.answered[i] === QUESTIONS[parseInt(i)].answer).length;
+  const wrong = answered - correct;
+  const acc = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  const pct = Math.round(answered / QUESTIONS.length * 100);
+  
+  const emoji = acc === 100 && pct === 100 ? '🏆' : acc >= 90 ? '🌟' : acc >= 60 ? '💪' : '📚';
+  const title = acc === 100 && pct === 100 ? '满分通关！' : pct === 100 ? '全部完成！' : acc >= 80 ? '表现优秀！' : acc >= 50 ? '继续加油！' : '正在积累中...';
+  const desc = `已完成 ${answered}/${QUESTIONS.length} 题，正确率 ${acc}%`;
+  
+  document.getElementById('completeEmoji').textContent = emoji;
+  document.getElementById('completeTitle').textContent = title;
+  document.getElementById('completeDesc').textContent = desc;
+  document.getElementById('completeScoreRow').innerHTML = `
+    <div class="score-box"><div class="sb-num ${correct >= wrong ? 'good' : ''}">${correct}</div><div class="sb-lbl">答对</div></div>
+    <div class="score-box"><div class="sb-num bad">${wrong}</div><div class="sb-lbl">答错</div></div>
+    <div class="score-box"><div class="sb-num">${acc}%</div><div class="sb-lbl">正确率</div></div>
+    <div class="score-box"><div class="sb-num">${pct}%</div><div class="sb-lbl">总进度</div></div>`;
+  
+  document.getElementById('completeActions').innerHTML = `
+    <button class="btn btn-ghost" onclick="clearAll()">重置刷题</button>
+    <button class="btn btn-primary" onclick="showSection('wrongbook')">查看错题</button>
+    <button class="btn btn-primary" onclick="showSection('questions')">继续刷题</button>`;
+  
+  const wrongList = QUESTIONS.map((q, i) => ({ q, i })).filter(({ q, i }) => state.answered[i] && state.answered[i] !== q.answer);
+  const summaryEl = document.getElementById('wrongSummary');
+  if (wrongList.length > 0) {
+    summaryEl.innerHTML = `<h2 style="color:var(--title);font-size:1rem;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--border);">错题列表</h2>` +
+      wrongList.map(({ q, i }) => 
+        `<div class="mini-card" onclick="jumpTo(${i})">
+          <span class="mn">${q.id}</span>
+          <span class="mt">${q.text.slice(0, 50)}...</span>
+          <span class="mst wrong">✗</span>
+        </div>`
+      ).join('');
+  } else {
+    summaryEl.innerHTML = '';
+  }
+}
+
+// 重做弹窗
+function openRetryModal() {
+  const wrong = QUESTIONS.map((q, i) => ({ q, i })).filter(({ q, i }) => state.answered[i] && state.answered[i] !== q.answer);
+  const list = document.getElementById('retryList');
+  const modal = document.getElementById('retryModal');
+  const emptyMsg = document.getElementById('retryEmpty');
+  
+  if (wrong.length === 0) {
+    list.innerHTML = '';
+    emptyMsg.style.display = 'block';
+  } else {
+    emptyMsg.style.display = 'none';
+    list.innerHTML = wrong.map(({ q, i }) => 
+      `<div class="mini-card" onclick="jumpTo(${i});closeRetryModal()">
+        <span class="mn">${q.id}</span>
+        <span class="mt">${q.text.slice(0, 50)}...</span>
+        <span class="mst wrong">✗</span>
+      </div>`
+    ).join('');
+  }
+  modal.classList.remove('hidden');
+}
+
+function closeRetryModal() {
+  document.getElementById('retryModal').classList.add('hidden');
+}
+
+// 存储
+function saveState() {
+  try {
+    localStorage.setItem('ch05_quiz_state', JSON.stringify({
+      answered: state.answered,
+      selected: state.selected,
+      current: state.current
+    }));
+  } catch (e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('ch05_quiz_state');
+    if (saved) {
+      const data = JSON.parse(saved);
+      state.answered = data.answered || {};
+      state.selected = data.selected || {};
+      state.current = data.current || 0;
+    }
+  } catch (e) {}
+}
+
+function clearAll() {
+  if (!confirm('确定要重置所有答题记录吗？')) return;
+  state.answered = {};
+  state.selected = {};
+  state.current = 0;
+  localStorage.removeItem('ch05_quiz_state');
+  updateStats();
+  buildJumpSelect();
+  buildWrongbook();
+  if (state.section === 'questions') renderQuestions();
+  if (state.section === 'complete') buildComplete();
+  showSection('home');
+}
+
+// 启动
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+// MathJax 渲染公式表格（首页静态公式）
+function renderStaticFormulas() {
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise(document.querySelectorAll('.formula-table')).catch(function(err) {
+      console.log('MathJax公式渲染:', err);
+    });
+  } else {
+    setTimeout(renderStaticFormulas, 300);
+  }
+}
+document.addEventListener('DOMContentLoaded', renderStaticFormulas);
+</script>
+</body>
+</html>
