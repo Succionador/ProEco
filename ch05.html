@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -135,14 +135,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .kb-page { color: #1976d2; font-weight: bold; }
 .math-inline { font-style: italic; color: var(--accent); }
 
-/* 底部导航 */
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, #FDF6E3 85%, transparent); padding: 10px 16px 14px; display: flex; justify-content: center; gap: 12px; z-index: 90; }
-.nav-btn { padding: 9px 28px; border-radius: 24px; font-family: var(--font); font-size: 0.88rem; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; }
-.nav-btn.prev { background: var(--card-bg); border: 1.5px solid var(--border); color: var(--text-sec); }
-.nav-btn.next { background: var(--title); color: #fff; }
-.nav-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-.nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
-.nav-spacer { height: 72px; }
+/* 双按钮布局 */
+.action-row.dual-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
 
 /* 错题列表 */
 .mini-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; box-shadow: 0 1px 4px rgba(139,69,19,0.06); }
@@ -345,11 +345,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
       </details>
     </div>
     <div id="questionsList"></div>
-    <div class="nav-spacer"></div>
-    <div class="bottom-nav">
-      <button class="nav-btn prev" id="btnPrev" onclick="navigateQ(-1)">上一题</button>
-      <button class="nav-btn next" id="btnNext" onclick="navigateQ(1)">下一题</button>
-    </div>
   </div>
 
   <!-- 错题本 -->
@@ -357,7 +352,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     <h2 style="color:var(--title);font-size:1.05rem;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--border);">错题查看</h2>
     <div id="wrongbookList"></div>
     <div id="wrongbookEmpty" style="text-align:center;padding:40px 0;color:var(--text-sec);font-size:0.9rem;">暂无错题记录</div>
-    <div class="nav-spacer"></div>
     <div class="bottom-nav">
       <button class="nav-btn prev" onclick="showSection('questions')">返回刷题</button>
       <button class="nav-btn next" id="btnRetryWrong" onclick="retryWrong()" style="display:none">重做错题</button>
@@ -424,7 +418,7 @@ const QUESTIONS = [
 - C选项正确：节约型是功能不变、费用降低
 - D选项错误：投资型是功能较大提高、费用较少提高`,kb:`提高价值的5种途径
 节约型 = 功能→ + 费用↓`,page:"52"},
-  {id:8,type:"base",diff:"基础",text:"\"功能较大提高，费用较少提高\"属于提高价值的哪种途径？（  ）",opts:["改进型","投资型","牺牲型"],answer:"B",formula:`- A选项错误：改进型是功能提高、费用不变
+  {id:8,type:"base",diff:"基础",text:"\"功能较大提高，费用较少提高\"属于提高价值的哪种途径？（  ）",opts:["改进型","投资型","牺牲型","节约型"],answer:"B",formula:`- A选项错误：改进型是功能提高、费用不变
 - B选项正确：投资型是功能较大提高、费用较少提高
 - C选项错误：节约型是功能不变、费用降低
 - D选项错误：牺牲型是功能略有下降、费用大幅度降低`,kb:`提高价值的5种途径
@@ -985,7 +979,6 @@ function showSection(name) {
   if (name === 'complete') buildComplete();
   if (name === 'questions') {
     renderQuestions();
-    updateNavButtons();
   }
   window.scrollTo({ top: 0 });
 }
@@ -998,7 +991,6 @@ function setFilter(f) {
   if (state.section === 'questions') {
     state.current = 0;
     renderQuestions();
-    updateNavButtons();
   }
 }
 
@@ -1059,15 +1051,37 @@ function renderQuestions() {
   
   html += '</ul>';
   
-  // 操作按钮
-  if (!answered) {
-    const selCount = (state.selected[i] || '').length;
-    const canSubmit = multi ? (selCount >= 1 && selCount <= 4) : selCount === 1;
-    html += `<div class="action-row">
-      <button class="btn btn-primary" ${canSubmit ? '' : 'disabled'} onclick="submitAnswer(${i})">提交答案</button>
-      ${multi ? `<span style="color:var(--text-sec);font-size:0.8rem;">已选${selCount}个，可选1~4个</span>` : ''}
-    </div>`;
+  // 双按钮布局：上一题 + 提交答案/下一题/提交
+  const isFirst = (i <= 0);
+  const isLast = (i >= QUESTIONS.length - 1);
+  
+  html += `<div class="action-row dual-btn">`;
+  
+  // 上一题按钮（第一题时隐藏）
+  if (!isFirst) {
+    html += `<button class="btn btn-outline" onclick="navigateQ(-1)">上一题</button>`;
   } else {
+    html += `<div></div>`; // 占位，保持布局
+  }
+  
+  // 右侧按钮：根据状态变化
+  if (!answered) {
+    const sel = state.selected[i] || '';
+    const selCount = sel.length;
+    const disabled = multi ? (selCount < 1 || selCount > 4) : (selCount !== 1);
+    html += `<button class="btn btn-primary" onclick="submitAnswer(${i})" ${disabled ? 'disabled' : ''}>提交答案</button>`;
+  } else {
+    if (isLast) {
+      html += `<button class="btn btn-primary" onclick="showSection('complete')">提交 ✅</button>`;
+    } else {
+      html += `<button class="btn btn-primary" onclick="navigateQ(1)">下一题</button>`;
+    }
+  }
+  
+  html += `</div>`;
+  
+  // 如果已回答，显示解析和知识点
+  if (answered) {
     // 格式化公式显示：处理MathJax块、警告标签、换行
     const fmtFormula = formatFormula(q.formula);
     html += `<div class="explanation show ${isWrong ? 'wrong' : 'right'}">
@@ -1149,7 +1163,6 @@ function navigateQ(dir) {
   if (next >= list.length) next = list.length - 1;
   state.current = next;
   renderQuestions();
-  updateNavButtons();
   updateJumpSummary();
   saveState();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1175,25 +1188,6 @@ function updateJumpSummary() {
     cur.textContent = '第' + item.q.id + '题';
   } else {
     cur.textContent = '';
-  }
-}
-
-function updateNavButtons() {
-  const list = getFilteredQuestions();
-  const prev = document.getElementById('btnPrev');
-  const next = document.getElementById('btnNext');
-  if (prev) prev.disabled = state.current <= 0;
-  if (next) {
-    const isLast = state.current >= list.length - 1;
-    if (isLast) {
-      next.textContent = '提交 ✅';
-      next.onclick = function() { showSection('complete'); };
-      next.disabled = false;
-    } else {
-      next.textContent = '下一题';
-      next.onclick = function() { navigateQ(1); };
-      next.disabled = false;
-    }
   }
 }
 
@@ -1401,3 +1395,4 @@ document.addEventListener('DOMContentLoaded', renderStaticFormulas);
 </script>
 </body>
 </html>
+
