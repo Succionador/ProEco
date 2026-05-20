@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第6章 财务会计基础</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --card-hover: #22263a;
+  --primary: #6c8cff;
+  --primary-light: rgba(108,140,255,0.15);
+  --primary-glow: rgba(108,140,255,0.25);
+  --green: #34d399;
+  --green-bg: rgba(52,211,153,0.12);
+  --green-border: rgba(52,211,153,0.35);
+  --red: #f87171;
+  --red-bg: rgba(248,113,113,0.12);
+  --red-border: rgba(248,113,113,0.35);
+  --yellow: #fbbf24;
+  --yellow-bg: rgba(251,191,36,0.12);
+  --yellow-border: rgba(251,191,36,0.35);
+  --gray: #6b7280;
+  --gray-light: #1e2233;
+  --text: #e2e8f0;
+  --text-secondary: #9ca3af;
+  --shadow: 0 2px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --radius: 12px;
+  --border-color: #2a2f40;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+
+/* Page transitions */
+.page { display: none; animation: fadeIn 0.3s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== PAGE 1: Knowledge Overview ===== */
+.header { background: linear-gradient(135deg, #4a6cf7, #6366f1); color: white; padding: 32px 20px 24px; text-align: center; }
+.header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.header p { font-size: 14px; opacity: 0.85; }
+
+.knowledge-container { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+/* Section card */
+.section-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+.section-header { display: flex; align-items: center; padding: 16px 20px; cursor: pointer; user-select: none; transition: background 0.2s; }
+.section-header:hover { background: var(--card-hover); }
+.section-header .icon { margin-right: 10px; font-size: 18px; transition: transform 0.2s; }
+.section-header .icon.collapsed { transform: rotate(-90deg); }
+.section-header h2 { font-size: 16px; font-weight: 600; flex: 1; }
+.section-header .badge { background: var(--primary-light); color: var(--primary); font-size: 12px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+.section-body { padding: 0 20px 16px; display: none; }
+.section-body.open { display: block; animation: fadeIn 0.2s ease; }
+
+/* Tree view */
+.tree { padding-left: 0; list-style: none; }
+.tree ul { padding-left: 20px; list-style: none; }
+.tree li { position: relative; padding: 2px 0; }
+.tree li::before { content: ''; position: absolute; left: -14px; top: 0; bottom: 0; width: 1px; background: #e2e8f0; }
+.tree li::after { content: ''; position: absolute; left: -14px; top: 12px; width: 10px; height: 1px; background: #e2e8f0; }
+.tree li:last-child::before { height: 12px; }
+.tree-node { display: flex; align-items: center; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: background 0.15s; font-size: 14px; }
+.tree-node:hover { background: var(--card-hover); }
+.tree-node .toggle { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; margin-right: 6px; font-size: 10px; color: var(--gray); transition: transform 0.2s; flex-shrink: 0; }
+.tree-node .toggle.collapsed { transform: rotate(-90deg); }
+.tree-node .node-icon { margin-right: 6px; font-size: 14px; }
+.tree-node .node-text { flex: 1; }
+.tree-children { overflow: hidden; transition: max-height 0.3s ease; }
+.tree-children.collapsed { max-height: 0 !important; }
+
+/* Hot topics table */
+.hot-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hot-table th { background: var(--primary-light); color: var(--primary); padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--primary); }
+.hot-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+.hot-table tr:hover td { background: var(--card-hover); }
+.star { color: #eab308; }
+.key-point { background: rgba(251,191,36,0.15); padding: 2px 6px; border-radius: 4px; font-weight: 500; font-size: 12px; }
+
+/* Detail content */
+.detail-content { font-size: 14px; line-height: 1.8; }
+.detail-content h4 { color: var(--primary); margin: 16px 0 8px; font-size: 15px; }
+.detail-content p, .detail-content li { margin-bottom: 4px; }
+.detail-content ul { padding-left: 20px; }
+.detail-content table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+.detail-content th { background: var(--primary-light); color: var(--primary); padding: 8px 10px; text-align: left; font-weight: 600; }
+.detail-content td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); }
+.detail-content strong { color: var(--primary); }
+.detail-content blockquote { background: rgba(251,191,36,0.08); border-left: 3px solid var(--yellow); padding: 10px 14px; margin: 12px 0; border-radius: 0 8px 8px 0; font-size: 13px; }
+
+/* Start button */
+.start-btn-container { text-align: center; padding: 24px 20px 40px; }
+.start-btn { background: linear-gradient(135deg, #4a6cf7, #6366f1); color: white; border: none; padding: 16px 48px; font-size: 18px; font-weight: 700; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(74, 108, 247, 0.4); transition: all 0.3s; letter-spacing: 1px; }
+.start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74, 108, 247, 0.5); }
+.start-btn:active { transform: translateY(0); }
+
+/* ===== PAGE 2: Quiz ===== */
+.quiz-header { background: linear-gradient(135deg, #4a6cf7, #6366f1); color: white; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.quiz-header .back-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: background 0.2s; }
+.quiz-header .back-btn:hover { background: rgba(255,255,255,0.3); }
+.quiz-header .progress-info { font-size: 14px; font-weight: 600; }
+.quiz-header .progress-info span { opacity: 0.8; font-weight: 400; }
+.progress-bar { height: 3px; background: rgba(255,255,255,0.2); position: absolute; bottom: 0; left: 0; right: 0; }
+.progress-bar-fill { height: 100%; background: white; transition: width 0.3s ease; border-radius: 0 2px 2px 0; }
+
+.quiz-container { max-width: 700px; margin: 0 auto; padding: 20px 16px 100px; }
+
+.question-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 20px; }
+.question-tag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+.tag-single { background: #dbeafe; color: #2563eb; }
+.tag-multi { background: #fce7f3; color: #db2777; }
+.question-stem { font-size: 16px; font-weight: 600; line-height: 1.7; margin-bottom: 20px; }
+
+.options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.option-item { display: flex; align-items: flex-start; padding: 12px 14px; border: 1.5px solid var(--border-color); border-radius: 10px; cursor: pointer; transition: all 0.2s; user-select: none; }
+.option-item:hover:not(.disabled) { border-color: var(--primary); background: var(--primary-light); }
+.option-item.selected { border-color: var(--primary); background: var(--primary-light); }
+.option-item.disabled { cursor: default; }
+.option-item.correct { border-color: var(--green-border); background: var(--green-bg); }
+.option-item.wrong { border-color: var(--red-border); background: var(--red-bg); }
+.option-item.missed { border-color: var(--yellow-border); background: var(--yellow-bg); }
+.option-marker { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin-right: 12px; flex-shrink: 0; transition: all 0.2s; }
+.option-item.selected .option-marker { border-color: var(--primary); background: var(--primary); color: white; }
+.option-item.correct .option-marker { border-color: var(--green); background: var(--green); color: white; }
+.option-item.wrong .option-marker { border-color: var(--red); background: var(--red); color: white; }
+.option-item.missed .option-marker { border-color: var(--yellow); background: var(--yellow); color: white; }
+.option-text { flex: 1; padding-top: 3px; font-size: 15px; line-height: 1.6; }
+.option-icon { margin-left: 8px; font-size: 18px; flex-shrink: 0; padding-top: 2px; }
+
+.quiz-actions { display: flex; gap: 12px; }
+.btn { flex: 1; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+.btn-prev { background: var(--gray-light); color: var(--text-secondary); }
+.btn-prev:hover { background: var(--border-color); }
+.btn-prev.hidden { visibility: hidden; }
+.btn-confirm { background: var(--primary); color: white; }
+.btn-confirm:hover { background: #3b5de7; }
+.btn-confirm:disabled { background: var(--gray); cursor: not-allowed; opacity: 0.6; }
+.btn-next { background: var(--primary); color: white; }
+.btn-next:hover { background: #3b5de7; }
+.btn-submit { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+.btn-submit:hover { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+.explanation { margin-top: 20px; padding: 16px; background: var(--gray-light); border-radius: 10px; animation: fadeIn 0.3s ease; }
+.explanation-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+.explanation-text { font-size: 14px; line-height: 1.7; color: var(--text-secondary); }
+
+/* Question number dropdown */
+.question-nav { display: flex; justify-content: center; padding: 14px 0; position: relative; }
+.nav-dropdown { position: relative; }
+.nav-dropdown-btn { display: flex; align-items: center; gap: 8px; background: var(--card); color: var(--text); border: 1px solid var(--border-color); padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; user-select: none; box-shadow: var(--shadow); }
+.nav-dropdown-btn:hover { border-color: var(--primary); background: var(--card-hover); }
+.nav-dropdown-btn .arrow { transition: transform 0.2s; font-size: 11px; }
+.nav-dropdown-btn.open .arrow { transform: rotate(180deg); }
+.nav-dropdown-panel { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); z-index: 200; min-width: 340px; max-height: 360px; overflow-y: auto; animation: dropFadeIn 0.2s ease; }
+.nav-dropdown-panel.show { display: block; }
+@keyframes dropFadeIn { from { opacity: 0; transform: translateX(-50%) translateY(-6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+.nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.q-dot { width: 30px; height: 30px; border-radius: 6px; border: 1.5px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; background: transparent; color: var(--text-secondary); }
+.q-dot:hover { border-color: var(--primary); color: var(--text); transform: scale(1.08); }
+.q-dot.current { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 0 10px var(--primary-glow); }
+.q-dot.answered-correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.q-dot.answered-wrong { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+.q-dot.unanswered { border-color: var(--border-color); background: transparent; color: var(--text-secondary); opacity: 0.6; }
+.q-dot.unanswered:hover { opacity: 1; }
+
+/* ===== PAGE 3: Results ===== */
+.results-header { background: linear-gradient(135deg, #4a6cf7, #6366f1); color: white; padding: 32px 20px; text-align: center; }
+.results-header h2 { font-size: 22px; margin-bottom: 8px; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; border: 3px solid rgba(255,255,255,0.4); }
+.score-circle .score-num { font-size: 36px; font-weight: 800; }
+.score-circle .score-label { font-size: 12px; opacity: 0.8; }
+.results-stats { display: flex; justify-content: center; gap: 24px; margin-top: 12px; font-size: 14px; }
+.results-stats span { opacity: 0.9; }
+
+.results-container { max-width: 700px; margin: 0 auto; padding: 20px 16px; }
+.result-section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+.result-section-header { padding: 16px 20px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--border-color); }
+
+.wrong-item { padding: 14px 20px; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.15s; }
+.wrong-item:last-child { border-bottom: none; }
+.wrong-item:hover { background: var(--card-hover); }
+.wrong-item .wi-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.wrong-item .wi-num { background: var(--red-bg); color: var(--red); font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+.wrong-item .wi-type { font-size: 11px; color: var(--gray); }
+.wrong-item .wi-stem { font-size: 14px; line-height: 1.5; color: var(--text-secondary); }
+.wrong-item .wi-answers { font-size: 12px; margin-top: 4px; }
+.wrong-item .wi-your { color: var(--red); }
+.wrong-item .wi-correct { color: var(--green); }
+
+.retry-btn { display: block; width: 100%; max-width: 300px; margin: 24px auto; padding: 14px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.retry-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(239,68,68,0.4); }
+
+.back-home-btn { display: block; width: 100%; max-width: 300px; margin: 12px auto 40px; padding: 14px; background: var(--gray-light); color: var(--text-secondary); border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.back-home-btn:hover { background: var(--border-color); }
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .header h1 { font-size: 18px; }
+  .question-stem { font-size: 15px; }
+  .option-text { font-size: 14px; }
+  .btn { font-size: 15px; padding: 12px; }
+  .q-dot { width: 28px; height: 28px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: Knowledge Overview -->
+<div id="page-knowledge" class="page active">
+  <div class="header">
+    <h1>📋 第6章 财务会计基础</h1>
+    <p>知识点框架 · 知识整理 · 高频考点 · 练习题</p>
+  </div>
+  <div class="knowledge-container">
+    <!-- Framework -->
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="icon">📂</span>
+        <h2>知识框架</h2>
+        <span class="badge">5节</span>
+      </div>
+      <div class="section-body" id="framework-body"></div>
+    </div>
+
+    <!-- Hot Topics -->
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="icon">⭐</span>
+        <h2>高频考点</h2>
+        <span class="badge">10项</span>
+      </div>
+      <div class="section-body" id="hot-body"></div>
+    </div>
+
+    <!-- Detail sections -->
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="icon">📚</span>
+        <h2>6.1 会计要素组成及计量</h2>
+      </div>
+      <div class="section-body" id="detail-61"></div>
+    </div>
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="icon">📚</span>
+        <h2>6.2 财务会计工作基本内容</h2>
+      </div>
+      <div class="section-body" id="detail-62"></div>
+    </div>
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="icon">📚</span>
+        <h2>6.3 会计假设与会计基础</h2>
+      </div>
+      <div class="section-body" id="detail-63"></div>
+    </div>
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="icon">📚</span>
+        <h2>6.4 会计核算过程与会计等式</h2>
+      </div>
+      <div class="section-body" id="detail-64"></div>
+    </div>
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="icon">📚</span>
+        <h2>6.5 会计监督</h2>
+      </div>
+      <div class="section-body" id="detail-65"></div>
+    </div>
+
+    <div class="start-btn-container">
+      <button class="start-btn" onclick="startQuiz()">✏️ 开始刷题</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: Quiz -->
+<div id="page-quiz" class="page">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">← 返回</button>
+    <div class="progress-info">
+      <span id="q-index">1</span> / <span id="q-total">60</span>
+    </div>
+    <div style="width:50px"></div>
+    <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+  </div>
+  <div class="quiz-container">
+    <div class="question-nav" id="question-nav"></div>
+    <div class="question-card" id="question-card"></div>
+  </div>
+</div>
+
+<!-- PAGE 3: Results -->
+<div id="page-results" class="page">
+  <div class="results-header">
+    <h2>📊 答题报告</h2>
+    <div class="score-circle">
+      <span class="score-num" id="result-score">0%</span>
+      <span class="score-label">正确率</span>
+    </div>
+    <div class="results-stats">
+      <span>✅ 正确: <strong id="result-correct">0</strong></span>
+      <span>❌ 错误: <strong id="result-wrong">0</strong></span>
+      <span>📝 共: <strong id="result-total">60</strong></span>
+    </div>
+  </div>
+  <div class="results-container">
+    <div class="result-section" id="wrong-list-section">
+      <div class="result-section-header">❌ 错题回顾</div>
+      <div id="wrong-list"></div>
+    </div>
+    <button class="retry-btn" onclick="retryWrong()">🔄 错题重做</button>
+    <button class="back-home-btn" onclick="goHome()">🏠 返回知识点</button>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const SINGLE_QUESTIONS = [{"num": 1, "stem": "下列属于企业流动资产的是（ ）。", "options": [{"letter": "A", "text": "长期股权投资"}, {"letter": "B", "text": "固定资产"}, {"letter": "C", "text": "应收账款"}, {"letter": "D", "text": "无形资产"}], "answer": "C", "explanation": "**解析**：流动资产是指在1年内或超过1年的一个营业周期内变现、耗用的资产，包括货币资金、交易性金融资产、应收票据、应收账款、预付款项、存货等。长期股权投资、固定资产、无形资产属于非流动资产。"}, {"num": 2, "stem": "根据《企业会计准则》，企业在对会计要素进行计量时，一般应当采用（ ）。", "options": [{"letter": "A", "text": "历史成本"}, {"letter": "B", "text": "重置成本"}, {"letter": "C", "text": "可变现净值"}, {"letter": "D", "text": "公允价值"}], "answer": "A", "explanation": "**解析**：企业在对会计要素进行计量时，一般应当采用历史成本。采用重置成本、可变现净值、现值、公允价值计量的，应当保证所确定的会计要素金额能够取得并可靠计量。"}, {"num": 3, "stem": "下列不属于会计确认标准的是（ ）。", "options": [{"letter": "A", "text": "可定义性"}, {"letter": "B", "text": "可计量性"}, {"letter": "C", "text": "相关性"}, {"letter": "D", "text": "重要性"}], "answer": "D", "explanation": "**解析**：会计确认的标准包括：可定义性（符合某一会计要素的定义）、可计量性（能够进行货币计量）、相关性（与会计主体经济活动相关）、可靠性（真实可靠且可核实）。重要性是会计核算原则，不是确认标准。"}, {"num": 4, "stem": "下列属于会计档案定期保管期限为10年的是（ ）。", "options": [{"letter": "A", "text": "年度财务会计报告"}, {"letter": "B", "text": "会计凭证"}, {"letter": "C", "text": "银行存款余额调节表"}, {"letter": "D", "text": "会计账簿"}], "answer": "C", "explanation": "**解析**：定期保管10年的会计档案包括：银行存款余额调节表、银行对账单、纳税申报表、月度/季度/半年度财务会计报告。年度财务会计报告为永久保管；会计凭证、会计账簿保管期限为30年。"}, {"num": 5, "stem": "关于会计主体假设，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "会计主体一定是法律主体"}, {"letter": "B", "text": "法律主体一定是会计主体"}, {"letter": "C", "text": "会计主体与法律主体完全相同"}, {"letter": "D", "text": "项目部是法律主体，也是会计主体"}], "answer": "B", "explanation": "**解析**：会计主体不一定是法律主体（如施工项目部是会计主体但不是法律主体）；法律主体一定是会计主体。会计主体界定了会计核算的空间范围和立场。"}, {"num": 6, "stem": "我国企业的会计年度是（ ）。", "options": [{"letter": "A", "text": "自公历1月1日起至12月31日止"}, {"letter": "B", "text": "自公历4月1日起至次年3月31日止"}, {"letter": "C", "text": "自公历7月1日起至次年6月30日止"}, {"letter": "D", "text": "由企业自行确定"}], "answer": "A", "explanation": "**解析**：我国以公历年作为企业的会计年度，即以公历1月1日至12月31日为一个会计年度。"}, {"num": 7, "stem": "在权责发生制下，本月销售货物价款20000元，实际收到货款15000元，余款下月收到，本月应确认收入（ ）。", "options": [{"letter": "A", "text": "0元"}, {"letter": "B", "text": "15000元"}, {"letter": "C", "text": "20000元"}, {"letter": "D", "text": "5000元"}], "answer": "C", "explanation": "**解析**：权责发生制以收入是否实现为标准，不以款项实际收付时间为标准。本月销售货物，收入已实现，应确认全额收入20000元，不论款项是否实际收到。"}, {"num": 8, "stem": "下列属于静态会计等式的是（ ）。", "options": [{"letter": "A", "text": "资产=负债+所有者权益"}, {"letter": "B", "text": "利润=收入-费用"}, {"letter": "C", "text": "资产+费用=负债+所有者权益+收入"}, {"letter": "D", "text": "资产=负债"}], "answer": "A", "explanation": "**解析**：静态会计等式（第一会计等式）为：资产=负债+所有者权益，反映企业某一时点的财务状况，列入资产负债表。动态会计等式为：利润=收入-费用；综合会计等式为：资产+费用=负债+所有者权益+收入。"}, {"num": 9, "stem": "关于谨慎性原则，下列说法错误的是（ ）。", "options": [{"letter": "A", "text": "不应高估资产或者收益"}, {"letter": "B", "text": "不应低估负债或者费用"}, {"letter": "C", "text": "可以设置秘密准备"}, {"letter": "D", "text": "不得多计资产或收益"}], "answer": "C", "explanation": "**解析**：谨慎性原则要求企业不应高估资产或收益、不应低估负债或费用，但不得设置秘密准备（即不得恶意低估资产或高估负债）。"}, {"num": 10, "stem": "原始凭证金额有错误的，应当（ ）。", "options": [{"letter": "A", "text": "在原始凭证上更正，并加盖出具单位印章"}, {"letter": "B", "text": "由出具单位重开"}, {"letter": "C", "text": "由接收单位更正"}, {"letter": "D", "text": "直接作废重新填写"}], "answer": "B", "explanation": "**解析**：原始凭证记载的各项内容均不得涂改；原始凭证有错误的，应当由出具单位重开或更正，更正处应当加盖出具单位印章；**原始凭证金额有错误的，应当由出具单位重开，不得在原始凭证上更正**。"}, {"num": 11, "stem": "会计核算工作的主要内容不包括（ ）。", "options": [{"letter": "A", "text": "资产的增减和使用"}, {"letter": "B", "text": "负债的增减"}, {"letter": "C", "text": "制定企业发展战略"}, {"letter": "D", "text": "收入、支出、费用、成本的增减"}], "answer": "C", "explanation": "**解析**：应当办理会计手续、进行会计核算的经济业务事项包括：①资产的增减和使用；②负债的增减；③净资产（所有者权益）的增减；④收入、支出、费用、成本的增减；⑤财务成果的计算和处理；⑥其他需要办理会计手续的事项。制定企业发展战略属于企业管理决策，不属于会计核算工作内容。"}, {"num": 12, "stem": "关于公允价值计量，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "公允价值是指熟悉市场情况的买卖双方在公平交易条件下确定的价格"}, {"letter": "B", "text": "公允价值只能由企业自行确定"}, {"letter": "C", "text": "公允价值不考虑市场参与者的情况"}, {"letter": "D", "text": "公允价值就是历史成本"}], "answer": "A", "explanation": "**解析**：公允价值是指市场参与者在计量日发生的有序交易中，出售资产所能收到或转移负债所需支付的价格。公允价值强调熟悉市场情况的买卖双方在公平交易条件下确定的价格。实务中，公允价值通常由资产评估机构评估确定。"}, {"num": 13, "stem": "下列不属于会计档案归档范围的是（ ）。", "options": [{"letter": "A", "text": "会计凭证"}, {"letter": "B", "text": "会计账簿"}, {"letter": "C", "text": "企业年度预算文件"}, {"letter": "D", "text": "财务会计报告"}], "answer": "C", "explanation": "**解析**：预算、计划、制度等文件材料应当执行文书档案管理规定，**不属于会计档案管理范畴**。会计档案包括：会计凭证、会计账簿、财务会计报告、其他会计资料（银行存款余额调节表、银行对账单、纳税申报表等）。"}, {"num": 14, "stem": "在重置成本计量下，资产按照（ ）计量。", "options": [{"letter": "A", "text": "购置时支付的现金金额"}, {"letter": "B", "text": "现在购买相同或者相似资产所需支付的现金金额"}, {"letter": "C", "text": "预计未来现金流入量的折现金额"}, {"letter": "D", "text": "正常对外销售所能收到现金扣除相关费用后的金额"}], "answer": "B", "explanation": "**解析**：重置成本计量下，资产按照现在购买相同或者相似资产所需支付的现金或者现金等价物的金额计量。历史成本是购置时支付的金额；现值是预计未来现金流入量的折现金额；可变现净值是正常销售收到现金扣除相关费用后的金额。"}, {"num": 15, "stem": "关于收付实现制，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "企业应当以收付实现制为基础进行会计核算"}, {"letter": "B", "text": "收付实现制以款项实际收付时间作为认定标准"}, {"letter": "C", "text": "权责发生制以款项实际收付时间为标准"}, {"letter": "D", "text": "收付实现制也称应收应付制"}], "answer": "B", "explanation": "**解析**：收付实现制以款项（现金和银行存款）实际收付时间作为认定标准，也称实收实付制。企业应当以**权责发生制**为基础进行会计核算，而非收付实现制。权责发生制以应收应付为标准，也称应收应付制。"}, {"num": 16, "stem": "综合会计等式是（ ）。", "options": [{"letter": "A", "text": "资产=负债+所有者权益"}, {"letter": "B", "text": "利润=收入-费用"}, {"letter": "C", "text": "资产+费用=负债+所有者权益+收入"}, {"letter": "D", "text": "资产-负债=所有者权益"}], "answer": "C", "explanation": "**解析**：综合会计等式为：资产+费用=负债+所有者权益+收入，由静态会计等式和动态会计等式推导得出，也称第三会计等式，反映企业期初财务状况和该时期内收入、费用发生后对期末财务状况的影响。"}, {"num": 17, "stem": "下列不属于所有者权益来源的是（ ）。", "options": [{"letter": "A", "text": "所有者投入的资本"}, {"letter": "B", "text": "直接计入所有者权益的利得和损失"}, {"letter": "C", "text": "留存收益"}, {"letter": "D", "text": "应付账款"}], "answer": "D", "explanation": "**解析**：所有者权益的来源包括：①所有者投入的资本；②直接计入所有者权益的利得或损失；③留存收益。应付账款属于负债，不属于所有者权益的来源。"}, {"num": 18, "stem": "关于会计分期假设，下列说法错误的是（ ）。", "options": [{"letter": "A", "text": "会计分期是将持续经营分割为连续、长短相同的期间"}, {"letter": "B", "text": "会计分期是分期计算收入、费用和损益的前提"}, {"letter": "C", "text": "中期是指短于一个完整会计年度的报告期间"}, {"letter": "D", "text": "企业可以自行决定会计年度起止日期"}], "answer": "D", "explanation": "**解析**：我国以公历1月1日至12月31日为一个会计年度，企业**不能自行决定**会计年度的起止日期。会计分期是会计确认、计量和报告以及分期计算收入、费用和损益的前提。中期是指短于一个完整会计年度的报告期间（如季度、月度）。"}, {"num": 19, "stem": "可变现净值计量主要用于（ ）。", "options": [{"letter": "A", "text": "固定资产减值测试"}, {"letter": "B", "text": "存货的计价和减值测试"}, {"letter": "C", "text": "融资租赁资产入账"}, {"letter": "D", "text": "资产评估"}], "answer": "B", "explanation": "**解析**：可变现净值计量下，资产按照其正常对外销售所能收到现金扣除至完工时估计将要发生的成本、销售费用及相关税费后的金额计量，**主要用于存货的计价和减值测试**。现值和重置成本用于固定资产减值测试和盘盈计量。"}, {"num": 20, "stem": "下列不属于会计监督体系组成部分的是（ ）。", "options": [{"letter": "A", "text": "企业内部监督"}, {"letter": "B", "text": "政府监督"}, {"letter": "C", "text": "社会监督"}, {"letter": "D", "text": "舆论监督"}], "answer": "D", "explanation": "**解析**：会计监督体系包括三个层次：①企业内部监督（会计机构、会计人员）；②政府监督（财政、审计、税务等部门）；③社会监督（注册会计师及会计师事务所）。舆论监督不属于会计监督体系的法定组成部分。"}, {"num": 21, "stem": "关于会计账簿设置，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "从事生产经营的纳税人应自领取营业执照之日起30日内设置账簿"}, {"letter": "B", "text": "总账、日记账应当采用活页式"}, {"letter": "C", "text": "总账、日记账应当采用订本式"}, {"letter": "D", "text": "会计账簿可以不连续编号"}], "answer": "C", "explanation": "**解析**：从事生产、经营的纳税人应当自领取营业执照或者发生纳税义务之日起**15日内**设置账簿；总账、日记账应当采用**订本式**，不得采用活页式。会计账簿应当按照连续编号的页码顺序登记。"}, {"num": 22, "stem": "在权责发生制下，本月预收下月交付商品的货款10000元，本月应（ ）。", "options": [{"letter": "A", "text": "确认收入10000元"}, {"letter": "B", "text": "确认负债10000元"}, {"letter": "C", "text": "确认收入0元，确认负债10000元"}, {"letter": "D", "text": "不确认任何收入或负债"}], "answer": "C", "explanation": "**解析**：权责发生制下，本月预收货款，商品交易下月才完成，收入未实现，因此本月不确认收入，预收的10000元形成企业的负债（预收账款），下月交付商品时再确认收入。"}, {"num": 23, "stem": "关于费用的定义，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "费用会导致所有者权益增加"}, {"letter": "B", "text": "费用与向所有者分配利润有关"}, {"letter": "C", "text": "费用会导致所有者权益减少"}, {"letter": "D", "text": "费用在非日常活动中发生"}], "answer": "C", "explanation": "**解析**：费用是指企业在**日常活动**中发生的、会导致所有者权益**减少**的、与向所有者分配利润**无关**的经济利益的总流出。"}, {"num": 24, "stem": "会计档案的保管期限从（ ）算起。", "options": [{"letter": "A", "text": "会计档案形成的当天"}, {"letter": "B", "text": "会计年度终了后的第一天"}, {"letter": "C", "text": "会计档案归档的当天"}, {"letter": "D", "text": "会计报表编制的当天"}], "answer": "B", "explanation": "**解析**：会计档案的保管期限，从**会计年度终了后的第一天**算起。"}, {"num": 25, "stem": "关于持续经营假设，下列说法错误的是（ ）。", "options": [{"letter": "A", "text": "持续经营假设是指企业将永久不停业"}, {"letter": "B", "text": "持续经营假设是指企业在可预见将来按当前规模和状态继续经营"}, {"letter": "C", "text": "持续经营假设是会计确认、计量和报告的基本假设"}, {"letter": "D", "text": "持续经营假设为固定资产折旧提供了会计处理基础"}], "answer": "A", "explanation": "**解析**：持续经营假设**不是**指企业保持经营规模和经营状态绝对不变，而是指在可预见的将来，企业会按当前的规模和状态继续经营下去，不会停业、重组或实质性转行。"}, {"num": 26, "stem": "下列属于流动负债的是（ ）。", "options": [{"letter": "A", "text": "长期借款"}, {"letter": "B", "text": "应付债券"}, {"letter": "C", "text": "应付账款"}, {"letter": "D", "text": "长期股权投资"}], "answer": "C", "explanation": "**解析**：流动负债是指在1年内或超过1年的一个营业周期内偿还的债务，包括短期借款、应付票据、应付账款、预收款项、应付职工薪酬、应交税费等。长期借款、应付债券属于非流动负债；长期股权投资属于非流动资产。"}, {"num": 27, "stem": "关于货币计量假设，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "企业必须以人民币为记账本位币"}, {"letter": "B", "text": "业务收支以外币为主的单位，必须以外币为记账本位币"}, {"letter": "C", "text": "业务收支以外币为主的单位，编报的财务会计报告应当折算为人民币"}, {"letter": "D", "text": "货币计量假设与企业会计核算无关"}], "answer": "C", "explanation": "**解析**：《会计法》规定，会计核算以人民币为记账本位币；业务收支以人民币以外的货币为主的单位，可以选定其中一种货币作为记账本位币，但是编报的财务会计报告应当**折算为人民币**。"}, {"num": 28, "stem": "会计核算中，关于实质重于形式原则的典型运用不包括（ ）。", "options": [{"letter": "A", "text": "融资租赁固定资产的会计处理"}, {"letter": "B", "text": "售后回购的会计处理"}, {"letter": "C", "text": "合并报表的编制"}, {"letter": "D", "text": "所有资产均按历史成本计量"}], "answer": "D", "explanation": "**解析**：实质重于形式原则要求企业按照交易或事项的经济实质进行会计确认、计量和报告，不应仅以法律形式为依据。典型运用包括：融资租赁、售后回购、售后回租、合并报表编制、关联关系确定等。D选项与实质重于形式原则无关。"}, {"num": 29, "stem": "企业财务会计报告应当由（ ）签名并盖章。", "options": [{"letter": "A", "text": "仅单位负责人"}, {"letter": "B", "text": "单位负责人和会计机构负责人"}, {"letter": "C", "text": "单位负责人、主管会计工作负责人、会计机构负责人；设置总会计师的，还须由总会计师签名并盖章"}, {"letter": "D", "text": "仅总会计师"}], "answer": "C", "explanation": "**解析**：财务会计报告应当由单位负责人和主管会计工作的负责人、会计机构负责人（会计主管人员）签名并盖章；设置总会计师的单位，还须由总会计师签名并盖章。"}, {"num": 30, "stem": "关于会计信息系统的会计处理基础，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "企业可采用收付实现制进行会计核算"}, {"letter": "B", "text": "企业应当采用权责发生制"}, {"letter": "C", "text": "权责发生制以款项实际收付为标准"}, {"letter": "D", "text": "收付实现制以应收应付为标准"}], "answer": "B", "explanation": "**解析**：《企业会计准则》规定，企业**应当以权责发生制为基础**进行会计确认、计量和报告。权责发生制以应收应付为标准（即收入费用应当归属的时间）；收付实现制以款项实际收付时间为标准。"}, {"num": 31, "stem": "直接计入当期利润的利得或损失不包括（ ）。", "options": [{"letter": "A", "text": "处置固定资产形成的利得或损失"}, {"letter": "B", "text": "固定资产盘盈或盘亏"}, {"letter": "C", "text": "债务重组利得或损失"}, {"letter": "D", "text": "其他权益工具投资的公允价值变动额"}], "answer": "D", "explanation": "**解析**：直接计入当期利润的利得或损失包括：处置固定资产、无形资产形成的利得或损失；固定资产、存货、现金等盘盈或盘亏；债务重组利得或损失；罚款收入或罚没支出等。**其他权益工具投资的公允价值变动额**直接计入所有者权益（其他综合收益），不计入当期利润。"}, {"num": 32, "stem": "关于会计等式，下列说法错误的是（ ）。", "options": [{"letter": "A", "text": "任何经济业务都不会破坏静态会计等式的平衡关系"}, {"letter": "B", "text": "资产项目之间此增彼减，不影响静态会计等式总额"}, {"letter": "C", "text": "权益项目之间此增彼减，会影响静态会计等式总额"}, {"letter": "D", "text": "静态会计等式是复式记账、试算平衡的理论依据"}], "answer": "C", "explanation": "**解析**：权益项目之间此增彼减（如资本公积转增资本），增减金额相等，**不影响**静态会计等式左右两侧的总额。资产项目之间此增彼减也不影响总额。任何经济业务都不会破坏静态会计等式的平衡关系。"}, {"num": 33, "stem": "会计档案鉴定工作应当由（ ）牵头。", "options": [{"letter": "A", "text": "单位会计机构"}, {"letter": "B", "text": "单位档案管理机构"}, {"letter": "C", "text": "单位审计部门"}, {"letter": "D", "text": "单位负责人"}], "answer": "B", "explanation": "**解析**：会计档案鉴定工作应当由**单位档案管理机构**牵头，组织单位会计、审计、纪检监察等机构或人员共同进行。"}, {"num": 34, "stem": "关于可比性原则，下列说法正确的是（ ）。", "options": [{"letter": "A", "text": "同一企业不同时期发生的相同交易，可以采用不同的会计政策"}, {"letter": "B", "text": "不同企业发生的相同交易，可以采用不同的会计政策"}, {"letter": "C", "text": "同一企业不同时期应保持会计政策一致，不得随意变更"}, {"letter": "D", "text": "可比性原则仅指横向可比"}], "answer": "C", "explanation": "**解析**：可比性原则包括纵向可比和横向可比。同一企业不同时期发生的相同或者相似的交易或事项，应当采用**一致的会计政策**，不得随意变更；不同企业发生的相同或相似交易，应当采用规定的会计政策，确保口径一致、相互可比。"}, {"num": 35, "stem": "在现值计量下，负债按照（ ）计量。", "options": [{"letter": "A", "text": "承担现时义务时实际收到的款项"}, {"letter": "B", "text": "预计期限内需要偿还的未来净现金流出量的折现金额"}, {"letter": "C", "text": "现在偿付该项债务所需支付的现金金额"}, {"letter": "D", "text": "合同金额"}], "answer": "B", "explanation": "**解析**：现值计量下，负债按照预计期限内需要偿还的未来净现金流出量的**折现金额**计量。历史成本下负债按承担现时义务时实际收到的款项或合同金额计量；重置成本下按现在偿付所需支付的现金金额计量。"}, {"num": 36, "stem": "关于账户设置，下列说法错误的是（ ）。", "options": [{"letter": "A", "text": "会计科目是设置账户的依据"}, {"letter": "B", "text": "总分类科目由财政部统一制定"}, {"letter": "C", "text": "明细科目由企业自行设置"}, {"letter": "D", "text": "会计账户的设置与会计科目无关"}], "answer": "D", "explanation": "**解析**：会计科目是对会计要素的进一步划分，是**设置账户的依据**。会计账户是根据会计科目设置的，二者密切相关。总分类科目（一级科目）由财政部统一制定；明细科目由企业自行设置。"}, {"num": 37, "stem": "社会监督的主要承担者是（ ）。", "options": [{"letter": "A", "text": "财政部门"}, {"letter": "B", "text": "税务部门"}, {"letter": "C", "text": "注册会计师及其所在的会计师事务所"}, {"letter": "D", "text": "审计部门"}], "answer": "C", "explanation": "**解析**：社会监督主要是由**注册会计师及其所在的会计师事务所**等中介机构接受委托依法对单位的经济活动进行审计，出具审计报告，发表审计意见。"}, {"num": 38, "stem": "不相容职务相互分离控制的核心是（ ）。", "options": [{"letter": "A", "text": "授权批准与业务经办分离"}, {"letter": "B", "text": "任何部门或个人无权单独控制任何一项业务"}, {"letter": "C", "text": "会计记录与财产保管分离"}, {"letter": "D", "text": "业务经办与稽核检查分离"}], "answer": "B", "explanation": "**解析**：不相容职务相互分离控制要求按照不相容职务相分离的原则，合理设置会计及相关工作岗位，形成相互制衡机制。其核心思想是：通过组织上的职责分工和有关制度的规定，使得任何一个部门或者个人无权单独控制任何一项业务，而必须通过\"牵制部门或人员\"进行交叉检查或交叉控制。"}, {"num": 39, "stem": "关于费用确认条件，下列说法错误的是（ ）。", "options": [{"letter": "A", "text": "经济利益很可能流出企业"}, {"letter": "B", "text": "经济利益流出额能够可靠计量"}, {"letter": "C", "text": "费用会导致资产增加或负债减少"}, {"letter": "D", "text": "费用是指企业在日常活动中发生的"}], "answer": "C", "explanation": "**解析**：费用只有在经济利益很可能流出从而导致企业**资产减少或者负债增加**，且经济利益流出额能够可靠计量时才能予以确认。费用不会导致资产增加。"}, {"num": 40, "stem": "企业对外报送的财务会计报告，其编制依据应当（ ）。", "options": [{"letter": "A", "text": "根据不同使用者采用不同依据"}, {"letter": "B", "text": "保持一致"}, {"letter": "C", "text": "由企业负责人自行决定"}, {"letter": "D", "text": "可以不真实完整"}], "answer": "B", "explanation": "**解析**：向不同的会计资料使用者提供的财务会计报告，其编制依据应当**一致**。企业负责人应当保证财务会计报告真实、完整。"}];
+const MULTI_QUESTIONS = [{"num": 1, "stem": "根据《企业会计准则》，会计要素包括（ ）。", "options": [{"letter": "A", "text": "资产"}, {"letter": "B", "text": "负债"}, {"letter": "C", "text": "所有者权益"}, {"letter": "D", "text": "收入"}, {"letter": "E", "text": "利润"}, {"letter": "A", "text": "资产"}, {"letter": "B", "text": "负债"}, {"letter": "C", "text": "所有者权益"}, {"letter": "D", "text": "收入"}, {"letter": "E", "text": "利润"}], "answer": "ABC", "explanation": "**解析**：资产、负债、所有者权益反映企业某一时点的财务状况，列入资产负债表（静态等式）；收入、费用、利润反映某一时期的经营成果，列入利润表（动态等式）。"}, {"num": 2, "stem": "下列属于企业流动资产的有（ ）。", "options": [{"letter": "A", "text": "货币资金"}, {"letter": "B", "text": "应收账款"}, {"letter": "C", "text": "存货"}, {"letter": "D", "text": "固定资产"}, {"letter": "E", "text": "长期股权投资"}], "answer": "ABC", "explanation": "**解析**：流动资产是指在1年内或超过1年的一个营业周期内变现、耗用的资产，包括货币资金、交易性金融资产、应收票据、应收账款、预付款项、存货等。固定资产和长期股权投资属于非流动资产。"}, {"num": 3, "stem": "会计要素计量属性中，关于历史成本的说法正确的有（ ）。", "options": [{"letter": "A", "text": "资产按照购置时支付的现金金额计量"}, {"letter": "B", "text": "负债按照承担现时义务时实际收到的款项计量"}, {"letter": "C", "text": "历史成本是最常用的计量属性"}, {"letter": "D", "text": "企业在任何情况下都必须采用历史成本"}, {"letter": "E", "text": "盘盈固定资产采用历史成本计量"}], "answer": "ABC", "explanation": "**解析**：企业在对会计要素进行计量时，**一般**采用历史成本，但不是任何情况下都必须采用，故D错误。盘盈固定资产采用**重置成本**计量，故E错误。"}, {"num": 4, "stem": "会计核算全过程包括的基本环节有（ ）。", "options": [{"letter": "A", "text": "会计确认"}, {"letter": "B", "text": "会计计量"}, {"letter": "C", "text": "会计记录"}, {"letter": "D", "text": "会计报告"}, {"letter": "E", "text": "会计监督"}], "answer": "ABCD", "explanation": "**解析**：会计核算的全过程包括会计确认、会计计量、会计记录和会计报告四个基本环节。会计监督是会计的另一项基本职能，不属于核算全过程环节。"}, {"num": 5, "stem": "会计确认的标准包括（ ）。", "options": [{"letter": "A", "text": "可定义性"}, {"letter": "B", "text": "可计量性"}, {"letter": "C", "text": "相关性"}, {"letter": "D", "text": "可靠性"}, {"letter": "E", "text": "重要性"}], "answer": "ABCD", "explanation": "**解析**：会计确认的标准具有可定义性、可计量性、相关性和可靠性。重要性是会计核算原则，不是确认标准。"}, {"num": 6, "stem": "下列会计资料中，属于会计档案归档范围的有（ ）。", "options": [{"letter": "A", "text": "原始凭证"}, {"letter": "B", "text": "总分类账"}, {"letter": "C", "text": "年度财务会计报告"}, {"letter": "D", "text": "银行存款余额调节表"}, {"letter": "E", "text": "企业年度预算文件"}], "answer": "ABCD", "explanation": "**解析**：会计档案包括：①会计凭证（原始凭证、记账凭证）；②会计账簿（总账、明细账、日记账等）；③财务会计报告；④其他会计资料（银行存款余额调节表、银行对账单、纳税申报表等）。企业年度预算文件属于文书档案，**不属于**会计档案。"}, {"num": 7, "stem": "会计假设包括（ ）。", "options": [{"letter": "A", "text": "会计主体"}, {"letter": "B", "text": "持续经营"}, {"letter": "C", "text": "会计分期"}, {"letter": "D", "text": "货币计量"}, {"letter": "E", "text": "权责发生制"}], "answer": "ABCD", "explanation": "**解析**：会计假设包括4个：会计主体、持续经营、会计分期、货币计量。权责发生制是**会计基础**，不是会计假设。"}, {"num": 8, "stem": "关于会计主体与法律主体的关系，下列说法正确的有（ ）。", "options": [{"letter": "A", "text": "会计主体界定了会计核算的空间范围"}, {"letter": "B", "text": "会计主体一定是法律主体"}, {"letter": "C", "text": "法律主体一定是会计主体"}, {"letter": "D", "text": "施工项目部可以是会计主体"}, {"letter": "E", "text": "会计主体与法律主体完全相同"}], "answer": "ACD", "explanation": "**解析**：会计主体界定了会计核算的空间范围和立场；会计主体**不一定**是法律主体（如施工项目部是会计主体但不是法律主体）；**法律主体一定是会计主体**。会计主体与法律主体不能等同。"}, {"num": 9, "stem": "关于权责发生制与收付实现制的区别，下列说法正确的有（ ）。", "options": [{"letter": "A", "text": "权责发生制以应收应付为认定标准"}, {"letter": "B", "text": "收付实现制以款项实际收付为认定标准"}, {"letter": "C", "text": "企业应当以权责发生制为基础进行会计核算"}, {"letter": "D", "text": "现金流量表按权责发生制编制"}, {"letter": "E", "text": "权责发生制下，本月预收货款不确认为本月收入"}], "answer": "ABCE", "explanation": "**解析**：企业应当以权责发生制为基础进行会计核算，现金流量表**按收付实现制**编制，故D错误。权责发生制下，本月预收货款但商品未交付，收入未实现，不确认为本月收入，E正确。"}, {"num": 10, "stem": "关于实质重于形式原则，下列说法正确的有（ ）。", "options": [{"letter": "A", "text": "应当按照交易或事项的经济实质进行会计确认"}, {"letter": "B", "text": "不应仅以交易或事项的法律形式为依据"}, {"letter": "C", "text": "融资租赁固定资产应视为承租企业资产"}, {"letter": "D", "text": "售后回购在形式上属于销售，实质应视为融资"}, {"letter": "E", "text": "所有资产均应按历史成本计量，不涉及实质重于形式"}], "answer": "ABCD", "explanation": "**解析**：实质重于形式原则要求企业按照交易或事项的经济实质进行会计确认、计量和报告，而不应仅以法律形式为依据。E选项与实质重于形式原则无关，且\"所有资产均按历史成本计量\"本身表述错误。"}, {"num": 11, "stem": "关于静态会计等式，下列说法正确的有（ ）。", "options": [{"letter": "A", "text": "公式为\"资产=负债+所有者权益\""}, {"letter": "B", "text": "反映企业某一时点的财务状况"}, {"letter": "C", "text": "是复式记账的理论依据"}, {"letter": "D", "text": "反映企业某一时期的经营成果"}, {"letter": "E", "text": "列入利润表"}], "answer": "ABC", "explanation": "**解析**：静态会计等式反映企业**某一时点**的财务状况（不是某一时期），列入**资产负债表**（不是利润表）。它是复式记账、试算平衡和编制会计报表的理论依据。反映某一时期经营成果的是动态会计等式（利润=收入-费用）。"}, {"num": 12, "stem": "下列经济业务中，不会影响静态会计等式\"资产=负债+所有者权益\"总额平衡关系的有（ ）。", "options": [{"letter": "A", "text": "用银行存款购买原材料（资产内部此增彼减）"}, {"letter": "B", "text": "以银行存款偿还应付账款（资产与负债同时减少）"}, {"letter": "C", "text": "投资者投入资本（资产与所有者权益同时增加）"}, {"letter": "D", "text": "将资本公积转增资本（权益内部此增彼减）"}, {"letter": "E", "text": "任何经济业务都会破坏等式平衡关系"}], "answer": "ABCD", "explanation": "**解析**：任何经济业务都不会破坏静态会计等式的平衡关系。A属于资产内部此增彼减；B属于资产与权益同时减少；C属于资产与权益同时增加；D属于权益内部此增彼减。四种情况均不破坏等式平衡。E表述错误。"}, {"num": 13, "stem": "会计监督体系包括的三个层次是（ ）。", "options": [{"letter": "A", "text": "企业内部监督"}, {"letter": "B", "text": "政府监督"}, {"letter": "C", "text": "社会监督"}, {"letter": "D", "text": "舆论监督"}, {"letter": "E", "text": "自我监督"}], "answer": "ABC", "explanation": "**解析**：会计监督体系包括三个层次：①企业内部监督（会计机构、会计人员）；②政府监督（财政、审计、税务等部门）；③社会监督（注册会计师及会计师事务所）。舆论监督和自我监督不属于会计监督体系的法定组成部分。"}, {"num": 14, "stem": "财政部门对各单位的下列情况实施监督的有（ ）。", "options": [{"letter": "A", "text": "是否依法设置会计账簿"}, {"letter": "B", "text": "会计资料是否真实、完整"}, {"letter": "C", "text": "会计核算是否符合《会计法》规定"}, {"letter": "D", "text": "从事会计工作的人员是否具备专业能力"}, {"letter": "E", "text": "企业经营业务是否合法"}], "answer": "ABCD", "explanation": "**解析**：财政部门对各单位的下列情况实施监督：①是否依法设置会计账簿；②会计凭证、会计账簿、财务会计报告和其他会计资料是否真实、完整；③会计核算是否符合《会计法》和国家统一的会计制度的规定；④从事会计工作的人员是否具备专业能力、遵守职业道德。企业经营业务是否合法不属于财政部门会计监督的内容。"}, {"num": 15, "stem": "内部会计控制方法中，关于不相容职务相互分离控制的说法正确的有（ ）。", "options": [{"letter": "A", "text": "不相容职务包括授权批准、业务经办、会计记录"}, {"letter": "B", "text": "不相容职务包括财产保管、稽核检查"}, {"letter": "C", "text": "出纳人员不得兼任稽核工作"}, {"letter": "D", "text": "出纳人员不得兼任会计档案保管工作"}, {"letter": "E", "text": "出纳人员可以兼任收入、支出、费用账目的登记工作"}], "answer": "ABCD", "explanation": "**解析**：不相容职务包括：授权批准、业务经办、会计记录、财产保管、稽核检查。出纳人员不得兼任稽核、会计档案保管和收入、支出、费用、债权债务账目的登记工作，故E错误。"}, {"num": 16, "stem": "关于原始凭证的审核要求，下列说法正确的有（ ）。", "options": [{"letter": "A", "text": "原始凭证的内容必须具备凭证名称、填制日期等"}, {"letter": "B", "text": "从外单位取得的原始凭证，必须盖有填制单位的公章"}, {"letter": "C", "text": "原始凭证金额有错误的，可以在原始凭证上更正"}, {"letter": "D", "text": "原始凭证有错误的，应当由出具单位重开或更正"}, {"letter": "E", "text": "一式几联的原始凭证，应当注明各联的用途"}], "answer": "ABDE", "explanation": "**解析**：原始凭证金额有错误的，应当由出具单位**重开**，**不得在原始凭证上更正**，故C错误。其他选项均正确。"}, {"num": 17, "stem": "关于企业财务会计报告签名盖章要求，下列说法正确的有（ ）。", "options": [{"letter": "A", "text": "应当由单位负责人签名并盖章"}, {"letter": "B", "text": "应当由主管会计工作负责人签名并盖章"}, {"letter": "C", "text": "应当由会计机构负责人签名并盖章"}, {"letter": "D", "text": "设置总会计师的单位，还须由总会计师签名并盖章"}, {"letter": "E", "text": "可以由出纳人员代签"}], "answer": "ABCD", "explanation": "**解析**：财务会计报告应当由单位负责人和主管会计工作的负责人、会计机构负责人（会计主管人员）签名并盖章；设置总会计师的单位，还须由总会计师签名并盖章。出纳人员无权在财务会计报告上签名盖章，故E错误。"}, {"num": 18, "stem": "所有者权益的构成项目中，属于留存收益的有（ ）。", "options": [{"letter": "A", "text": "实收资本"}, {"letter": "B", "text": "资本公积"}, {"letter": "C", "text": "盈余公积"}, {"letter": "D", "text": "未分配利润"}, {"letter": "E", "text": "其他综合收益"}], "answer": "CD", "explanation": "**解析**：所有者权益的构成包括：实收资本（或股本）、其他权益工具、资本公积、其他综合收益、专项储备、盈余公积、未分配利润。其中，**盈余公积和未分配利润**属于留存收益。资本公积和其他综合收益不属于留存收益。"}, {"num": 19, "stem": "关于会计档案的管理，下列说法正确的有（ ）。", "options": [{"letter": "A", "text": "会计档案保管期限分为永久和定期两类"}, {"letter": "B", "text": "定期保管期限一般分为10年和30年"}, {"letter": "C", "text": "会计档案保管期限从会计年度终了后的第一天算起"}, {"letter": "D", "text": "单位保存的会计档案一般不得对外借出"}, {"letter": "E", "text": "会计档案鉴定工作由单位会计机构牵头"}], "answer": "ABCD", "explanation": "**解析**：会计档案鉴定工作应当由**单位档案管理机构**牵头（不是会计机构），故E错误。其他选项均正确。"}, {"num": 20, "stem": "下列会计行为中，属于违反国家统一会计制度规定的有（ ）。", "options": [{"letter": "A", "text": "随意改变资产、负债、所有者权益的确认标准"}, {"letter": "B", "text": "虚列或隐瞒收入，推迟或提前确认收入"}, {"letter": "C", "text": "随意改变费用、成本的确认标准"}, {"letter": "D", "text": "随意调整利润的计算、分配方法"}, {"letter": "E", "text": "按照国家统一的会计制度规定进行会计核算"}], "answer": "ABCD", "explanation": "**解析**：《会计法》禁止的会计行为包括：①随意改变资产、负债、所有者权益的确认标准或计量方法；②虚列或隐瞒收入，推迟或提前确认收入；③随意改变费用、成本的确认标准或计量方法；④随意调整利润的计算、分配方法。E选项是合法合规行为，不属于违法行为。"}];
+
+const FRAMEWORK_TREE = {
+  label: '第6章 财务会计基础', children: [
+    { label: '6.1 会计要素组成及计量', children: [
+      { label: '6.1.1 会计要素的组成（6个要素）', children: [
+        { label: '资产（定义、确认条件、分类）' },
+        { label: '负债（定义、确认条件、分类）' },
+        { label: '所有者权益（来源、构成）' },
+        { label: '收入（定义、确认条件）' },
+        { label: '费用（定义、确认条件）' },
+        { label: '利润（构成、确认）' }
+      ]},
+      { label: '6.1.2 会计要素计量属性（5个属性）', children: [
+        { label: '历史成本' }, { label: '重置成本' }, { label: '可变现净值' }, { label: '现值' }, { label: '公允价值' }
+      ]}
+    ]},
+    { label: '6.2 财务会计工作基本内容', children: [
+      { label: '6.2.1 财务会计内涵', children: [
+        { label: '会计核算和监督是基本职能' },
+        { label: '会计关键环节：确认、计量、记录和报告' },
+        { label: '会计信息具有综合性、连续性和系统性' },
+        { label: '财务会计报告主要向外部利害关系人提供信息' }
+      ]},
+      { label: '6.2.2 财务会计工作内容', children: [
+        { label: '会计核算工作（6类经济业务）' },
+        { label: '会计监督工作（真实性、合法性、合理性）' },
+        { label: '其他管理工作（9项）' }
+      ]},
+      { label: '6.2.3 会计档案管理', children: [
+        { label: '会计档案归档范围（4类）' },
+        { label: '会计档案的利用（借阅规定）' },
+        { label: '会计档案保管期限（永久/10年/30年）' }
+      ]}
+    ]},
+    { label: '6.3 会计假设与会计基础', children: [
+      { label: '6.3.1 会计假设（4个假设）', children: [
+        { label: '会计主体（空间范围）' },
+        { label: '持续经营（经营前提）' },
+        { label: '会计分期（时间界限）' },
+        { label: '货币计量（计量手段）' }
+      ]},
+      { label: '6.3.2 会计基础（2种基础）', children: [
+        { label: '收付实现制（实收实付制）' },
+        { label: '权责发生制（应收应付制）——企业采用' }
+      ]}
+    ]},
+    { label: '6.4 会计核算过程与会计等式', children: [
+      { label: '6.4.1 会计核算原则（8个原则）', children: [
+        { label: '重要性原则' }, { label: '谨慎性原则' }, { label: '实质重于形式原则' },
+        { label: '可比性原则' }, { label: '相关性原则' }, { label: '明晰性原则' },
+        { label: '及时性原则' }, { label: '客观性原则' }
+      ]},
+      { label: '6.4.2 会计核算的基本过程', children: [
+        { label: '设置会计科目和账簿' },
+        { label: '填制会计凭证（原始凭证+记账凭证）' },
+        { label: '登记账簿、对账和结账' },
+        { label: '编制财务会计报告' }
+      ]},
+      { label: '6.4.3 会计等式及其应用', children: [
+        { label: '静态会计等式：资产=负债+所有者权益' },
+        { label: '动态会计等式：利润=收入-费用' },
+        { label: '综合会计等式：资产+费用=负债+所有者权益+收入' }
+      ]}
+    ]},
+    { label: '6.5 会计监督', children: [
+      { label: '6.5.1 内部会计控制', children: [
+        { label: '内部会计控制管理制度（12项制度）' },
+        { label: '内部会计控制的方法（8个方法）' }
+      ]},
+      { label: '6.5.2 会计监督（3个监督体系）', children: [
+        { label: '企业内部监督' },
+        { label: '政府监督' },
+        { label: '社会监督' }
+      ]}
+    ]}
+  ]
+};
+
+const HOT_TOPICS = [
+  { topic: '会计6个要素的定义和确认条件', stars: 5, key: '资产/负债确认条件：很可能+可靠计量' },
+  { topic: '权责发生制 vs 收付实现制', stars: 5, key: '企业采用权责发生制；抓住"应收应付"关键词' },
+  { topic: '3个会计等式', stars: 5, key: '静态：资产=负债+所有者权益（最基本）' },
+  { topic: '5个会计计量属性的应用场景', stars: 4, key: '一般采用历史成本；其他4种需可靠计量' },
+  { topic: '会计4个假设的含义和作用', stars: 4, key: '会计主体≠法律主体；持续经营是前提' },
+  { topic: '会计档案保管期限', stars: 4, key: '永久/30年/10年三类；从年度终了后第一天算起' },
+  { topic: '原始凭证金额错误处理', stars: 4, key: '金额有错误必须重开，不得更正' },
+  { topic: '会计核算4环节', stars: 3, key: '确认、计量、记录、报告' },
+  { topic: '8个会计核算原则', stars: 3, key: '谨慎性：不高估资产/收益，不低估负债/费用' },
+  { topic: '会计监督3体系', stars: 3, key: '内部/政府/社会；财政部门的4项监督内容' }
+];
+
+// Detail HTML for each section
+const DETAIL_HTML = {};
+DETAIL_HTML['61'] = `
+<div class="detail-content">
+<h4>会计要素共6个</h4>
+<p><strong>资产、负债、所有者权益、收入、费用、利润</strong></p>
+
+<h4>1. 资产</h4>
+<ul>
+<li><strong>定义</strong>：企业过去的交易或事项形成的、由企业拥有或控制的、预期会给企业带来经济利益的资源。</li>
+<li><strong>确认条件</strong>（同时满足）：①经济利益很可能流入企业；②成本或价值能够可靠计量。</li>
+<li><strong>流动资产</strong>（1年内）：货币资金、交易性金融资产、应收票据、应收账款、预付款项、存货等。</li>
+<li><strong>非流动资产</strong>（超1年）：债权投资、长期股权投资、投资性房地产、固定资产、无形资产、商誉等。</li>
+</ul>
+
+<h4>2. 负债</h4>
+<ul>
+<li><strong>定义</strong>：企业过去的交易或事项形成的、预期会导致经济利益流出企业的现时义务。</li>
+<li><strong>确认条件</strong>：①经济利益很可能流出企业；②金额能够可靠计量。</li>
+<li><strong>流动负债</strong>：短期借款、应付票据、应付账款、预收款项、应付职工薪酬、应交税费等。</li>
+<li><strong>非流动负债</strong>：长期借款、应付债券、租赁负债、长期应付款、预计负债等。</li>
+</ul>
+
+<h4>3. 所有者权益</h4>
+<ul>
+<li><strong>定义</strong>：企业投资者对企业净资产的所有权，资产扣除负债后的剩余权益。</li>
+<li><strong>来源</strong>：所有者投入的资本、直接计入所有者权益的利得或损失、留存收益。</li>
+<li><strong>构成</strong>：实收资本、其他权益工具、资本公积、其他综合收益、专项储备、盈余公积、未分配利润。</li>
+</ul>
+
+<h4>4. 收入</h4>
+<ul>
+<li><strong>定义</strong>：日常活动中形成的、导致所有者权益增加的、与投入资本无关的经济利益总流入。</li>
+<li><strong>确认条件</strong>：经济利益很可能流入→资产增加或负债减少+流入额能可靠计量。</li>
+</ul>
+
+<h4>5. 费用</h4>
+<ul>
+<li><strong>定义</strong>：日常活动中发生的、导致所有者权益减少的、与分配利润无关的经济利益总流出。</li>
+<li><strong>确认条件</strong>：经济利益很可能流出→资产减少或负债增加+流出额能可靠计量。</li>
+</ul>
+
+<h4>6. 利润</h4>
+<ul>
+<li><strong>构成</strong>：收入-费用+直接计入当期利润的利得或损失。</li>
+<li><strong>列报</strong>：利润项目列入利润表。</li>
+</ul>
+
+<h4>5种计量属性</h4>
+<table>
+<tr><th>计量属性</th><th>资产计量</th><th>主要应用</th></tr>
+<tr><td><strong>历史成本</strong></td><td>购置时支付的金额</td><td>最常用，一般情况采用</td></tr>
+<tr><td><strong>重置成本</strong></td><td>现在购买相同资产需支付的金额</td><td>盘盈固定资产计量</td></tr>
+<tr><td><strong>可变现净值</strong></td><td>正常销售收到现金扣除相关费用</td><td>存货计价和减值测试</td></tr>
+<tr><td><strong>现值</strong></td><td>未来净现金流入量的折现金额</td><td>资产减值测试、融资租赁</td></tr>
+<tr><td><strong>公允价值</strong></td><td>有序交易中出售资产所能收到的价格</td><td>资产评估</td></tr>
+</table>
+<blockquote>⚠️ 考试要点：一般采用历史成本；采用其他4种时，应保证金额能取得并可靠计量。</blockquote>
+</div>`;
+
+DETAIL_HTML['62'] = `
+<div class="detail-content">
+<h4>会计核算和监督是基本职能</h4>
+<ul>
+<li><strong>会计核算</strong>：以货币计量为基本形式，对经济活动进行确认、计量、记录和报告。</li>
+<li><strong>会计监督</strong>：控制经济活动，引导其按预定计划进行。</li>
+</ul>
+
+<h4>会计关键环节</h4>
+<ol>
+<li><strong>会计确认</strong>：辨析能否确认为会计要素。标准：可定义性、可计量性、相关性、可靠性。包括初次确认和再次确认。</li>
+<li><strong>会计计量</strong>：按计量属性确定金额。包括初始计量和后续计量。</li>
+<li><strong>记录</strong>：通过分解、综合、汇总记入有关账簿。</li>
+<li><strong>报告</strong>：编制财务会计报告，提供会计信息。</li>
+</ol>
+
+<h4>会计核算工作（6类）</h4>
+<ol>
+<li>资产的增减和使用</li>
+<li>负债的增减</li>
+<li>净资产（所有者权益）的增减</li>
+<li>收入、支出、费用、成本的增减</li>
+<li>财务成果的计算和处理</li>
+<li>其他需要办理会计手续的事项</li>
+</ol>
+
+<h4>会计监督三性审查</h4>
+<ul>
+<li><strong>真实性审查</strong>：检查业务是否真实，核算是否与实际一致。</li>
+<li><strong>合法性审查</strong>：检查是否符合法律法规、会计准则。</li>
+<li><strong>合理性审查</strong>：检查财务收支是否符合经营管理要求。</li>
+</ul>
+
+<h4>会计档案保管期限</h4>
+<table>
+<tr><th>期限</th><th>范围</th></tr>
+<tr><td><strong>永久</strong></td><td>年度财务会计报告、保管清册、销毁清册、鉴定意见书</td></tr>
+<tr><td><strong>30年</strong></td><td>会计凭证、总账、明细账、日记账、其他辅助性账簿</td></tr>
+<tr><td><strong>10年</strong></td><td>银行存款余额调节表、银行对账单、纳税申报表、月/季/半年报</td></tr>
+</table>
+<blockquote>⚠️ 预算、计划、制度等文件属于文书档案，不属于会计档案。保管期限从会计年度终了后第一天算起。</blockquote>
+</div>`;
+
+DETAIL_HTML['63'] = `
+<div class="detail-content">
+<h4>4个会计假设</h4>
+<table>
+<tr><th>假设</th><th>含义</th><th>作用</th></tr>
+<tr><td><strong>会计主体</strong></td><td>会计确认、记录和报告的特定组织</td><td>界定空间范围和立场</td></tr>
+<tr><td><strong>持续经营</strong></td><td>企业在可预见将来继续经营</td><td>提供会计处理基础</td></tr>
+<tr><td><strong>会计分期</strong></td><td>将持续经营分割为连续、等长期间</td><td>界定时间界限</td></tr>
+<tr><td><strong>货币计量</strong></td><td>以货币为主要计量单位</td><td>提供必要手段</td></tr>
+</table>
+<blockquote>⚠️ 会计主体≠法律主体。法律主体一定是会计主体，会计主体不一定是法律主体（如项目部）。我国会计年度为公历1月1日至12月31日。</blockquote>
+
+<h4>2种会计基础</h4>
+<table>
+<tr><th>基础</th><th>认定标准</th><th>适用</th></tr>
+<tr><td><strong>收付实现制</strong></td><td>以款项实际收付时间为标准</td><td>行政事业单位、现金流量表</td></tr>
+<tr><td><strong>权责发生制</strong></td><td>以收入/费用应当归属的时间为标准</td><td>企业会计采用</td></tr>
+</table>
+
+<h4>权责发生制经典例题</h4>
+<ul>
+<li>本月预收下月货款10000元 → 本月不确认收入，形成负债</li>
+<li>本月销售20000元，实际收到15000元 → 本月确认收入20000元（全额）</li>
+<li>本月预付全年杂志费30000元 → 按月分摊，每月2500元</li>
+</ul>
+</div>`;
+
+DETAIL_HTML['64'] = `
+<div class="detail-content">
+<h4>8个会计核算原则</h4>
+<table>
+<tr><th>原则</th><th>核心要求</th><th>考试关键词</th></tr>
+<tr><td><strong>重要性</strong></td><td>重要信息单独详细反映</td><td>定量+定性判断</td></tr>
+<tr><td><strong>谨慎性</strong></td><td>不高估资产/收益，不低估负债/费用</td><td>不高估、不低估</td></tr>
+<tr><td><strong>实质重于形式</strong></td><td>按经济实质确认计量</td><td>融资租赁视为承租企业资产</td></tr>
+<tr><td><strong>可比性</strong></td><td>纵向一致+横向可比</td><td>不得随意变更会计政策</td></tr>
+<tr><td><strong>相关性</strong></td><td>与使用者决策需要相关</td><td>过去、现在、未来</td></tr>
+<tr><td><strong>明晰性</strong></td><td>清晰明了，便于理解</td><td>清晰明了</td></tr>
+<tr><td><strong>及时性</strong></td><td>及时确认、计量、报告</td><td>及时处理、及时报送</td></tr>
+<tr><td><strong>客观性</strong></td><td>以实际交易为依据</td><td>真实可靠、内容完整</td></tr>
+</table>
+
+<h4>账簿设置</h4>
+<ul>
+<li>领取营业执照后<strong>15日内</strong>设置账簿</li>
+<li>扣缴义务人<strong>10日内</strong>设置代扣代缴账簿</li>
+<li>总账、日记账采用<strong>订本式</strong></li>
+</ul>
+
+<h4>原始凭证要点</h4>
+<ul>
+<li>大写与小写金额必须相符</li>
+<li>有错误的，由出具单位重开或更正（加盖印章）</li>
+<li><strong>金额有错误的，必须重开，不得在原始凭证上更正</strong></li>
+</ul>
+
+<h4>3个会计等式</h4>
+<table>
+<tr><th>等式</th><th>公式</th><th>类型</th><th>报表</th></tr>
+<tr><td><strong>静态</strong>（第一）</td><td>资产 = 负债 + 所有者权益</td><td>时点财务状况</td><td>资产负债表</td></tr>
+<tr><td><strong>动态</strong>（第二）</td><td>利润 = 收入 - 费用</td><td>时期经营成果</td><td>利润表</td></tr>
+<tr><td><strong>综合</strong>（第三）</td><td>资产+费用 = 负债+所有者权益+收入</td><td>综合变动</td><td>—</td></tr>
+</table>
+<blockquote>⚠️ 任何经济业务都不会破坏静态会计等式的平衡关系。</blockquote>
+</div>`;
+
+DETAIL_HTML['65'] = `
+<div class="detail-content">
+<h4>会计监督体系（3个层次）</h4>
+<table>
+<tr><th>类型</th><th>主体</th><th>内容</th></tr>
+<tr><td><strong>企业内部监督</strong></td><td>会计机构、会计人员</td><td>真实性、合法性、合理性</td></tr>
+<tr><td><strong>政府监督</strong></td><td>财政、审计、税务等部门</td><td>监督检查+行政处罚</td></tr>
+<tr><td><strong>社会监督</strong></td><td>注册会计师及会计师事务所</td><td>审计报告+审计意见</td></tr>
+</table>
+
+<h4>财政部门4项监督内容</h4>
+<ol>
+<li>是否依法设置会计账簿</li>
+<li>会计资料是否真实、完整</li>
+<li>会计核算是否符合《会计法》规定</li>
+<li>会计人员是否具备专业能力</li>
+</ol>
+
+<h4>内部会计控制方法（8个）</h4>
+<ol>
+<li><strong>不相容职务相互分离控制</strong>（核心）</li>
+<li>授权批准控制</li>
+<li>会计系统控制</li>
+<li>预算控制</li>
+<li>财产保全控制</li>
+<li>风险控制</li>
+<li>内部报告控制</li>
+<li>电子信息技术控制</li>
+</ol>
+<blockquote>⚠️ 出纳人员不得兼任：稽核、会计档案保管、收入/支出/费用/债权债务账目登记。</blockquote>
+</div>`;
+
+// ===== STATE =====
+let allQuestions = [];
+let currentIndex = 0;
+let userAnswers = {};   // index -> {selected: [...], confirmed: bool}
+let isRetryMode = false;
+let retryIndices = [];
+
+// ===== INIT =====
+function init() {
+  buildFrameworkTree();
+  buildHotTopics();
+  buildDetailSections();
+}
+
+function buildFrameworkTree() {
+  const container = document.getElementById('framework-body');
+  container.innerHTML = renderTreeNode(FRAMEWORK_TREE, true);
+  container.classList.add('open');
+}
+
+function renderTreeNode(node, isRoot) {
+  const hasChildren = node.children && node.children.length > 0;
+  const icon = hasChildren ? '📁' : '📄';
+  const toggleHtml = hasChildren ? '<span class="toggle" onclick="toggleTreeNode(event, this)">▼</span>' : '<span style="width:18px;display:inline-block"></span>';
+  
+  let html = '<ul class="tree"><li>';
+  html += '<div class="tree-node">' + toggleHtml + '<span class="node-icon">' + icon + '</span><span class="node-text">' + node.label + '</span></div>';
+  
+  if (hasChildren) {
+    html += '<div class="tree-children">';
+    for (const child of node.children) {
+      html += renderTreeNode(child, false);
+    }
+    html += '</div>';
+  }
+  html += '</li></ul>';
+  return html;
+}
+
+function toggleTreeNode(e, toggleEl) {
+  e.stopPropagation();
+  const children = toggleEl.closest('.tree-node').nextElementSibling;
+  if (!children) return;
+  toggleEl.classList.toggle('collapsed');
+  if (children.classList.contains('collapsed')) {
+    children.classList.remove('collapsed');
+    children.style.maxHeight = children.scrollHeight + 'px';
+  } else {
+    children.style.maxHeight = children.scrollHeight + 'px';
+    requestAnimationFrame(() => { children.classList.add('collapsed'); });
+  }
+}
+
+function buildHotTopics() {
+  const container = document.getElementById('hot-body');
+  let html = '<table class="hot-table"><tr><th>高频考点</th><th>频次</th><th>关键记忆点</th></tr>';
+  for (const t of HOT_TOPICS) {
+    const stars = '⭐'.repeat(t.stars);
+    html += '<tr><td>' + t.topic + '</td><td class="star">' + stars + '</td><td><span class="key-point">' + t.key + '</span></td></tr>';
+  }
+  html += '</table>';
+  container.innerHTML = html;
+  container.classList.add('open');
+}
+
+function buildDetailSections() {
+  for (const key of ['61','62','63','64','65']) {
+    const el = document.getElementById('detail-' + key);
+    if (el && DETAIL_HTML[key]) {
+      el.innerHTML = DETAIL_HTML[key];
+    }
+  }
+}
+
+function toggleSection(headerEl) {
+  const icon = headerEl.querySelector('.icon');
+  const body = headerEl.nextElementSibling;
+  icon.classList.toggle('collapsed');
+  body.classList.toggle('open');
+}
+
+// ===== QUIZ =====
+function buildQuestionList(indices) {
+  allQuestions = [];
+  const source = indices || null;
+  for (let i = 0; i < SINGLE_QUESTIONS.length; i++) {
+    const q = SINGLE_QUESTIONS[i];
+    allQuestions.push({
+      type: 'single',
+      stem: q.stem,
+      options: q.options,
+      answer: q.answer,
+      explanation: q.explanation,
+      originalIndex: i
+    });
+  }
+  for (let i = 0; i < MULTI_QUESTIONS.length; i++) {
+    const q = MULTI_QUESTIONS[i];
+    allQuestions.push({
+      type: 'multi',
+      stem: q.stem,
+      options: q.options,
+      answer: q.answer,
+      explanation: q.explanation,
+      originalIndex: 40 + i
+    });
+  }
+  
+  if (source) {
+    allQuestions = source.map(idx => allQuestions[idx]);
+  }
+}
+
+function startQuiz(retryIndices) {
+  isRetryMode = !!retryIndices;
+  buildQuestionList(retryIndices);
+  currentIndex = 0;
+  userAnswers = {};
+  
+  document.getElementById('q-total').textContent = allQuestions.length;
+  
+  showPage('page-quiz');
+  buildQuestionNav();
+  renderQuestion();
+}
+
+function goHome() {
+  showPage('page-knowledge');
+}
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+}
+
+function buildQuestionNav() {
+  const nav = document.getElementById('question-nav');
+  let dotsHtml = '';
+  for (let i = 0; i < allQuestions.length; i++) {
+    dotsHtml += '<div class="q-dot unanswered" data-idx="' + i + '" onclick="jumpToQuestion(' + i + '); toggleNavPanel(false);">' + (i + 1) + '</div>';
+  }
+  const panelHtml = '<div class="nav-grid">' + dotsHtml + '</div>';
+  nav.innerHTML = '<div class="nav-dropdown">'
+    + '<div class="nav-dropdown-btn" id="nav-drop-btn" onclick="toggleNavPanel()">\u{1f4cb} \u8f6c\u9898 <span class="arrow">\u25bc</span></div>'
+    + '<div class="nav-dropdown-panel" id="nav-drop-panel">' + panelHtml + '</div>'
+    + '</div>';
+}
+
+function toggleNavPanel(forceState) {
+  const btn = document.getElementById('nav-drop-btn');
+  const panel = document.getElementById('nav-drop-panel');
+  if (typeof forceState === 'boolean') {
+    if (forceState === false) { btn.classList.remove('open'); panel.classList.remove('show'); return; }
+  }
+  btn.classList.toggle('open');
+  panel.classList.toggle('show');
+}
+
+function updateQuestionNav() {
+  const dots = document.querySelectorAll('.q-dot');
+  dots.forEach((dot, i) => {
+    dot.className = 'q-dot';
+    if (i === currentIndex) {
+      dot.classList.add('current');
+    } else if (userAnswers[i] && userAnswers[i].confirmed) {
+      const q = allQuestions[i];
+      const isCorrect = checkAnswer(i);
+      dot.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+    } else {
+      dot.classList.add('unanswered');
+    }
+  });
+  // Update dropdown button text
+  const btn = document.getElementById('nav-drop-btn');
+  if (btn) {
+    const answered = Object.values(userAnswers).filter(function(a){ return a && a.confirmed; }).length;
+    btn.innerHTML = '\u{1f4cb} \u7b2c ' + (currentIndex + 1) + '/' + allQuestions.length + ' \u9898 (' + answered + '/' + allQuestions.length + ' \u5df2\u7b54) <span class="arrow">\u25bc</span>';
+  }
+}
+
+function jumpToQuestion(idx) {
+  if (idx >= 0 && idx < allQuestions.length) {
+    currentIndex = idx;
+    renderQuestion();
+    document.getElementById('question-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function renderQuestion() {
+  const q = allQuestions[currentIndex];
+  const answer = userAnswers[currentIndex];
+  const isConfirmed = answer && answer.confirmed;
+  
+  document.getElementById('q-index').textContent = currentIndex + 1;
+  const progress = ((currentIndex + 1) / allQuestions.length) * 100;
+  document.getElementById('progress-fill').style.width = progress + '%';
+  
+  const typeTag = q.type === 'single' 
+    ? '<span class="question-tag tag-single">单选题</span>' 
+    : '<span class="question-tag tag-multi">多选题</span>';
+  
+  let html = typeTag + '<div class="question-stem">' + (currentIndex + 1) + '. ' + q.stem + '</div>';
+  html += '<div class="options-list">';
+  
+  for (const opt of q.options) {
+    const letter = opt.letter;
+    const isSelected = answer && answer.selected.includes(letter);
+    const isCorrectOption = q.answer.includes(letter);
+    
+    let cls = 'option-item';
+    if (isConfirmed) {
+      cls += ' disabled';
+      if (isCorrectOption && isSelected) cls += ' correct';
+      else if (!isCorrectOption && isSelected) cls += ' wrong';
+      else if (isCorrectOption && !isSelected) cls += ' missed';
+    } else {
+      if (isSelected) cls += ' selected';
+    }
+    
+    let iconHtml = '';
+    if (isConfirmed) {
+      if (isCorrectOption && isSelected) iconHtml = '<span class="option-icon">✅</span>';
+      else if (!isCorrectOption && isSelected) iconHtml = '<span class="option-icon">❌</span>';
+      else if (isCorrectOption && !isSelected) iconHtml = '<span class="option-icon">🟡</span>';
+    }
+    
+    const inputType = q.type === 'single' ? 'radio' : 'checkbox';
+    html += '<div class="' + cls + '" onclick="selectOption(' + currentIndex + ',\'' + letter + '\')">';
+    html += '<div class="option-marker">' + letter + '</div>';
+    html += '<div class="option-text">' + opt.text + '</div>';
+    html += iconHtml;
+    html += '</div>';
+  }
+  html += '</div>';
+  
+  // Buttons
+  const isFirst = currentIndex === 0;
+  const isLast = currentIndex === allQuestions.length - 1;
+  
+  html += '<div class="quiz-actions">';
+  html += '<button class="btn btn-prev' + (isFirst ? ' hidden' : '') + '" onclick="prevQuestion()">← 上一题</button>';
+  
+  if (isConfirmed) {
+    if (isLast) {
+      html += '<button class="btn btn-submit" onclick="submitQuiz()">交卷</button>';
+    } else {
+      html += '<button class="btn btn-next" onclick="nextQuestion()">下一题 →</button>';
+    }
+  } else {
+    const hasSelected = answer && answer.selected.length > 0;
+    html += '<button class="btn btn-confirm" id="btn-confirm" onclick="confirmAnswer()"' + (hasSelected ? '' : ' disabled') + '>确定</button>';
+  }
+  html += '</div>';
+  
+  // Explanation
+  if (isConfirmed) {
+    const userAns = answer.selected.join('');
+    html += '<div class="explanation">';
+    html += '<div class="explanation-title">📝 解析</div>';
+    html += '<div class="explanation-text">';
+    html += '<p><strong>你的答案：</strong>' + userAns + '　<strong>正确答案：</strong>' + q.answer + '</p>';
+    html += '<p>' + q.explanation + '</p>';
+    html += '</div></div>';
+  }
+  
+  document.getElementById('question-card').innerHTML = html;
+  updateQuestionNav();
+}
+
+function selectOption(qIdx, letter) {
+  const q = allQuestions[qIdx];
+  const answer = userAnswers[qIdx];
+  
+  if (answer && answer.confirmed) return;
+  
+  if (!userAnswers[qIdx]) {
+    userAnswers[qIdx] = { selected: [], confirmed: false };
+  }
+  
+  if (q.type === 'single') {
+    userAnswers[qIdx].selected = [letter];
+  } else {
+    const idx = userAnswers[qIdx].selected.indexOf(letter);
+    if (idx >= 0) {
+      userAnswers[qIdx].selected.splice(idx, 1);
+    } else {
+      userAnswers[qIdx].selected.push(letter);
+    }
+  }
+  
+  renderQuestion();
+}
+
+function confirmAnswer() {
+  const answer = userAnswers[currentIndex];
+  if (!answer || answer.selected.length === 0) return;
+  answer.confirmed = true;
+  renderQuestion();
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderQuestion();
+  }
+}
+
+function nextQuestion() {
+  if (currentIndex < allQuestions.length - 1) {
+    currentIndex++;
+    renderQuestion();
+  }
+}
+
+function checkAnswer(idx) {
+  const q = allQuestions[idx];
+  const answer = userAnswers[idx];
+  if (!answer || !answer.confirmed) return false;
+  const userSel = answer.selected.sort().join('');
+  const correct = q.answer.split('').sort().join('');
+  return userSel === correct;
+}
+
+function submitQuiz() {
+  let correct = 0;
+  let wrong = 0;
+  const wrongList = [];
+  
+  for (let i = 0; i < allQuestions.length; i++) {
+    if (checkAnswer(i)) {
+      correct++;
+    } else {
+      wrong++;
+      wrongList.push(i);
+    }
+  }
+  
+  const total = allQuestions.length;
+  const rate = total > 0 ? Math.round((correct / total) * 100) : 0;
+  
+  document.getElementById('result-score').textContent = rate + '%';
+  document.getElementById('result-correct').textContent = correct;
+  document.getElementById('result-wrong').textContent = wrong;
+  document.getElementById('result-total').textContent = total;
+  
+  // Build wrong list
+  const wrongContainer = document.getElementById('wrong-list');
+  let html = '';
+  for (const idx of wrongList) {
+    const q = allQuestions[idx];
+    const answer = userAnswers[idx];
+    const typeLabel = q.type === 'single' ? '单选' : '多选';
+    html += '<div class="wrong-item" onclick="jumpToQuestion(' + idx + '); showPage(\'page-quiz\');">';
+    html += '<div class="wi-top"><span class="wi-num">第' + (idx + 1) + '题</span><span class="wi-type">' + typeLabel + '</span></div>';
+    html += '<div class="wi-stem">' + q.stem.substring(0, 60) + (q.stem.length > 60 ? '...' : '') + '</div>';
+    html += '<div class="wi-answers">你的答案：<span class="wi-your">' + (answer ? answer.selected.join('') : '未答') + '</span>　正确答案：<span class="wi-correct">' + q.answer + '</span></div>';
+    html += '</div>';
+  }
+  wrongContainer.innerHTML = html;
+  
+  // Show/hide wrong section
+  document.getElementById('wrong-list-section').style.display = wrong > 0 ? 'block' : 'none';
+  
+  // Store wrong indices for retry
+  retryIndices = wrongList;
+  
+  showPage('page-results');
+}
+
+function retryWrong() {
+  // Map wrong indices back to original indices
+  const originalIndices = retryIndices.map(i => allQuestions[i].originalIndex);
+  startQuiz(originalIndices);
+}
+
+// Init on load
+init();
+</script>
+</body>
+</html>
